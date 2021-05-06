@@ -1,6 +1,6 @@
 package com.uninorte.base.views;
 
-import com.uninorte.base.game.gfx.ImageLoader;
+import com.uninorte.base.game.gfx.ContentLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +50,7 @@ public class Helpers {
     }
 
     public static JButton createButton(String path) {
-        JButton tmpBtn = new JButton(new ImageIcon(ImageLoader.loadImage(path)));
+        JButton tmpBtn = new JButton(new ImageIcon(ContentLoader.loadImage(path)));
         tmpBtn.setBorderPainted(false);
         tmpBtn.setOpaque(false);
         tmpBtn.setContentAreaFilled(false);

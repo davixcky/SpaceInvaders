@@ -1,13 +1,18 @@
 package com.uninorte.base.display;
 
 import com.uninorte.base.Filenames;
-import com.uninorte.base.game.gfx.ImageLoader;
+import com.uninorte.base.game.gfx.ContentLoader;
 import com.uninorte.base.input.Input;
+import com.uninorte.base.sound.Sound;
 import com.uninorte.base.views.Principal;
 import com.uninorte.base.views.Settings;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class Window {
 
@@ -27,18 +32,29 @@ public class Window {
     public static Principal principal;
     public static Settings settings;
 
+    private Sound soundController;
+
     public Window(String title, Dimension startDimensions) {
         this.title = title;
         this.startDimensions = startDimensions;
         this.scenesPane = new JLayeredPane();
         this.input = new Input();
+        this.soundController = new Sound();
 
         init();
         createScenes();
 
-        principal = new Principal(this);
+        principal = new Principal(this, soundController);
         settings = new Settings(this);
 
+        this.soundController.add(Sound.BACKGROUND, "/sounds/background_DuaLipa.wav");
+
+        try {
+            this.soundController.play(Sound.BACKGROUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         principal.setToCurrentView();
     }
 
@@ -58,7 +74,6 @@ public class Window {
         backgroundPanel.add(backgroundImage);
 
         createScenes();
-        frame.setVisible(true);
     }
 
     private void createScenes() {
@@ -69,7 +84,7 @@ public class Window {
     }
 
     private void setBackgroundImage(String path) {
-        backgroundImage.setIcon(ImageLoader.loadImageGif(path));
+        backgroundImage.setIcon(ContentLoader.loadImageGif(path));
     }
 
     public void changeScreenTo(Component c) {

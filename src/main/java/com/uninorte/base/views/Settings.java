@@ -13,15 +13,13 @@ public class Settings {
     private JPanel basePanel;
 
     private JLabel settingsLbl;
-    private JButton backBtn;
-
     private JLabel backgroundSoundLbl;
     private JLabel effectsSoundLbl;
 
     private JButton backgroundBtn;
-
     private JButton muteBackgroundBtn;
     private JButton muteEffectsBtn;
+    private JButton backBtn;
 
     private JSlider backgroundSoundSlider;
     private JSlider effectsSoundsSlider;
@@ -94,7 +92,7 @@ public class Settings {
     }
 
     private void initializeButtons() {
-        backBtn = Helpers.createButton("/leftArrow.png", new Dimension(70, 60));
+        backBtn = Helpers.createButton("/returnArrow.png", new Dimension(70, 60));
         backgroundBtn = Helpers.createButton("/returnArrow.png");
         muteBackgroundBtn = Helpers.createButton("/mutebtn.png", new Dimension(50, 50));
         muteEffectsBtn = Helpers.createButton("/mutebtn.png", new Dimension(50, 50));

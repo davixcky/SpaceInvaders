@@ -1,6 +1,7 @@
 package com.uninorte.base.views;
 
 import com.uninorte.base.display.Window;
+import com.uninorte.base.sound.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +24,11 @@ public class Principal {
 
     private JLabel titleLbl;
 
-    public Principal(Window window) {
+    private Sound sound;
+
+    public Principal(Window window, Sound sound) {
         this.window = window;
+        this.sound = sound;
         init();
         setListeners();
     }
@@ -66,6 +70,13 @@ public class Principal {
                 Desktop.getDesktop().browse(URI.create("https://github.com/Norte-invaders"));
             } catch (IOException ioException) {
                 ioException.printStackTrace();
+            }
+        });
+        helpBtn.addActionListener(e -> {
+            try {
+                sound.play(Sound.BACKGROUND);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
     }
