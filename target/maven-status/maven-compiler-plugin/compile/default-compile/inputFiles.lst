@@ -1,10 +1,12 @@
-/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/menus/Principal.java
-/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/menus/MultiPlayer.java
-/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/menus/Settings.java
+/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/input/Input.java
+/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/views/MultiPlayer.java
 /home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/utils/ComponentResizer.java
 /home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/game/gfx/ImageLoader.java
-/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/menus/SinglePlayer.java
+/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/views/SinglePlayer.java
 /home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/Launcher.java
 /home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/Filenames.java
 /home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/game/gfx/Assets.java
+/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/views/Settings.java
 /home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/display/Window.java
+/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/views/Principal.java
+/home/davidorozco/dev/space-invader/test_game/src/main/java/com/uninorte/base/views/Helpers.java

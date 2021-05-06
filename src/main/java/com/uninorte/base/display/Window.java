@@ -3,8 +3,8 @@ package com.uninorte.base.display;
 import com.uninorte.base.Filenames;
 import com.uninorte.base.game.gfx.ImageLoader;
 import com.uninorte.base.input.Input;
-import com.uninorte.base.menus.Principal;
-import com.uninorte.base.menus.Settings;
+import com.uninorte.base.views.Principal;
+import com.uninorte.base.views.Settings;
 
 import javax.swing.*;
 import java.awt.*;
