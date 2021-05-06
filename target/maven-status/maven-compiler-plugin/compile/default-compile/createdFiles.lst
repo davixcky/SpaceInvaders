@@ -1,0 +1,10 @@
+com/uninorte/base/game/gfx/Assets.class
+com/uninorte/base/utils/ComponentResizer.class
+com/uninorte/base/menus/SinglePlayer.class
+com/uninorte/base/menus/MultiPlayer.class
+com/uninorte/base/Launcher.class
+com/uninorte/base/menus/Principal.class
+com/uninorte/base/Filenames.class
+com/uninorte/base/game/gfx/ImageLoader.class
+com/uninorte/base/display/Window.class
+com/uninorte/base/menus/Settings.class
