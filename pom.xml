@@ -45,18 +45,9 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/resources/</directory>
                 <includes>
-                    <include>*.png</include>
-                    <include>*.gif</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/backgrounds</directory>
-                <targetPath>${target.path}/backgrounds</targetPath>
-                <includes>
-                    <include>*.png</include>
-                    <include>*.gif</include>
+                    <include>**/*.*</include>
                 </includes>
             </resource>
         </resources>

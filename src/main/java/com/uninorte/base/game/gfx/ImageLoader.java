@@ -3,6 +3,7 @@ package com.uninorte.base.game.gfx;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 public class ImageLoader {
 
@@ -18,7 +19,7 @@ public class ImageLoader {
 
     public static Icon loadImageGif(String path) {
         try {
-            return new ImageIcon(ImageLoader.class.getResource(path).toURI().getPath());
+            return new ImageIcon(ImageLoader.class.getResourceAsStream(path).readAllBytes());
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

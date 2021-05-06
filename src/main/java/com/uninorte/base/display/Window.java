@@ -89,5 +89,6 @@ public class Window {
 
     public void setTitle(String newTitle) {
         title = newTitle;
+        frame.setTitle(title);
     }
 }
