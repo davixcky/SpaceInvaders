@@ -27,8 +27,6 @@ public class Window {
 
     private Component actualComponent;
 
-    private Input input;
-
     public static Principal principal;
     public static Settings settings;
 
@@ -38,24 +36,16 @@ public class Window {
         this.title = title;
         this.startDimensions = startDimensions;
         this.scenesPane = new JLayeredPane();
-        this.input = new Input();
-        this.soundController = new Sound();
+        this.soundController = new Sound(true);
 
         init();
-        createScenes();
+        setSongs();
 
         principal = new Principal(this, soundController);
-        settings = new Settings(this);
+        settings = new Settings(this, soundController);
 
-        this.soundController.add(Sound.BACKGROUND, "/sounds/background_DuaLipa.wav");
-
-        try {
-            this.soundController.play(Sound.BACKGROUND);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
         principal.setToCurrentView();
+        playSound(Sound.BACKGROUND);
     }
 
     private void init() {
@@ -66,11 +56,10 @@ public class Window {
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         frame.setFocusable(true);
-        frame.addKeyListener(input);
 
         backgroundPanel = new JPanel(new BorderLayout());
         backgroundImage = new JLabel();
-        setBackgroundImage(Filenames.BACKGROUND1);
+        setBackgroundImage(Filenames.BACKGROUND_IMAGES[0]);
         backgroundPanel.add(backgroundImage);
 
         createScenes();
@@ -83,7 +72,7 @@ public class Window {
         frame.add(scenesPane);
     }
 
-    private void setBackgroundImage(String path) {
+    public void setBackgroundImage(String path) {
         backgroundImage.setIcon(ContentLoader.loadImageGif(path));
     }
 
@@ -105,5 +94,21 @@ public class Window {
     public void setTitle(String newTitle) {
         title = newTitle;
         frame.setTitle(title);
+    }
+
+    public void playSound(String alias) {
+        try {
+            this.soundController.play(alias);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public void setSongs() {
+        soundController.add(Sound.BACKGROUND, Filenames.BACKGROUND_MUSIC[0]);
+        soundController.add(Sound.SHOTS, "/sounds/gameovermario.wav");
+        soundController.add(Sound.GAMEOVER, "/sounds/gameovermario.wav");
+        soundController.add(Sound.ALIEN, "/sounds/gameovermario.wav");
     }
 }

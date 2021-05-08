@@ -1,6 +1,9 @@
 package com.uninorte.base.views;
 
+import com.uninorte.base.Filenames;
 import com.uninorte.base.display.Window;
+import com.uninorte.base.game.gfx.ContentLoader;
+import com.uninorte.base.sound.Sound;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,6 +12,7 @@ import java.awt.*;
 public class Settings {
 
     private Window window;
+    private Sound sound;
 
     private JPanel basePanel;
 
@@ -24,8 +28,11 @@ public class Settings {
     private JSlider backgroundSoundSlider;
     private JSlider effectsSoundsSlider;
 
-    public Settings(Window window) {
+    private int backgroundIndex = 0;
+
+    public Settings(Window window, Sound sound) {
         this.window = window;
+        this.sound = sound;
         init();
         setListeners();
     }
@@ -41,10 +48,32 @@ public class Settings {
         createTopPanel();
         createBottomPanel();
         createMiddlePanel();
+
+        changePreview();
     }
 
     private void setListeners() {
-        backBtn.addActionListener((e) -> Window.principal.setToCurrentView());
+        backgroundBtn.addActionListener(e -> changeBackground());
+        backBtn.addActionListener(e -> Window.principal.setToCurrentView());
+        backgroundSoundSlider.addChangeListener(l -> setVolumeListener(Sound.BACKGROUND, backgroundSoundSlider.getValue()));
+        muteBackgroundBtn.addActionListener(e -> changeMuteStatus(muteBackgroundBtn, Sound.BACKGROUND));
+        effectsSoundsSlider.addChangeListener(l ->  {
+            int currentValue = effectsSoundsSlider.getValue();
+
+            setVolumeListener(Sound.ALIEN, currentValue);
+            setVolumeListener(Sound.GAMEOVER, currentValue);
+            setVolumeListener(Sound.SHOTS, currentValue);
+        });
+        muteEffectsBtn.addActionListener(l ->  {
+            changeMuteStatus(muteEffectsBtn, Sound.ALIEN);
+
+            try {
+                sound.setMuted(Sound.GAMEOVER);
+                sound.setMuted(Sound.SHOTS);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void setToCurrentView() {
@@ -93,7 +122,7 @@ public class Settings {
 
     private void initializeButtons() {
         backBtn = Helpers.createButton("/returnArrow.png", new Dimension(70, 60));
-        backgroundBtn = Helpers.createButton("/returnArrow.png");
+        backgroundBtn = Helpers.createButton("/returnArrow.png", new Dimension(50, 50));
         muteBackgroundBtn = Helpers.createButton("/mutebtn.png", new Dimension(50, 50));
         muteEffectsBtn = Helpers.createButton("/mutebtn.png", new Dimension(50, 50));
     }
@@ -113,8 +142,12 @@ public class Settings {
     }
 
     private void initializeSliders() {
-        backgroundSoundSlider = new JSlider(0, 100, 10);
-        effectsSoundsSlider = new JSlider(0, 100, 10);
+        try {
+            backgroundSoundSlider = new JSlider(0, 100, (int) (sound.getVolume(Sound.BACKGROUND) * 100));
+            effectsSoundsSlider = new JSlider(0, 100, (int) (sound.getVolume(Sound.BACKGROUND) * 100));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         backgroundSoundSlider.setMaximumSize(new Dimension(690, 40));
         effectsSoundsSlider.setMaximumSize(new Dimension(690, 40));
@@ -131,8 +164,44 @@ public class Settings {
         effectsSoundsSlider.setFont(new Font("SEGOE UI",Font.ITALIC,12));
         effectsSoundsSlider.setOpaque(false);
         effectsSoundsSlider.setForeground(Color.white);
-        effectsSoundsSlider.setSnapToTicks(true);
     }
 
+    private void setVolumeListener(String alias, int value) {
+        try {
+            sound.setVolume(alias, value / 100f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void changeBackground() {
+        backgroundIndex++;
+
+        if (backgroundIndex == Filenames.BACKGROUND_IMAGES.length) {
+            backgroundIndex = 0;
+        }
+
+        changePreview();
+        window.setBackgroundImage(Filenames.BACKGROUND_IMAGES[backgroundIndex]);
+    }
+
+    private void changePreview() {
+        int nextPreview = backgroundIndex + 1;
+        if (nextPreview >= Filenames.BACKGROUND_IMAGES.length) {
+            nextPreview = 0;
+        }
+
+        backgroundBtn.setIcon(ContentLoader.loadImageGif(Filenames.BACKGROUND_IMAGES[nextPreview]));
+    }
+
+    private void changeMuteStatus(JButton target, String alias) {
+        try {
+            String path = sound.isMuted(alias) ? "/mutebtn.png" : "/GIT.png";
+            sound.setMuted(alias);
+            target.setIcon(new ImageIcon(ContentLoader.loadImage(path)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
