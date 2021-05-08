@@ -3,7 +3,7 @@ package com.uninorte.base.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Input implements KeyListener {
+public class KeyManager implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {

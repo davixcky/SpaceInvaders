@@ -35,6 +35,7 @@ public class Sound {
         Audio a = getAudio(alias);
 
         a.clipSound.setFramePosition(0);
+        a.clipSound.loop(Clip.LOOP_CONTINUOUSLY);
         a.clipSound.start();
     }
 
@@ -83,11 +84,6 @@ public class Sound {
 
             clipSound = AudioSystem.getClip();
             clipSound.open(AudioSystem.getAudioInputStream(ContentLoader.loadAudio(path)));
-            clipSound.loop(Clip.LOOP_CONTINUOUSLY);
-
-            clipSound.addLineListener(event -> {
-                System.out.println(event.getLine() + " " + event.getFramePosition());
-            });
 
             setVolume(currentVolume);
         }

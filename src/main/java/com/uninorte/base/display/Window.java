@@ -2,17 +2,12 @@ package com.uninorte.base.display;
 
 import com.uninorte.base.Filenames;
 import com.uninorte.base.game.gfx.ContentLoader;
-import com.uninorte.base.input.Input;
 import com.uninorte.base.sound.Sound;
 import com.uninorte.base.views.Principal;
 import com.uninorte.base.views.Settings;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class Window {
 
@@ -44,8 +39,8 @@ public class Window {
         principal = new Principal(this, soundController);
         settings = new Settings(this, soundController);
 
-        principal.setToCurrentView();
         playSound(Sound.BACKGROUND);
+        principal.setToCurrentView();
     }
 
     private void init() {
@@ -70,6 +65,13 @@ public class Window {
         scenesPane.setLayout(new OverlayLayout(scenesPane));
         scenesPane.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
         frame.add(scenesPane);
+    }
+
+    private void setSongs() {
+        soundController.add(Sound.BACKGROUND, Filenames.BACKGROUND_MUSIC[0]);
+        soundController.add(Sound.SHOTS, "/sounds/gameovermario.wav");
+        soundController.add(Sound.GAMEOVER, "/sounds/gameovermario.wav");
+        soundController.add(Sound.ALIEN, "/sounds/gameovermario.wav");
     }
 
     public void setBackgroundImage(String path) {
@@ -105,10 +107,8 @@ public class Window {
         }
     }
 
-    public void setSongs() {
-        soundController.add(Sound.BACKGROUND, Filenames.BACKGROUND_MUSIC[0]);
-        soundController.add(Sound.SHOTS, "/sounds/gameovermario.wav");
-        soundController.add(Sound.GAMEOVER, "/sounds/gameovermario.wav");
-        soundController.add(Sound.ALIEN, "/sounds/gameovermario.wav");
+    public Dimension getDimensions() {
+        return startDimensions;
     }
+
 }
