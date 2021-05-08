@@ -2,11 +2,9 @@ package com.uninorte.base.sound;
 
 import com.uninorte.base.game.gfx.ContentLoader;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
+import javax.sound.sampled.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Sound {
@@ -15,18 +13,18 @@ public class Sound {
     public static final String ALIEN = "alien";
     public static final String GAMEOVER = "gameover";
 
-    private final HashMap<String, Clip> sounds;
+    private final HashMap<String, Audio> sounds;
 
-    public Sound() {
+    private boolean debug;
+
+    public Sound(boolean debug) {
         this.sounds = new HashMap<>();
+        this.debug = debug;
     }
 
     public void add(String alias, String soundPath) {
         try {
-            Clip c = AudioSystem.getClip();
-            c.open(AudioSystem.getAudioInputStream(ContentLoader.loadAudio(soundPath)));
-            c.loop(Clip.LOOP_CONTINUOUSLY);
-            this.sounds.put(alias, c);
+            this.sounds.put(alias, new Audio(0.5f, soundPath));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -34,24 +32,84 @@ public class Sound {
     }
 
     public void play(String alias) throws Exception {
-        Clip c = sounds.get(alias);
-        if (c == null) {
+        Audio a = getAudio(alias);
+
+        a.clipSound.setFramePosition(0);
+        a.clipSound.start();
+    }
+
+    public float getVolume(String alias) throws Exception {
+        Audio a = getAudio(alias);
+        return a.getVolume();
+    }
+
+    public void setVolume(String alias, float volume) throws Exception {
+        Audio a = getAudio(alias);
+
+        if (debug)
+            System.out.printf("[DEBUG] %s -> %.2f\n", alias, volume);
+        a.setVolume(volume);
+    }
+
+    public boolean isMuted(String alias) throws Exception {
+        Audio a = getAudio(alias);
+        return a.isMuted;
+    }
+
+    public void setMuted(String alias) throws Exception {
+        Audio a = getAudio(alias);
+        a.mute();
+    }
+
+    private Audio getAudio(String alias) throws Exception {
+        Audio a = sounds.get(alias);
+        if (a == null) {
             throw new Exception("sound with the alias " + alias + " not found");
         }
 
-        System.out.println("Listening music");
+        return a;
+    }
 
-        c.addLineListener(new LineListener() {
-            @Override
-            public void update(LineEvent event) {
-                System.out.println("Sound: " + event.toString() + "\n" +
-                        event.getFramePosition() + "\n" +
-                        event.getLine());
-            }
-        });
+    private static class Audio {
+        boolean isMuted;
+        float currentVolume;
+        Clip clipSound;
+        String path;
 
-        c.setFramePosition(0);
-        c.start();
+        Audio(float currentVolume, String path) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+            this.path = path;
+            this.isMuted = false;
+            this.currentVolume = currentVolume;
+
+            clipSound = AudioSystem.getClip();
+            clipSound.open(AudioSystem.getAudioInputStream(ContentLoader.loadAudio(path)));
+            clipSound.loop(Clip.LOOP_CONTINUOUSLY);
+
+            clipSound.addLineListener(event -> {
+                System.out.println(event.getLine() + " " + event.getFramePosition());
+            });
+
+            setVolume(currentVolume);
+        }
+
+        void setVolume(float volume) {
+            if (volume < 0f || volume > 1f)
+                throw new IllegalArgumentException("Volume not valid: " + volume);
+
+            FloatControl gainControl = (FloatControl) this.clipSound.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(20f * (float) Math.log10(volume));
+        }
+
+        float getVolume() {
+            FloatControl gainControl = (FloatControl) clipSound.getControl(FloatControl.Type.MASTER_GAIN);
+            return (float) Math.pow(10f, gainControl.getValue() / 20f);
+        }
+
+        void mute() {
+            isMuted = !isMuted;
+            BooleanControl muteControl = (BooleanControl) clipSound.getControl(BooleanControl.Type.MUTE);
+            muteControl.setValue(isMuted);
+        }
     }
 
 }
