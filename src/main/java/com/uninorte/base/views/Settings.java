@@ -196,7 +196,7 @@ public class Settings {
 
     private void changeMuteStatus(JButton target, String alias) {
         try {
-            String path = sound.isMuted(alias) ? "/mutebtn.png" : "/GIT.png";
+            String path = sound.isMuted(alias) ? "/mutebtn.png" : "/unmutebtn.png";
             sound.setMuted(alias);
             target.setIcon(new ImageIcon(ContentLoader.loadImage(path)));
         } catch (Exception e) {
