@@ -1,5 +1,6 @@
 package com.uninorte.base;
 
+import com.uninorte.base.display.Window;
 import com.uninorte.base.game.Game;
 
 import java.awt.Dimension;

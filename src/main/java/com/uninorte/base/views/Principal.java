@@ -6,6 +6,8 @@ import com.uninorte.base.sound.Sound;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 
@@ -48,8 +50,8 @@ public class Principal {
         sourceBtn = Helpers.createButton("/GIT.png", d1);
         closeBtn = Helpers.createButton("/exitIcon.png", d4);
         settingsBtn = Helpers.createButton("/settings.png", d4);
-        singleplayerBtn = Helpers.createButton("/SINGLE3.png", d2);
-        multiplayerBtn = Helpers.createButton("/multi.png", d3);
+        singleplayerBtn = Helpers.createButton("/singleplayer.png", "/singleplayerHover.png", d2);
+        multiplayerBtn = Helpers.createButton("/multiplayer.png", "/multiplayerHover.png", d3);
 
         nicknameInput = new JTextField();
 
@@ -64,6 +66,31 @@ public class Principal {
     }
 
     private void setListeners() {
+        nicknameInput.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (nicknameInput.getText().equals("NICKNAME"))
+                    nicknameInput.setText("");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {}
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (nicknameInput.getText().equals(""))
+                    nicknameInput.setText("NICKNAME");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (nicknameInput.getText().equals(""))
+                    nicknameInput.setText("NICKNAME");
+            }
+        });
         closeBtn.addActionListener(e -> window.close());
         settingsBtn.addActionListener(e -> Window.settings.setToCurrentView());
         sourceBtn.addActionListener(e -> {

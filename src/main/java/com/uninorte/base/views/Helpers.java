@@ -42,6 +42,12 @@ public class Helpers {
         return tmp;
     }
 
+    public static JButton createButton(String path, String pathHover, Dimension preferredSize) {
+        JButton tmpBtn = createButton(path, preferredSize);
+        tmpBtn.setRolloverIcon(new ImageIcon(ContentLoader.loadImage(pathHover)));
+        return tmpBtn;
+    }
+
     public static JButton createButton(String path, Dimension preferredSize) {
         JButton tmpBtn = createButton(path);
         tmpBtn.setPreferredSize(preferredSize);
