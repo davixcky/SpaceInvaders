@@ -1,10 +1,13 @@
 package com.uninorte.base.game;
 
+import com.uninorte.base.Filenames;
 import com.uninorte.base.display.Window;
 import com.uninorte.base.game.States.GameState;
 import com.uninorte.base.game.States.State;
 import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
+import com.uninorte.base.game.gfx.ContentLoader;
+import com.uninorte.base.input.KeyManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,28 +26,38 @@ public class Game implements Runnable {
 
     private Display display;
 
+    private KeyManager keyManager;
+
     private Handler handler;
 
     public State gameSate;
+
+    private Image background;
 
 
     public Game(String title, Dimension windowSize) {
         this.title = title;
         this.windowSize = windowSize;
+
+        keyManager = new KeyManager();
     }
 
     private void init() {
         display = new Display(title, windowSize);
+        display.getFrame().addKeyListener(keyManager);
+        display.getGameCanvas().addKeyListener(keyManager);
         Assets.init();
 
         handler = new Handler(this);
         gameSate = new GameState(handler);
         State.setCurrentState(gameSate);
+
+        background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[2])).getImage();
     }
 
     private void update() {
         // Set mouse and key listeners
-
+        keyManager.tick();
 
         if (State.getCurrentState() != null)
             State.getCurrentState().update();
@@ -60,8 +73,7 @@ public class Game implements Runnable {
 
         g = bs.getDrawGraphics();
         g.clearRect(0, 0, windowSize.width, windowSize.height);
-        g.setColor(Color.white);
-        g.fillRect(0, 0, windowSize.width, windowSize.height);
+        g.drawImage(background, 0, 0,  windowSize.width, windowSize.height, null);
 
         if (State.getCurrentState() != null)
             State.getCurrentState().render(g);
@@ -72,37 +84,50 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        init();
-
-        int fps = 60;
-        double timePerTick = 1000000000 / fps;
-        double delta = 0;
-        long now;
         long lastTime = System.nanoTime();
-        long timer = 0;
+        double nsPerTick = 1000000000d / 60d;
+
+        int frames = 0;
         int ticks = 0;
 
-        while(running){
-            now = System.nanoTime();
-            delta += (now - lastTime) / timePerTick;
-            timer += now - lastTime;
+        long lastTimer = System.currentTimeMillis();
+        double delta = 0;
+
+        boolean shouldRender = true;
+
+        init();
+        while (running) {
+            long now = System.nanoTime();
+            delta += (now - lastTime) / nsPerTick;
             lastTime = now;
 
-            if(delta >= 1){
-                update();
-                render();
+            while (delta >= 1) {
                 ticks++;
+                update();
                 delta--;
+                shouldRender = true;
             }
 
-            if(timer >= 1000000000){
-                System.out.println("Ticks and Frames: " + ticks);
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+            if (shouldRender) {
+                frames++;
+                render();
+
+            }
+
+            if (System.currentTimeMillis() - lastTimer > 1000) {
+//                System.out.println(frames + " " + ticks);
+                frames = 0;
+                lastTimer += 1000;
                 ticks = 0;
-                timer = 0;
             }
         }
-
-        stop();
     }
 
     public synchronized void start() {
@@ -132,4 +157,7 @@ public class Game implements Runnable {
         return windowSize;
     }
 
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
 }
