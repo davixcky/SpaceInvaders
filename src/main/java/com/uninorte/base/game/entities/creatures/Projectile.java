@@ -31,10 +31,21 @@ public class Projectile extends Creature{
     public void update() {
         move();
 
+        // Check if a projectile is impacting an alien
         Entity e = getAlienEntityCollision(0, yMove);
         if (e != null) {
+            // Check if the projectile was triggered by a Player
             if (parent instanceof Player) {
                 e.hurt(DEFAULT_HEALTH);
+                active = false;
+            }
+        }
+
+        // Check if the projectile is impacting a user
+        if (parent instanceof Alien) {
+            Player p = handler.getBoard().getMainPlayer();
+            if (getCollisionBounds(0f, 0f).intersects(p.getCollisionBounds(0f, 0f))) {
+                p.hurt(1);
                 active = false;
             }
         }

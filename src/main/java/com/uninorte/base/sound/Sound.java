@@ -83,7 +83,7 @@ public class Sound {
             this.currentVolume = currentVolume;
 
             clipSound = AudioSystem.getClip();
-            clipSound.open(AudioSystem.getAudioInputStream(ContentLoader.loadAudio(path)));
+            clipSound.open(AudioSystem.getAudioInputStream(Audio.class.getResourceAsStream(path)));
 
             setVolume(currentVolume);
         }

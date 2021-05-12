@@ -48,4 +48,6 @@ public class Board {
     public AliensManager getAliensManager() {
         return aliensManager;
     }
+
+    public Player getMainPlayer() { return mainPlayer; }
 }

@@ -43,6 +43,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
+        System.out.println("die");
     }
 
     private void getInput() {
