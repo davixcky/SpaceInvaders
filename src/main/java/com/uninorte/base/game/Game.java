@@ -84,48 +84,32 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
+init();
+        int fps = 60;
+        double timePerTick = 1000000000 / fps;
+        double delta = 0;
+        long now;
         long lastTime = System.nanoTime();
-        double nsPerTick = 1000000000d / 60d;
-
-        int frames = 0;
+        long timer = 0;
         int ticks = 0;
 
-        long lastTimer = System.currentTimeMillis();
-        double delta = 0;
-
-        boolean shouldRender = true;
-
-        init();
-        while (running) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) / nsPerTick;
+        while(running){
+            now = System.nanoTime();
+            delta += (now - lastTime) / timePerTick;
+            timer += now - lastTime;
             lastTime = now;
 
-            while (delta >= 1) {
-                ticks++;
+            if(delta >= 1){
                 update();
-                delta--;
-                shouldRender = true;
-            }
-
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-            if (shouldRender) {
-                frames++;
                 render();
-
+                ticks++;
+                delta--;
             }
 
-            if (System.currentTimeMillis() - lastTimer > 1000) {
-//                System.out.println(frames + " " + ticks);
-                frames = 0;
-                lastTimer += 1000;
+            if(timer >= 1000000000){
+                System.out.println("Ticks and Frames: " + ticks);
                 ticks = 0;
+                timer = 0;
             }
         }
     }
