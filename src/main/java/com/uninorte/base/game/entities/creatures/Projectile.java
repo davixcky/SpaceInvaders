@@ -37,6 +37,7 @@ public class Projectile extends Creature{
             // Check if the projectile was triggered by a Player
             if (parent instanceof Player) {
                 e.hurt(DEFAULT_HEALTH);
+                handler.getHighScoreManager().addPointsToPlayer((Player) parent, ((Alien) e).getPoints());
                 active = false;
             }
         }

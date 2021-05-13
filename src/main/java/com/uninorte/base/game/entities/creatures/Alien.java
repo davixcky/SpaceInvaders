@@ -130,6 +130,19 @@ public class Alien extends Creature {
 //        setAlienName(lastName.ordinal() + 1);
     }
 
+    public int getPoints() {
+        int points;
+
+        switch (lastName) {
+            case A -> points = 10;
+            case B -> points = 20;
+            case C -> points = 30;
+            default -> points = 0;
+        }
+
+        return points;
+    }
+
     public boolean isActive() {
         return active;
     }

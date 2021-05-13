@@ -2,11 +2,10 @@ package com.uninorte.base.game.entities.creatures;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
+import com.uninorte.base.game.highscore.HighScoreManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Player extends Creature {
 
@@ -37,6 +36,8 @@ public class Player extends Creature {
     @Override
     public void render(Graphics g) {
         g.drawImage(creatureAsset, (int) x, (int) y, entityDimensions.width, entityDimensions.height, null);
+        g.setColor(Color.white);
+        g.drawString(Integer.toString(handler.getHighScoreManager().getPlayerPoints(this)), 30, 30);
 
         projectilesManager.render(g);
     }
