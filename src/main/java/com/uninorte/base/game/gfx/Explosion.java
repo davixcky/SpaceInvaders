@@ -27,6 +27,7 @@ public class Explosion {
 
             if (index >= explosionAssets.size()) {
                 isRendering = false;
+                isAvailableRender = true;
             }
         }
     }

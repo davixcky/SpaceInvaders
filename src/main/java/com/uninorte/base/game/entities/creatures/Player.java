@@ -95,7 +95,7 @@ public class Player extends Creature {
     }
 
     private void shoot() {
-        projectilesManager.addProjectile(() -> handler.getKeyManager().getStatusKey(KeyEvent.VK_SPACE) || true,
+        projectilesManager.addProjectile(() -> (handler.getKeyManager().getStatusKey(KeyEvent.VK_SPACE) || true) && explosionController.isAvailableRender(),
                 new Projectile(handler, x, y, Projectile.Direction.UP, this));
     }
 

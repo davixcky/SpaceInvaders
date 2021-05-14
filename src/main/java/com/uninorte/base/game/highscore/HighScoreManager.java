@@ -20,8 +20,6 @@ public class HighScoreManager {
     public void addPointsToPlayer(Player p, int points) {
         if (usersHighScores.containsKey(p))
             usersHighScores.get(p).addMorePoints(points);
-
-        System.out.println( usersHighScores.get(p).getTotalPoints());
     }
 
     public int getPlayerPoints(Player p) {
