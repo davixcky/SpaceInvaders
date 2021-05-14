@@ -31,7 +31,7 @@ public class Board {
     private void createPlayer() {
         Dimension windowSize = handler.boardDimensions();
         int x = (int) (windowSize.width  * 0.5f);
-        int y = (int) (windowSize.height * 0.85f); // 85% to the bottom
+        int y = (int) (windowSize.height * 0.9f); // 85% to the bottom
 
         mainPlayer = new Player(handler, x, y);
         highScoreManager.registerPlayer(mainPlayer);

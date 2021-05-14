@@ -16,7 +16,6 @@ public class AliensManager {
 
     private ProjectilesManager projectilesManager;
 
-
     public AliensManager(Handler handler, int rows, int cols) {
         this.handler = handler;
         this.rows = rows;
@@ -48,11 +47,6 @@ public class AliensManager {
             }
         }
 
-        // C -> 30
-        // B -> 20
-        // B -> 20
-        // A -> 10
-        // A -> 10
     }
 
     public void update() {
@@ -61,7 +55,7 @@ public class AliensManager {
             Alien a = it.next();
             a.update();
 
-            if (!a.isActive())
+            if (!a.isActive() && !a.isRenderingExplosion())
                 it.remove();
         }
 

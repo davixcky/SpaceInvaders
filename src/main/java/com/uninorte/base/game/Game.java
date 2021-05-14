@@ -1,7 +1,6 @@
 package com.uninorte.base.game;
 
 import com.uninorte.base.Filenames;
-import com.uninorte.base.display.Window;
 import com.uninorte.base.game.States.GameState;
 import com.uninorte.base.game.States.State;
 import com.uninorte.base.game.display.Display;
@@ -52,7 +51,7 @@ public class Game implements Runnable {
         gameSate = new GameState(handler);
         State.setCurrentState(gameSate);
 
-        background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[2])).getImage();
+        background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[3])).getImage();
     }
 
     private void update() {
@@ -84,7 +83,7 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-init();
+        init();
         int fps = 60;
         double timePerTick = 1000000000 / fps;
         double delta = 0;

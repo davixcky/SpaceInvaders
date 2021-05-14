@@ -2,7 +2,6 @@ package com.uninorte.base.game.entities.creatures;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
-import com.uninorte.base.game.highscore.HighScoreManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -72,6 +71,13 @@ public class Player extends Creature {
         } else {
             x += xMove;
         }
+    }
+
+    @Override
+    public void hurt(int amt) {
+        super.hurt(amt);
+
+        System.out.println("Ey loco me lastimaste");
     }
 
     private void shoot() {

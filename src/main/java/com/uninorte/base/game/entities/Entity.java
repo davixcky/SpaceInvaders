@@ -4,9 +4,6 @@ import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.entities.creatures.Alien;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.nio.channels.Pipe;
-import java.util.ArrayList;
 
 public abstract class Entity {
 
@@ -52,9 +49,9 @@ public abstract class Entity {
         return false;
     }
 
-    public Entity getAlienEntityCollision(float xOffset, float yOffset) {
-        for (Entity e: handler.getBoard().getAliensManager().getAliens()) {
-            if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+    public Alien getAlienEntityCollision(float xOffset, float yOffset) {
+        for (Alien e: handler.getBoard().getAliensManager().getAliens()) {
+            if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)) && e.isActive()) {
                 return e;
             }
         }
@@ -72,5 +69,9 @@ public abstract class Entity {
 
     public float getY() {
         return y;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

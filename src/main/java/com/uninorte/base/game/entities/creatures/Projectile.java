@@ -32,12 +32,12 @@ public class Projectile extends Creature{
         move();
 
         // Check if a projectile is impacting an alien
-        Entity e = getAlienEntityCollision(0, yMove);
+        Alien e = getAlienEntityCollision(0, yMove);
         if (e != null) {
             // Check if the projectile was triggered by a Player
             if (parent instanceof Player) {
                 e.hurt(DEFAULT_HEALTH);
-                handler.getHighScoreManager().addPointsToPlayer((Player) parent, ((Alien) e).getPoints());
+                handler.getHighScoreManager().addPointsToPlayer((Player) parent, e.getPoints());
                 active = false;
             }
         }
@@ -83,7 +83,6 @@ public class Projectile extends Creature{
 
     @Override
     public void die() {
-        System.out.println(active);
     }
 
     public boolean isActive() {

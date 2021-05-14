@@ -4,20 +4,25 @@ import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Alien extends Creature {
     private final int totalCols;
-    private float initialX, initialY;
+    private float initialX;
     private int columnPosition;
 
     private Assets.AlienColor lastColor;
     private Assets.AlienName lastName;
 
+    private ArrayList<BufferedImage> explosionAssets;
+    private boolean isRenderingExplosion = true;
+    private int indexExplosion = 0;
+
     public Alien(Handler handler, float x, float y, int columnPosition, int totalCols) {
         super(handler, x, y, new Dimension(DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT));
 
         initialX = x;
-        initialY = y;
         this.columnPosition = columnPosition;
         this.totalCols = totalCols;
 
@@ -25,8 +30,9 @@ public class Alien extends Creature {
         lastColor = Assets.AlienColor.BLUE;
         setCurrentAsset();
 
+        explosionAssets = Assets.getAliensExplosionsAssets(Assets.ExplosionColor.PINK);
+
         xMove = speed;
-        active = true;
     }
 
     public void setAlienAsset(Assets.AlienName name, Assets.AlienColor color) {
@@ -45,15 +51,24 @@ public class Alien extends Creature {
 
     @Override
     public void render(Graphics g) {
-        if (active)
+        if (active) {
             g.drawImage(creatureAsset, (int) x, (int) y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null);
-        else
-            g.fillRect((int) x, (int) y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
+            return;
+        }
+
+        if (!isRenderingExplosion)
+            return;
+
+        g.drawImage(explosionAssets.get(indexExplosion), (int) x - DEFAULT_CREATURE_WIDTH / 2, (int) y - DEFAULT_CREATURE_HEIGHT / 2, 80, 80, null);
+        if (indexExplosion <= explosionAssets.size() / 2)
+            g.drawString(Integer.toString(getPoints()), (int) x, (int) y);
+
+        if (++indexExplosion >= explosionAssets.size())
+            isRenderingExplosion = false;
     }
 
     @Override
     public void die() {
-
     }
 
     private void setDirection() {
@@ -127,16 +142,15 @@ public class Alien extends Creature {
     private void changeColor() {
         lastColor = getAlienColor(lastColor.ordinal() + 1);
         setCurrentAsset();
-//        setAlienName(lastName.ordinal() + 1);
     }
 
     public int getPoints() {
         int points;
 
         switch (lastName) {
-            case A -> points = 10;
-            case B -> points = 20;
-            case C -> points = 30;
+            case A -> points = 20;
+            case B -> points = 30;
+            case C -> points = 10;
             default -> points = 0;
         }
 
@@ -145,5 +159,9 @@ public class Alien extends Creature {
 
     public boolean isActive() {
         return active;
+    }
+
+    public boolean isRenderingExplosion() {
+        return isRenderingExplosion;
     }
 }
