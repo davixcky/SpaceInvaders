@@ -2,8 +2,10 @@ package com.uninorte.base.game.entities.creatures;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.entities.Entity;
+import com.uninorte.base.game.gfx.Assets;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Projectile extends Creature{
 
@@ -17,14 +19,18 @@ public class Projectile extends Creature{
     private Entity parent;
     private Color color;
 
-    public Projectile(Handler handler, float x, float y, Direction direction, Entity parent, Color color) {
-        super(handler, x, y, new Dimension(5, 10));
+    private BufferedImage projectileAsset;
+
+    public Projectile(Handler handler, float x, float y, Direction direction, Entity parent) {
+        super(handler, x, y, new Dimension(70, 70));
 
         this.direction = direction;
         this.parent = parent;
-        this.color = color;
         active = true;
         yMove = -speed;
+
+        bounds.width = entityDimensions.width - 30;
+        setProjectileAsset();
     }
 
     @Override
@@ -32,7 +38,7 @@ public class Projectile extends Creature{
         move();
 
         // Check if a projectile is impacting an alien
-        Alien e = getAlienEntityCollision(0, yMove);
+        Alien e = getAlienEntityCollision(0, 0);
         if (e != null) {
             // Check if the projectile was triggered by a Player
             if (parent instanceof Player) {
@@ -54,8 +60,7 @@ public class Projectile extends Creature{
 
     @Override
     public void render(Graphics g) {
-        g.setColor(color);
-        g.fillRect((int) x, (int) y, entityDimensions.width, entityDimensions.height);
+        g.drawImage(projectileAsset, (int) x, (int) y, entityDimensions.width, entityDimensions.height, null);
     }
 
     @Override
@@ -89,4 +94,15 @@ public class Projectile extends Creature{
         return active;
     }
 
+    private void setProjectileAsset() {
+        if (parent instanceof Player)
+            projectileAsset = Assets.getBulletAssets(1);
+        else
+            projectileAsset = Assets.getBulletAssets(0);
+
+        switch (direction) {
+            case DOWN -> projectileAsset = Assets.rotate(projectileAsset, 90);
+            case UP -> projectileAsset = Assets.rotate(projectileAsset, -90);
+        }
+    }
 }

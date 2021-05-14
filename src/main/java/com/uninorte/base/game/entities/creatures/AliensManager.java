@@ -79,7 +79,7 @@ public class AliensManager {
         int currentIndex = random.nextInt((aliens.size()));
         Alien a = aliens.get(currentIndex);
 
-        projectilesManager.addProjectile(() -> true, new Projectile(handler, a.getX(), a.getY(), Projectile.Direction.DOWN, a, Color.green));
+        projectilesManager.addProjectile(() -> true, new Projectile(handler, a.getX(), a.getY(), Projectile.Direction.DOWN, a));
     }
 
 }

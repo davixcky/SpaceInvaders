@@ -1,5 +1,7 @@
 package com.uninorte.base.game.gfx;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,11 +34,13 @@ public class Assets {
 
     private static ArrayList<BufferedImage> playerAssets;
     private static ArrayList<BufferedImage> aliensAssets;
+    private static ArrayList<BufferedImage> bulletAssets;
     private static HashMap<String, ArrayList<BufferedImage>> explosions;
 
     public static void init() {
         playerAssets = loadSprites(60, 60, 3, "/textures/ships.png");
         aliensAssets = loadSprites(40, 40, 24, "/textures/aliens.png");
+        bulletAssets = loadSprites(120, 120, 2, "/textures/bullets.png");
 
         explosions = new HashMap<>();
         explosions.put(getColorString(ExplosionColor.GREEN), loadSprites(100, 100, 56, "/textures/explosions/green.png"));
@@ -66,6 +70,23 @@ public class Assets {
 
     public static ArrayList<BufferedImage> getAliensExplosionsAssets(ExplosionColor color) {
         return explosions.get(getColorString(color));
+    }
+
+    public static BufferedImage getBulletAssets(int i) {
+        return bulletAssets.get(i);
+    }
+
+    public static BufferedImage rotate(BufferedImage bimg, double angle) {
+
+        int w = bimg.getWidth();
+        int h = bimg.getHeight();
+
+        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
+        Graphics2D graphic = rotated.createGraphics();
+        graphic.rotate(Math.toRadians(angle), w/2, h/2);
+        graphic.drawImage(bimg, null, 0, 0);
+        graphic.dispose();
+        return rotated;
     }
 
     private static ArrayList<BufferedImage> loadSprites(int width, int height, int total, String filename) {
