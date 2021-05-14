@@ -55,7 +55,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
-//        System.out.println("die");
+        handler.getGame().stopGame();
     }
 
     private void getInput() {

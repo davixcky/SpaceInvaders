@@ -106,11 +106,12 @@ public class Game implements Runnable {
             }
 
             if(timer >= 1000000000){
-                System.out.println("Ticks and Frames: " + ticks);
                 ticks = 0;
                 timer = 0;
             }
         }
+
+        stop();
     }
 
     public synchronized void start() {
@@ -142,5 +143,12 @@ public class Game implements Runnable {
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+
+    public void stopGame() {
+        // TODO: Implement when the stop it's called
+        running = false;
+        display.getFrame().dispose();
+        System.exit(1);
     }
 }

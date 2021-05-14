@@ -23,7 +23,7 @@ public class AliensManager {
         aliens = new ArrayList<>();
         random = new Random();
 
-        projectilesManager = new ProjectilesManager(10000);
+        projectilesManager = new ProjectilesManager(1000);
 
         createAliens();
     }
