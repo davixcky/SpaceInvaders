@@ -1,13 +1,12 @@
 package com.uninorte.base.game.gfx;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Explosion {
 
     private boolean isAvailableRender, isRendering;
-    private ArrayList<BufferedImage> explosionAssets;
+    private final ArrayList<BufferedImage> explosionAssets;
     private int index;
 
     public Explosion(Assets.ExplosionColor color) {
@@ -30,6 +29,12 @@ public class Explosion {
                 isRendering = false;
             }
         }
+    }
+
+    public void reset() {
+        index = 0;
+        isRendering = false;
+        isAvailableRender = true;
     }
 
     public boolean isRendering() {

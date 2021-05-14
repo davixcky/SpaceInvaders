@@ -2,13 +2,15 @@ package com.uninorte.base.game.entities.creatures;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
+import com.uninorte.base.game.gfx.Explosion;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Player extends Creature {
 
-    private ProjectilesManager projectilesManager;
+    private final ProjectilesManager projectilesManager;
+    private final Explosion explosionController;
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, new Dimension(60, 60));
@@ -17,6 +19,7 @@ public class Player extends Creature {
         creatureAsset = creatureAssetsOptions.get(0);
 
         projectilesManager = new ProjectilesManager(800);
+        explosionController = new Explosion(Assets.ExplosionColor.RED);
     }
 
     @Override
@@ -25,16 +28,23 @@ public class Player extends Creature {
         move();
         shoot();
 
+        projectilesManager.update();
+        explosionController.update();
+
         if (checkEntityCollisions(0, 0)) {
             System.out.println("lose");
         }
-
-        projectilesManager.update();
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(creatureAsset, (int) x, (int) y, entityDimensions.width, entityDimensions.height, null);
+
+        if (explosionController.isRendering()) {
+            g.drawImage(explosionController.getCurrentFrame(), (int) x - DEFAULT_CREATURE_WIDTH / 2, (int) y - DEFAULT_CREATURE_HEIGHT / 2, 80, 80, null);
+        } else {
+            g.drawImage(creatureAsset, (int) x, (int) y, entityDimensions.width, entityDimensions.height, null);
+        }
+
         g.setColor(Color.white);
         g.drawString(Integer.toString(handler.getHighScoreManager().getPlayerPoints(this)), 30, 30);
 
@@ -49,6 +59,9 @@ public class Player extends Creature {
     private void getInput() {
         xMove = 0;
         yMove = 0;
+
+        if (explosionController.isRendering())
+            return;
 
         if (handler.getKeyManager().getStatusKey(KeyEvent.VK_A))
             xMove = -speed;
@@ -77,11 +90,16 @@ public class Player extends Creature {
     public void hurt(int amt) {
         super.hurt(amt);
 
-        System.out.println("Ey loco me lastimaste");
+        explosionController.reset();
+        explosionController.startRender();
     }
 
     private void shoot() {
         projectilesManager.addProjectile(() -> handler.getKeyManager().getStatusKey(KeyEvent.VK_SPACE) || true,
                 new Projectile(handler, x, y, Projectile.Direction.UP, this));
+    }
+
+    public boolean isRenderingExplosion() {
+        return explosionController.isRendering();
     }
 }

@@ -8,13 +8,13 @@ import java.awt.*;
 
 public class Alien extends Creature {
     private final int totalCols;
-    private float initialX;
-    private int columnPosition;
+    private final float initialX;
+    private final int columnPosition;
 
     private Assets.AlienColor lastColor;
     private Assets.AlienName lastName;
 
-    private Explosion explosionController;
+    private final Explosion explosionController;
 
     public Alien(Handler handler, float x, float y, int columnPosition, int totalCols) {
         super(handler, x, y, new Dimension(DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT));
@@ -27,7 +27,7 @@ public class Alien extends Creature {
         lastColor = Assets.AlienColor.BLUE;
         setCurrentAsset();
 
-        explosionController = new Explosion(Assets.ExplosionColor.RED);
+        explosionController = new Explosion(Assets.ExplosionColor.PINK);
 
         xMove = speed;
     }

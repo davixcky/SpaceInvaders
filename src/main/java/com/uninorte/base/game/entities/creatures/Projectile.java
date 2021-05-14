@@ -51,7 +51,7 @@ public class Projectile extends Creature{
         // Check if the projectile is impacting a user
         if (parent instanceof Alien) {
             Player p = handler.getBoard().getMainPlayer();
-            if (getCollisionBounds(0f, 0f).intersects(p.getCollisionBounds(0f, 0f))) {
+            if (getCollisionBounds(0f, 0f).intersects(p.getCollisionBounds(0f, 0f)) && !p.isRenderingExplosion()) {
                 p.hurt(1);
                 active = false;
             }
