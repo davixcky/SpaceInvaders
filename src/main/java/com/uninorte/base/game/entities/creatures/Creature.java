@@ -18,10 +18,13 @@ public abstract class Creature extends Entity {
     protected ArrayList<BufferedImage> creatureAssetsOptions;
     protected BufferedImage creatureAsset;
 
+    protected int indexCreature;
+
     public Creature(Handler handler, float x, float y, Dimension size) {
         super(handler, x, y, size);
         speed = DEFAULT_SPEED;
         xMove = yMove = 0;
+        indexCreature = 1;
     }
 
     public void move() {

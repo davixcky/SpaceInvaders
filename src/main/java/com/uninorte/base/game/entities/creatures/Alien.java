@@ -16,6 +16,10 @@ public class Alien extends Creature {
 
     private final Explosion explosionController;
 
+    private long lastTimerChange;
+    private final long timeBetweenChanges;
+    private long changeTimer;
+
     public Alien(Handler handler, float x, float y, int columnPosition, int totalCols) {
         super(handler, x, y, new Dimension(DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT));
 
@@ -28,6 +32,9 @@ public class Alien extends Creature {
         setCurrentAsset();
 
         explosionController = new Explosion(Assets.ExplosionColor.PINK);
+
+        this.timeBetweenChanges = 300;
+        changeTimer = this.timeBetweenChanges;
 
         xMove = speed;
     }
@@ -45,12 +52,25 @@ public class Alien extends Creature {
         setDirection();
         move();
         explosionController.update();
+
     }
 
     @Override
     public void render(Graphics g) {
         if (active) {
-            g.drawImage(creatureAsset, (int) x, (int) y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null);
+            changeTimer += System.currentTimeMillis() - lastTimerChange;
+            lastTimerChange = System.currentTimeMillis();
+
+            g.drawImage(creatureAssetsOptions.get(indexCreature), (int) x, (int) y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null);
+
+            if (changeTimer < timeBetweenChanges) {
+                return;
+            }
+
+            changeTimer = 0;
+            indexCreature++;
+            if (indexCreature >= creatureAssetsOptions.size())
+                indexCreature = 0;
             return;
         }
 
@@ -157,6 +177,6 @@ public class Alien extends Creature {
     }
 
     public boolean isRenderingExplosion() {
-        return explosionController.isRendering() || explosionController.isAvailableRender();
+        return explosionController.isRendering();
     }
 }
