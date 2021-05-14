@@ -2,10 +2,9 @@ package com.uninorte.base.game.entities.creatures;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
+import com.uninorte.base.game.gfx.Explosion;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Alien extends Creature {
     private final int totalCols;
@@ -15,9 +14,7 @@ public class Alien extends Creature {
     private Assets.AlienColor lastColor;
     private Assets.AlienName lastName;
 
-    private ArrayList<BufferedImage> explosionAssets;
-    private boolean isRenderingExplosion = true;
-    private int indexExplosion = 0;
+    private Explosion explosionController;
 
     public Alien(Handler handler, float x, float y, int columnPosition, int totalCols) {
         super(handler, x, y, new Dimension(DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT));
@@ -30,7 +27,7 @@ public class Alien extends Creature {
         lastColor = Assets.AlienColor.BLUE;
         setCurrentAsset();
 
-        explosionAssets = Assets.getAliensExplosionsAssets(Assets.ExplosionColor.PINK);
+        explosionController = new Explosion(Assets.ExplosionColor.RED);
 
         xMove = speed;
     }
@@ -47,6 +44,7 @@ public class Alien extends Creature {
     public void update() {
         setDirection();
         move();
+        explosionController.update();
     }
 
     @Override
@@ -56,19 +54,16 @@ public class Alien extends Creature {
             return;
         }
 
-        if (!isRenderingExplosion)
-            return;
-
-        g.drawImage(explosionAssets.get(indexExplosion), (int) x - DEFAULT_CREATURE_WIDTH / 2, (int) y - DEFAULT_CREATURE_HEIGHT / 2, 80, 80, null);
-        if (indexExplosion <= explosionAssets.size() / 2)
-            g.drawString(Integer.toString(getPoints()), (int) x, (int) y);
-
-        if (++indexExplosion >= explosionAssets.size())
-            isRenderingExplosion = false;
+        if (explosionController.isRendering()) {
+            g.drawImage(explosionController.getCurrentFrame(), (int) x - DEFAULT_CREATURE_WIDTH / 2, (int) y - DEFAULT_CREATURE_HEIGHT / 2, 80, 80, null);
+            if (explosionController.isHalfRendering())
+                g.drawString(Integer.toString(getPoints()), (int) x, (int) y);
+        }
     }
 
     @Override
     public void die() {
+        explosionController.startRender();
     }
 
     private void setDirection() {
@@ -162,6 +157,6 @@ public class Alien extends Creature {
     }
 
     public boolean isRenderingExplosion() {
-        return isRenderingExplosion;
+        return explosionController.isRendering() || explosionController.isAvailableRender();
     }
 }
