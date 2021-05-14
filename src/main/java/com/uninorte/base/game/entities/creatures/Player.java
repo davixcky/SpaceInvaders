@@ -32,7 +32,7 @@ public class Player extends Creature {
         explosionController.update();
 
         if (checkEntityCollisions(0, 0)) {
-            System.out.println("lose");
+            hurt(1);
         }
     }
 
@@ -48,12 +48,14 @@ public class Player extends Creature {
         g.setColor(Color.white);
         g.drawString(Integer.toString(handler.getHighScoreManager().getPlayerPoints(this)), 30, 30);
 
+        showLives(g);
+
         projectilesManager.render(g);
     }
 
     @Override
     public void die() {
-        System.out.println("die");
+//        System.out.println("die");
     }
 
     private void getInput() {
@@ -101,5 +103,17 @@ public class Player extends Creature {
 
     public boolean isRenderingExplosion() {
         return explosionController.isRendering();
+    }
+
+    private void showLives(Graphics g) {
+        int x = (int) (handler.boardDimensions().width * 0.87f);
+        int y = (int) (handler.boardDimensions().height * 0.02f);
+
+        g.setColor(new Color(255, 255, 255, 60));
+        g.fillRect(x - 10, y - 10, 100, 40);
+        for (int i = 0; i < health; i++) {
+            g.drawImage(creatureAsset, x, y, 20, 20, null);
+            x += 30;
+        }
     }
 }

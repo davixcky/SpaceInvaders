@@ -17,7 +17,6 @@ public class Projectile extends Creature{
     private boolean active;
     private Direction direction;
     private Entity parent;
-    private Color color;
 
     private BufferedImage projectileAsset;
 
