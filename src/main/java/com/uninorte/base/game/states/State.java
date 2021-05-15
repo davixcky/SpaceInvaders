@@ -1,4 +1,4 @@
-package com.uninorte.base.game.States;
+package com.uninorte.base.game.states;
 
 import com.uninorte.base.game.Handler;
 
