@@ -19,7 +19,7 @@ public class UIManager {
 	
 	public void update(){
 		for(UIObject o : objects)
-			o.tick();
+			o.update();
 	}
 	
 	public void render(Graphics g){

@@ -1,5 +1,7 @@
 package com.uninorte.base.game.ui;
 
+import com.uninorte.base.game.states.State;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -8,14 +10,14 @@ public class UIImageButton extends UIObject {
 	private BufferedImage[] images;
 	private ClickListener clicker;
 	
-	public UIImageButton(float x, float y, int width, int height, BufferedImage[] images, ClickListener clicker) {
-		super(x, y, width, height);
+	public UIImageButton(State parent, float x, float y, int width, int height, BufferedImage[] images, ClickListener clicker) {
+		super(parent, x, y, width, height);
 		this.images = images;
 		this.clicker = clicker;
 	}
 
 	@Override
-	public void tick() {}
+	public void update() {}
 
 	@Override
 	public void render(Graphics g) {

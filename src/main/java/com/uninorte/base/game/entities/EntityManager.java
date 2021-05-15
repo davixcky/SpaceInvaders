@@ -38,9 +38,12 @@ public class EntityManager {
             e.update();
         }
 
-        if (aliensManager != null) {
-            aliensManager.update();
+        if (!player.isRenderingExplosion()) {
+            if (aliensManager != null) {
+                aliensManager.update();
+            }
         }
+
     }
 
     public void render(Graphics g) {

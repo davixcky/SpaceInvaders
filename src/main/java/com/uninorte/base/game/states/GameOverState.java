@@ -21,7 +21,7 @@ public class GameOverState extends State {
 
         int x = (int) (handler.boardDimensions().width * 0.5f - 128 / 2);
         int y = (int) (handler.boardDimensions().height / 2 + 101);
-        uiManager.addObject(new UIImageButton(x, y, 128, 64, Assets.btn_start, () -> {
+        uiManager.addObject(new UIImageButton(this, x, y, 128, 64, Assets.btn_start, () -> {
             ((GameState) handler.getGame().gameSate).reset();
             State.setCurrentState(handler.getGame().gameSate);
         }));

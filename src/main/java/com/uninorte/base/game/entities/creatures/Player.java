@@ -24,12 +24,16 @@ public class Player extends Creature {
 
     @Override
     public void update() {
+        if (isRenderingExplosion()) {
+            explosionController.update();
+            return;
+        }
+
         getInput();
         move();
         shoot();
 
         projectilesManager.update();
-        explosionController.update();
 
         if (checkEntityCollisions(0, 0)) {
             hurt(1);
@@ -61,9 +65,6 @@ public class Player extends Creature {
     private void getInput() {
         xMove = 0;
         yMove = 0;
-
-        if (explosionController.isRendering())
-            return;
 
         if (handler.getKeyManager().getStatusKey(KeyEvent.VK_A))
             xMove = -speed;

@@ -12,8 +12,6 @@ public class Text {
             FontMetrics fm = g.getFontMetrics(font);
             x = xPos - fm.stringWidth(text) / 2;
             y = (yPos - fm.getHeight() / 2) + fm.getAscent();
-            System.out.println(y);
-            System.out.println(fm.getHeight());
         }
         g.drawString(text, x, y);
     }

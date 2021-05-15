@@ -161,6 +161,6 @@ public class Game implements Runnable {
 
     public void stopGame() {
         // TODO: Implement when the stop it's called
-        State.setCurrentState(new GameOverState(handler));
+        State.setCurrentState(gameOverState);
     }
 }
