@@ -1,7 +1,6 @@
 package com.uninorte.base.game.gfx;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,10 +31,18 @@ public class Assets {
         YELLOW
     }
 
+    public enum Fonts {
+        SLKSCR_100
+    }
+
     private static ArrayList<BufferedImage> playerAssets;
     private static ArrayList<BufferedImage> aliensAssets;
     private static ArrayList<BufferedImage> bulletAssets;
     private static HashMap<String, ArrayList<BufferedImage>> explosions;
+
+    private static HashMap<String, Font> fonts;
+
+    public static BufferedImage[] btn_start;
 
     public static void init() {
         playerAssets = loadSprites(60, 60, 3, "/textures/ships.png");
@@ -51,6 +58,14 @@ public class Assets {
         explosions.put(getColorString(ExplosionColor.PURPLE), loadSprites(100, 100, 56, "/textures/explosions/purple.png"));
         explosions.put(getColorString(ExplosionColor.RED), loadSprites(100, 100, 56, "/textures/explosions/red.png"));
         explosions.put(getColorString(ExplosionColor.YELLOW), loadSprites(100, 100, 56, "/textures/explosions/yellow.png"));
+
+        fonts = new HashMap<>();
+        fonts.put(getFontString(Fonts.SLKSCR_100), ContentLoader.loadFont("/fonts/slkscr.ttf", 100));
+
+        SpriteSheet sheet = new SpriteSheet(ContentLoader.loadImage("/textures/sheet.png"));
+        btn_start = new BufferedImage[2];
+        btn_start[0] = sheet.crop(32 * 6, 32 * 4, 32 * 2, 32);
+        btn_start[1] = sheet.crop(32 * 6, 32 * 5, 32 * 2, 32);
     }
 
     public static ArrayList<BufferedImage> getPlayerAssets() {
@@ -74,6 +89,10 @@ public class Assets {
 
     public static BufferedImage getBulletAssets(int i) {
         return bulletAssets.get(i);
+    }
+
+    public static Font getFont(Fonts font) {
+        return fonts.get(getFontString(font));
     }
 
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
@@ -120,6 +139,16 @@ public class Assets {
         }
 
         return colorStr;
+    }
+
+    private static String getFontString(Fonts font) {
+        String fontStr = "";
+
+        switch (font) {
+            case SLKSCR_100 -> fontStr =  "slkscr100";
+        }
+
+        return fontStr;
     }
 
 }

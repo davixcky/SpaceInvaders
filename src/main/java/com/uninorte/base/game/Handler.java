@@ -2,7 +2,8 @@ package com.uninorte.base.game;
 
 import com.uninorte.base.game.board.Board;
 import com.uninorte.base.game.highscore.HighScoreManager;
-import com.uninorte.base.input.KeyManager;
+import com.uninorte.base.game.input.KeyManager;
+import com.uninorte.base.game.input.MouseManager;
 
 import java.awt.*;
 
@@ -33,6 +34,10 @@ public class Handler {
 
     public KeyManager getKeyManager() {
         return game.getKeyManager();
+    }
+
+    public MouseManager getMouseManager() {
+        return game.getMouseManager();
     }
 
     public HighScoreManager getHighScoreManager() {

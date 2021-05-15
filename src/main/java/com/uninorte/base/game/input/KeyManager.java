@@ -1,4 +1,4 @@
-package com.uninorte.base.input;
+package com.uninorte.base.game.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

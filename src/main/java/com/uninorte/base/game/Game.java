@@ -1,12 +1,14 @@
 package com.uninorte.base.game;
 
 import com.uninorte.base.Filenames;
-import com.uninorte.base.game.States.GameState;
-import com.uninorte.base.game.States.State;
+import com.uninorte.base.game.input.MouseManager;
+import com.uninorte.base.game.states.GameOverState;
+import com.uninorte.base.game.states.GameState;
+import com.uninorte.base.game.states.State;
 import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.ContentLoader;
-import com.uninorte.base.input.KeyManager;
+import com.uninorte.base.game.input.KeyManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,10 +28,12 @@ public class Game implements Runnable {
     private Display display;
 
     private KeyManager keyManager;
+    private MouseManager mouseManager;
 
     private Handler handler;
 
     public State gameSate;
+    public State gameOverState;
 
     private Image background;
 
@@ -39,16 +43,22 @@ public class Game implements Runnable {
         this.windowSize = windowSize;
 
         keyManager = new KeyManager();
+        mouseManager = new MouseManager();
     }
 
     private void init() {
         display = new Display(title, windowSize);
         display.getFrame().addKeyListener(keyManager);
         display.getGameCanvas().addKeyListener(keyManager);
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getGameCanvas().addMouseListener(mouseManager);
+        display.getGameCanvas().addMouseMotionListener(mouseManager);
         Assets.init();
 
         handler = new Handler(this);
         gameSate = new GameState(handler);
+        gameOverState = new GameOverState(handler);
         State.setCurrentState(gameSate);
 
         background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[3])).getImage();
@@ -145,10 +155,12 @@ public class Game implements Runnable {
         return keyManager;
     }
 
+    public MouseManager getMouseManager() {
+        return mouseManager;
+    }
+
     public void stopGame() {
         // TODO: Implement when the stop it's called
-        running = false;
-        display.getFrame().dispose();
-        System.exit(1);
+        State.setCurrentState(new GameOverState(handler));
     }
 }

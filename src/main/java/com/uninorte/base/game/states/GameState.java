@@ -1,4 +1,4 @@
-package com.uninorte.base.game.States;
+package com.uninorte.base.game.states;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.board.Board;
@@ -23,5 +23,10 @@ public class GameState extends State {
     @Override
     public void render(Graphics g) {
         board.render(g);
+    }
+
+    public void reset() {
+        board = new Board(handler);
+        handler.setBoard(board);
     }
 }

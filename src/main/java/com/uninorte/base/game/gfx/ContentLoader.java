@@ -2,6 +2,7 @@ package com.uninorte.base.game.gfx;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -41,5 +42,16 @@ public class ContentLoader {
 
         return null;
     }
+
+    public static Font loadFont(String path, float size){
+        try {
+            return Font.createFont(Font.TRUETYPE_FONT, ContentLoader.loadAudio(path)).deriveFont(Font.PLAIN, size);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
+    }
+
 
 }
