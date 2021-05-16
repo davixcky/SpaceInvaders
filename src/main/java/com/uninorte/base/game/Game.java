@@ -4,6 +4,7 @@ import com.uninorte.base.Filenames;
 import com.uninorte.base.game.input.MouseManager;
 import com.uninorte.base.game.states.GameOverState;
 import com.uninorte.base.game.states.GameState;
+import com.uninorte.base.game.states.SettingsState;
 import com.uninorte.base.game.states.State;
 import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
@@ -34,6 +35,7 @@ public class Game implements Runnable {
 
     public State gameSate;
     public State gameOverState;
+    public State settingsState;
 
     private Image background;
 
@@ -54,12 +56,16 @@ public class Game implements Runnable {
         display.getFrame().addMouseMotionListener(mouseManager);
         display.getGameCanvas().addMouseListener(mouseManager);
         display.getGameCanvas().addMouseMotionListener(mouseManager);
+        display.getGameCanvas().addMouseWheelListener(mouseManager);
+        display.getFrame().addMouseWheelListener(mouseManager);
+
         Assets.init();
 
         handler = new Handler(this);
         gameSate = new GameState(handler);
         gameOverState = new GameOverState(handler);
-        State.setCurrentState(gameSate);
+        settingsState = new SettingsState(handler);
+        State.setCurrentState(settingsState);
 
         background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[3])).getImage();
     }

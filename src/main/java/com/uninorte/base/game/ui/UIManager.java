@@ -3,6 +3,7 @@ package com.uninorte.base.game.ui;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.uninorte.base.game.Handler;
 
@@ -26,19 +27,29 @@ public class UIManager {
 		for(UIObject o : objects)
 			o.render(g);
 	}
+
+	public void onMousePressed(MouseEvent e) {
+		for(UIObject o : objects)
+			o.onMousePressed(e);
+	}
 	
-	public void onMouseMove(MouseEvent e){
+	public void onMouseMoved(MouseEvent e){
 		for(UIObject o : objects)
 			o.onMouseMove(e);
 	}
 	
-	public void onMouseRelease(MouseEvent e){
+	public void onMouseReleased(MouseEvent e){
 		for(UIObject o : objects)
 			o.onMouseRelease(e);
 	}
+
+	public void onMouseDragged(MouseEvent e) {
+		for (UIObject o: objects)
+			o.onMouseDragged(e);
+	}
 	
-	public void addObject(UIObject o){
-		objects.add(o);
+	public void addObjects(UIObject ...objects){
+		this.objects.addAll(Arrays.asList(objects));
 	}
 	
 	public void removeObject(UIObject o){

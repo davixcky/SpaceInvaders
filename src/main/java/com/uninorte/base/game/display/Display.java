@@ -4,10 +4,7 @@ import com.uninorte.base.display.Window;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
+import java.awt.event.*;
 
 public class Display {
 
@@ -16,8 +13,6 @@ public class Display {
 
     private String title;
     private Dimension windowSize;
-
-
 
     public Display(String title, Dimension windowSize) {
         this.title = title;

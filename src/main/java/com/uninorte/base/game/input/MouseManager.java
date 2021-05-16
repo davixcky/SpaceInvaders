@@ -2,11 +2,11 @@ package com.uninorte.base.game.input;
 
 import com.uninorte.base.game.ui.UIManager;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
 
-public class MouseManager implements MouseListener, MouseMotionListener {
+public class MouseManager extends MouseAdapter {
 
     private boolean leftPressed, rightPressed;
     private int mouseX, mouseY;
@@ -41,6 +41,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
             leftPressed = true;
         else if(e.getButton() == MouseEvent.BUTTON3)
             rightPressed = true;
+
+        if(uiManager != null)
+            uiManager.onMousePressed(e);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
             rightPressed = false;
 
         if(uiManager != null)
-            uiManager.onMouseRelease(e);
+            uiManager.onMouseReleased(e);
     }
 
     @Override
@@ -60,12 +63,13 @@ public class MouseManager implements MouseListener, MouseMotionListener {
         mouseY = e.getY();
 
         if(uiManager != null)
-            uiManager.onMouseMove(e);
+            uiManager.onMouseMoved(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
+        if (uiManager != null)
+            uiManager.onMouseDragged(e);
     }
 
     @Override
@@ -81,6 +85,15 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if (e.getWheelRotation() < 0) {
+            System.out.println("mouse wheel Up");
+        } else {
+            System.out.println("mouse wheel Down");
+        }
     }
 
 }

@@ -13,6 +13,9 @@ public abstract class UIObject {
 	protected int width, height;
 	protected Rectangle bounds;
 	protected boolean hovering = false;
+
+	protected float distanceX, distanceY;
+	protected boolean movement = false;
 	
 	public UIObject(State parent, float x, float y, int width, int height){
 		this.x = x;
@@ -28,14 +31,38 @@ public abstract class UIObject {
 	public abstract void render(Graphics g);
 	
 	public abstract void onClick();
+
+	public abstract void onMouseChanged(MouseEvent e);
+
+	public abstract void onObjectDragged(MouseEvent e);
+
+	public void onMousePressed(MouseEvent e) {
+		hovering = bounds.contains(e.getX(), e.getY());
+
+		if (hovering) {
+			distanceX = e.getX() - bounds.x;
+			distanceY = e.getY() - bounds.y;
+			movement = true;
+		}
+	}
+
+	public void onMouseDragged(MouseEvent e) {
+		if (hovering && movement && State.getCurrentState() == parent)
+			onObjectDragged(e);
+	}
 	
 	public void onMouseMove(MouseEvent e){
 		hovering = bounds.contains(e.getX(), e.getY());
+		if (hovering)
+			onMouseChanged(e);
 	}
 	
 	public void onMouseRelease(MouseEvent e){
-		if (hovering && State.getCurrentState() == parent)
+		if (hovering && State.getCurrentState() == parent) {
+			distanceX = distanceY = 0;
+			movement = false;
 			onClick();
+		}
 	}
 	
 	public float getX() {

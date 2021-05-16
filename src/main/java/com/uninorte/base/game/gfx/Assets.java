@@ -32,7 +32,17 @@ public class Assets {
     }
 
     public enum Fonts {
-        SLKSCR_100
+        SLKSCR_100,
+        SLKSCR_10,
+    }
+
+    public enum FontsName {
+        SLKSCR
+    }
+
+    public enum UI_ELEMENTS {
+        BUTTONS,
+        SLIDER
     }
 
     private static ArrayList<BufferedImage> playerAssets;
@@ -40,9 +50,11 @@ public class Assets {
     private static ArrayList<BufferedImage> bulletAssets;
     private static HashMap<String, ArrayList<BufferedImage>> explosions;
 
+    private static HashMap<String, ArrayList<BufferedImage>> uiComponents;
+
     private static HashMap<String, Font> fonts;
 
-    public static BufferedImage[] btn_start;
+    public static ArrayList<BufferedImage> btn_start;
 
     public static void init() {
         playerAssets = loadSprites(60, 60, 3, "/textures/ships.png");
@@ -59,13 +71,25 @@ public class Assets {
         explosions.put(getColorString(ExplosionColor.RED), loadSprites(100, 100, 56, "/textures/explosions/red.png"));
         explosions.put(getColorString(ExplosionColor.YELLOW), loadSprites(100, 100, 56, "/textures/explosions/yellow.png"));
 
+        uiComponents = new HashMap<>();
+        uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS), loadSprites(105, 21, 4, "/ui/labels.png"));
+
+        SpriteSheet slidersSheet = new SpriteSheet(ContentLoader.loadImage("/ui/sheet-slider.png"));
+        ArrayList<BufferedImage> sliders = new ArrayList<>();
+        sliders.add(slidersSheet.crop(0, 0, 245, 18));
+        sliders.add(slidersSheet.crop(245, 0, 22, 17));
+        uiComponents.put(getUiString(UI_ELEMENTS.SLIDER), sliders);
+
+
         fonts = new HashMap<>();
         fonts.put(getFontString(Fonts.SLKSCR_100), ContentLoader.loadFont("/fonts/slkscr.ttf", 100));
+        fonts.put(getFontString(Fonts.SLKSCR_10), ContentLoader.loadFont("/fonts/slkscr.ttf", 10));
+
 
         SpriteSheet sheet = new SpriteSheet(ContentLoader.loadImage("/textures/sheet.png"));
-        btn_start = new BufferedImage[2];
-        btn_start[0] = sheet.crop(32 * 6, 32 * 4, 32 * 2, 32);
-        btn_start[1] = sheet.crop(32 * 6, 32 * 5, 32 * 2, 32);
+        btn_start = new ArrayList<>();
+        btn_start.add(sheet.crop(32 * 6, 32 * 4, 32 * 2, 32));
+        btn_start.add(sheet.crop(32 * 6, 32 * 5, 32 * 2, 32));
     }
 
     public static ArrayList<BufferedImage> getPlayerAssets() {
@@ -93,6 +117,14 @@ public class Assets {
 
     public static Font getFont(Fonts font) {
         return fonts.get(getFontString(font));
+    }
+
+    public static Font getFont(FontsName fontName, int size) {
+        return ContentLoader.loadFont(getFontName(fontName), size);
+    }
+
+    public static ArrayList<BufferedImage> getUiComponents(UI_ELEMENTS uiElement) {
+        return uiComponents.get(getUiString(uiElement));
     }
 
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
@@ -149,6 +181,27 @@ public class Assets {
         }
 
         return fontStr;
+    }
+
+    private static String getFontName(FontsName name) {
+        String fontStr = "";
+
+        switch (name) {
+            case SLKSCR -> fontStr =  "/fonts/slkscr.ttf";
+        }
+
+        return fontStr;
+    }
+
+    private static String getUiString(UI_ELEMENTS uiElement) {
+        String uiElementStr = "";
+
+        switch (uiElement) {
+            case BUTTONS -> uiElementStr =  "buttons";
+            case SLIDER -> uiElementStr = "slider";
+        }
+
+        return uiElementStr;
     }
 
 }
