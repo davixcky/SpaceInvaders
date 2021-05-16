@@ -23,6 +23,8 @@ public class UIButton extends UIObject {
 		super(parent, x, y, width, height);
 		this.images = images;
 		this.clicker = clicker;
+		isCustomSize = true;
+		size = new Dimension(width, height);
 	}
 
 	public UIButton(State parent, float x, float y, BufferedImage image, ClickListener clicker) {
@@ -92,8 +94,4 @@ public class UIButton extends UIObject {
 		bounds.width = size.width;
 		bounds.height = size.height;
 	}
-
-	private void drawText(Graphics g, String text) {
-	}
-
 }
