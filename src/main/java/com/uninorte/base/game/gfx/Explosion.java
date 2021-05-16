@@ -42,6 +42,10 @@ public class Explosion {
         return isRendering;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
     public boolean isAvailableRender() {
         return isAvailableRender;
     }

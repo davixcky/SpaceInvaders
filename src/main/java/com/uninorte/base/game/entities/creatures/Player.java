@@ -42,9 +42,9 @@ public class Player extends Creature {
 
     @Override
     public void render(Graphics g) {
-
         if (explosionController.isRendering()) {
-            g.drawImage(explosionController.getCurrentFrame(), (int) x - DEFAULT_CREATURE_WIDTH / 2, (int) y - DEFAULT_CREATURE_HEIGHT / 2, 80, 80, null);
+            if (explosionController.getIndex() % 2 ==  0)
+                g.drawImage(creatureAsset, (int) x, (int) y, entityDimensions.width, entityDimensions.height, null);
         } else {
             g.drawImage(creatureAsset, (int) x, (int) y, entityDimensions.width, entityDimensions.height, null);
         }
