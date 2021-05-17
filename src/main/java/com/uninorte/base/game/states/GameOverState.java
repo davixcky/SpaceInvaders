@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 public class GameOverState extends State {
 
+    private int index = 0;
+    private boolean increase = true;
+
     public GameOverState(Handler handler) {
         super(handler);
 
@@ -59,12 +62,20 @@ public class GameOverState extends State {
 
     @Override
     public void render(Graphics g) {
+        Color textColor = new Color(255, 0, 0, index);
+        index += increase ? 5 : -5;
+
+        if (index == 255)
+            increase = false;
+        else if (index == 0)
+            increase = true;
+
         Text.drawString(g, "GAME OVER",
                 handler.boardDimensions().width / 2,
                 handler.boardDimensions().height / 2,
                 true,
-                Color.white,
-                Assets.getFont(Assets.Fonts.SLKSCR_100));
+                textColor,
+                Assets.getFont(Assets.FontsName.SPACE_MISSION, 100));
 
         uiManager.render(g);
     }

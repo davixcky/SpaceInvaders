@@ -40,7 +40,7 @@ public class UISlider extends UIObject {
         assets = Assets.getUiComponents(Assets.UI_ELEMENTS.SLIDER);
         sliderAsset = assets.get(0);
         pointerAsset = assets.get(1);
-        customFont  = Assets.getFont(Assets.FontsName.SLKSCR, 13);
+        customFont  = Assets.getFont(Assets.FontsName.SPACE_MISSION, 13);
 
         this.mouseListener = mouseListener;
     }
@@ -67,7 +67,7 @@ public class UISlider extends UIObject {
         g.drawImage(pointerAsset, pointerCoordinates.x, pointerCoordinates.y, null);
 
         String numberAsString = Integer.toString((int) percent);
-        Text.drawString(g, numberAsString, originalCoordinates.x + 20, originalCoordinates.y + 9, true, Color.white, customFont);
+        Text.drawString(g, numberAsString, originalCoordinates.x + 23, originalCoordinates.y + 11, true, Color.white, customFont);
     }
 
     @Override

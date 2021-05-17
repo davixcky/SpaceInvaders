@@ -37,7 +37,9 @@ public class Assets {
     }
 
     public enum FontsName {
-        SLKSCR
+        SLKSCR,
+        SPACE_MISSION,
+        SPORT_TYPO
     }
 
     public enum UI_ELEMENTS {
@@ -77,7 +79,6 @@ public class Assets {
         sliders.add(slidersSheet.crop(0, 0, 245, 18));
         sliders.add(slidersSheet.crop(245, 0, 22, 17));
         uiComponents.put(getUiString(UI_ELEMENTS.SLIDER), sliders);
-
 
         fonts = new HashMap<>();
         fonts.put(getFontString(Fonts.SLKSCR_100), ContentLoader.loadFont("/fonts/slkscr.ttf", 100));
@@ -179,6 +180,8 @@ public class Assets {
 
         switch (name) {
             case SLKSCR -> fontStr =  "/fonts/slkscr.ttf";
+            case SPACE_MISSION -> fontStr = "/fonts/space-mission.otf";
+            case SPORT_TYPO -> fontStr = "/fonts/sport-typo.ttf";
         }
 
         return fontStr;

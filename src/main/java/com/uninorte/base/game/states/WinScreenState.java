@@ -64,7 +64,7 @@ public class WinScreenState extends State {
                 handler.boardDimensions().height / 2,
                 true,
                 Color.white,
-                Assets.getFont(Assets.Fonts.SLKSCR_100));
+                Assets.getFont(Assets.FontsName.SPORT_TYPO, 100));
 
         uiManager.render(g);
     }

@@ -18,7 +18,7 @@ public class Player extends Creature {
         creatureAssetsOptions = Assets.getPlayerAssets();
         creatureAsset = creatureAssetsOptions.get(0);
 
-        projectilesManager = new ProjectilesManager(800);
+        projectilesManager = new ProjectilesManager(10);
         explosionController = new Explosion(Assets.ExplosionColor.RED);
     }
 
