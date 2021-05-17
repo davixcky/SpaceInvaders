@@ -67,4 +67,8 @@ public class Display {
     public Canvas getGameCanvas() {
         return gameCanvas;
     }
+
+    public void close() {
+        frame.dispose();
+    }
 }

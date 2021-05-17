@@ -34,6 +34,9 @@ public class UIButton extends UIObject {
 		images.add(image);
 		images.add(image);
 
+		this.width = image.getWidth();
+		this.height = image.getHeight();
+
 		this.clicker = clicker;
 	}
 
@@ -46,7 +49,7 @@ public class UIButton extends UIObject {
 		BufferedImage currentImage = images.get(currentImageIndex);
 		String currentText = hovering ? hoverText : text;
 
-		Dimension currentDimension = isCustomSize ? size : new Dimension(currentImage.getWidth(), currentImage.getHeight());
+		Dimension currentDimension = new Dimension(width, height);
 
 		int textX = (int) (x + currentDimension.getWidth() / 2);
 		int textY = (int) (y + currentDimension.getHeight() / 2);
@@ -93,5 +96,8 @@ public class UIButton extends UIObject {
 
 		bounds.width = size.width;
 		bounds.height = size.height;
+
+		this.width = size.width;
+		this.height = size.height;
 	}
 }

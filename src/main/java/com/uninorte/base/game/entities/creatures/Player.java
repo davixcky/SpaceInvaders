@@ -59,7 +59,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
-        handler.getGame().stopGame();
+        handler.getGame().gameOver();
     }
 
     private void getInput() {

@@ -65,7 +65,7 @@ public class Game implements Runnable {
         gameSate = new GameState(handler);
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
-        State.setCurrentState(settingsState);
+        State.setCurrentState(gameOverState);
 
         background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[3])).getImage();
     }
@@ -165,8 +165,13 @@ public class Game implements Runnable {
         return mouseManager;
     }
 
-    public void stopGame() {
-        // TODO: Implement when the stop it's called
+    public void gameOver() {
         State.setCurrentState(gameOverState);
+    }
+
+    public void close() {
+        display.close();
+        gameOver();
+        System.exit(1);
     }
 }
