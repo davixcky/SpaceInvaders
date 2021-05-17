@@ -54,6 +54,10 @@ public class ProjectilesManager {
         }
     }
 
+    public boolean activeProjectiles() {
+        return projectiles.size() > 0;
+    }
+
     public interface ProjectileHandler {
         boolean isValidToAdd();
     }

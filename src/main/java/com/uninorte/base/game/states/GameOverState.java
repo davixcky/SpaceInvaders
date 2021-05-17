@@ -54,6 +54,7 @@ public class GameOverState extends State {
 
     @Override
     public void update() {
+        handler.getGame().changeTitle("Game Over");
         uiManager.update();
     }
 

@@ -2,10 +2,7 @@ package com.uninorte.base.game;
 
 import com.uninorte.base.Filenames;
 import com.uninorte.base.game.input.MouseManager;
-import com.uninorte.base.game.states.GameOverState;
-import com.uninorte.base.game.states.GameState;
-import com.uninorte.base.game.states.SettingsState;
-import com.uninorte.base.game.states.State;
+import com.uninorte.base.game.states.*;
 import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.ContentLoader;
@@ -36,6 +33,7 @@ public class Game implements Runnable {
     public State gameSate;
     public State gameOverState;
     public State settingsState;
+    public State winScreenState;
 
     private Image background;
 
@@ -65,6 +63,7 @@ public class Game implements Runnable {
         gameSate = new GameState(handler);
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
+        winScreenState = new WinScreenState(handler);
         State.setCurrentState(gameOverState);
 
         background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[3])).getImage();
@@ -163,6 +162,10 @@ public class Game implements Runnable {
 
     public MouseManager getMouseManager() {
         return mouseManager;
+    }
+
+    public void changeTitle(String title) {
+        display.getFrame().setTitle("Space Invaders - " + title);
     }
 
     public void gameOver() {

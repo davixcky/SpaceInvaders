@@ -5,6 +5,7 @@ import com.uninorte.base.game.entities.EntityManager;
 import com.uninorte.base.game.entities.creatures.AliensManager;
 import com.uninorte.base.game.entities.creatures.Player;
 import com.uninorte.base.game.highscore.HighScoreManager;
+import com.uninorte.base.game.states.State;
 
 import java.awt.*;
 
@@ -39,6 +40,10 @@ public class Board {
 
     public void update() {
         entityManager.update();
+    }
+
+    public void playerWin() {
+        State.setCurrentState(handler.getGame().winScreenState);
     }
 
     public void render(Graphics g) {

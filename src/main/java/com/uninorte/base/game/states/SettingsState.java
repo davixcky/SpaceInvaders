@@ -25,6 +25,7 @@ public class SettingsState extends State {
 
     @Override
     public void update() {
+        handler.getGame().changeTitle("Settings");
         uiManager.update();
     }
 
