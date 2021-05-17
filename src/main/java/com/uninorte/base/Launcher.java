@@ -7,11 +7,8 @@ import java.awt.Dimension;
 
 public class Launcher {
     public static void main(String[] args) {
-//        Window mainWindow = new Window("Testing console", new Dimension(800, 600));
-//
         System.setProperty("sun.java2d.opengl", "True");
-        Game game = new Game("Testing", new Dimension(1080, 720));
-        game.start();
+        new Window("Testing console", new Dimension(1080, 720));
 
     }
 

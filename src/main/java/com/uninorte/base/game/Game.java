@@ -7,6 +7,7 @@ import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.ContentLoader;
 import com.uninorte.base.game.input.KeyManager;
+import com.uninorte.base.display.Window;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,8 +38,10 @@ public class Game implements Runnable {
 
     private Image background;
 
+    public Window windowParent;
 
-    public Game(String title, Dimension windowSize) {
+    public Game(Window window, String title, Dimension windowSize) {
+        this.windowParent = window;
         this.title = title;
         this.windowSize = windowSize;
 
@@ -126,7 +129,6 @@ public class Game implements Runnable {
             }
         }
 
-        stop();
     }
 
     public synchronized void start() {
@@ -139,9 +141,9 @@ public class Game implements Runnable {
         gameThread.start();
     }
 
-    public synchronized void stop() {
+    public synchronized void stop(){
         // Exit if the game is not running
-        if (!running)
+        if(!running)
             return;
 
         running = false;
@@ -176,5 +178,11 @@ public class Game implements Runnable {
         display.close();
         gameOver();
         System.exit(1);
+    }
+
+    public void stopGame() {
+        windowParent.restartFrame();
+        display.close();
+        stop();
     }
 }

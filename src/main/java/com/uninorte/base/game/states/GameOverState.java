@@ -36,17 +36,14 @@ public class GameOverState extends State {
         newGameBtn.setHover(btnHoverImager, "NEW GAME");
         newGameBtn.setSize(new Dimension(105, 40));
 
-        UIButton menuBtn = new UIButton(this, x, newGameBtn.getY() + newGameBtn.getHeight() + 10, btnImage, () -> handler.getGame().close());
+        UIButton menuBtn = new UIButton(this, x, newGameBtn.getY() + newGameBtn.getHeight() + 10, btnImage, () -> handler.getGame().stopGame());
         menuBtn.setText("MENU");
         menuBtn.setHover(btnHoverImager, "MENU");
 
-        UIButton settingsBtn = new UIButton(this, x, menuBtn.getY() + menuBtn.getHeight() + 10, btnImage, () -> {
-            State.setCurrentState(handler.getGame().settingsState);
-        });
+        UIButton settingsBtn = new UIButton(this, x, menuBtn.getY() + menuBtn.getHeight() + 10, btnImage, () -> State.setCurrentState(handler.getGame().settingsState));
         settingsBtn.setText("SETTINGS");
         settingsBtn.setHover(btnHoverImager, "SETTINGS");
 
-        // TODO: Should redirect to menu
         UIButton exitBtn = new UIButton(this, x, settingsBtn.getY() + settingsBtn.getHeight() + 10, btnImage, () -> handler.getGame().close());
         exitBtn.setText("EXIT");
         exitBtn.setHover(btnHoverImager, "EXIT");

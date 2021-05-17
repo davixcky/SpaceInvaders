@@ -107,6 +107,10 @@ public class Principal {
                 exception.printStackTrace();
             }
         });
+        singleplayerBtn.addActionListener(e -> {
+            window.game.start();
+            window.stopFrame();
+        });
     }
 
     public void setToCurrentView() {

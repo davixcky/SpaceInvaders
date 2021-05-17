@@ -1,6 +1,7 @@
 package com.uninorte.base.display;
 
 import com.uninorte.base.Filenames;
+import com.uninorte.base.game.Game;
 import com.uninorte.base.game.gfx.ContentLoader;
 import com.uninorte.base.sound.Sound;
 import com.uninorte.base.views.Principal;
@@ -25,6 +26,8 @@ public class Window {
     public static Principal principal;
     public static Settings settings;
 
+    public Game game;
+
     private Sound soundController;
 
     public Window(String title, Dimension startDimensions) {
@@ -39,6 +42,8 @@ public class Window {
         principal = new Principal(this, soundController);
         settings = new Settings(this, soundController);
 
+        game = new Game(this, title, startDimensions);
+
         playSound(Sound.BACKGROUND);
         principal.setToCurrentView();
     }
@@ -47,7 +52,7 @@ public class Window {
         frame = new JFrame(title);
         frame.setSize(startDimensions);
         frame.setMinimumSize(startDimensions);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         frame.setFocusable(true);
@@ -91,6 +96,14 @@ public class Window {
     public void close() {
         frame.dispose();
         System.exit(0);
+    }
+
+    public void stopFrame() {
+        frame.dispose();
+    }
+
+    public void restartFrame() {
+        frame.setVisible(true);
     }
 
     public void setTitle(String newTitle) {
