@@ -33,7 +33,7 @@ public class GameOverState extends State {
             State.setCurrentState(handler.getGame().gameSate);
         });
         newGameBtn.setText("NEW GAME");
-        newGameBtn.setHover(btnHoverImager, "NEW GAME");
+        newGameBtn.setHover(btnHoverImager, "START GAME");
         newGameBtn.setSize(new Dimension(105, 40));
 
         UIButton menuBtn = new UIButton(this, x, newGameBtn.getY() + newGameBtn.getHeight() + 10, btnImage, () -> handler.getGame().stopGame());

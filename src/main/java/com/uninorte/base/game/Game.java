@@ -41,6 +41,8 @@ public class Game implements Runnable {
     public State gameOverState;
     public State settingsState;
     public State winScreenState;
+    public State singleplayerState;
+    public State multiplayerState;
 
     private Image background;
 
@@ -73,7 +75,9 @@ public class Game implements Runnable {
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
         winScreenState = new WinScreenState(handler);
-        State.setCurrentState(gameSate);
+        singleplayerState = new SingleplayerState(handler);
+        multiplayerState = new MultiplayerState(handler);
+        State.setCurrentState(gameMode == GameMode.SINGLEPLAYER ? singleplayerState : multiplayerState);
     }
 
     private void update() {
