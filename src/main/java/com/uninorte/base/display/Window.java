@@ -52,7 +52,7 @@ public class Window {
         frame = new JFrame(title);
         frame.setSize(startDimensions);
         frame.setMinimumSize(startDimensions);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         frame.setFocusable(true);
@@ -61,6 +61,23 @@ public class Window {
         backgroundImage = new JLabel();
         setBackgroundImage(Filenames.BACKGROUND_IMAGES[0]);
         backgroundPanel.add(backgroundImage);
+
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                int option = JOptionPane.showConfirmDialog(frame,
+                        "Quiere salir del juego?", "Salir del juego?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (option== JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                } else {
+                    frame.setVisible(true);
+                }
+            }
+        });
 
         createScenes();
     }

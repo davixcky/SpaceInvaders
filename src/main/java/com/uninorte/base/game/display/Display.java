@@ -1,7 +1,5 @@
 package com.uninorte.base.game.display;
 
-import com.uninorte.base.display.Window;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -29,10 +27,26 @@ public class Display {
     private void createFrame() {
         frame = new JFrame(title);
         frame.setSize(windowSize);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                int option = JOptionPane.showConfirmDialog(frame,
+                        "Quiere salir del juego?", "Salir del juego?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (option== JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                } else {
+                    frame.setVisible(true);
+                }
+            }
+        });
     }
 
     private void createCanvas() {
