@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class GameOverState extends State {
 
-
     public GameOverState(Handler handler) {
         super(handler);
 
@@ -26,15 +25,15 @@ public class GameOverState extends State {
         BufferedImage btnImage = buttonsAssets.get(0);
         BufferedImage btnHoverImager = buttonsAssets.get(3);
 
-        UIButton restartBtn = new UIButton(this, x, y, btnImage, () -> {
+        UIButton newGameBtn = new UIButton(this, x, y, btnImage, () -> {
             ((GameState) handler.getGame().gameSate).reset();
             State.setCurrentState(handler.getGame().gameSate);
         });
-        restartBtn.setText("RESTART");
-        restartBtn.setHover(btnHoverImager, "RESTART");
-        restartBtn.setSize(new Dimension(105, 40));
+        newGameBtn.setText("NEW GAME");
+        newGameBtn.setHover(btnHoverImager, "NEW GAME");
+        newGameBtn.setSize(new Dimension(105, 40));
 
-        UIButton menuBtn = new UIButton(this, x, restartBtn.getY() + restartBtn.getHeight() + 10, btnImage, () -> handler.getGame().close());
+        UIButton menuBtn = new UIButton(this, x, newGameBtn.getY() + newGameBtn.getHeight() + 10, btnImage, () -> handler.getGame().close());
         menuBtn.setText("MENU");
         menuBtn.setHover(btnHoverImager, "MENU");
 
@@ -49,7 +48,7 @@ public class GameOverState extends State {
         exitBtn.setText("EXIT");
         exitBtn.setHover(btnHoverImager, "EXIT");
 
-        uiManager.addObjects(restartBtn, menuBtn, settingsBtn, exitBtn);
+        uiManager.addObjects(newGameBtn, menuBtn, settingsBtn, exitBtn);
     }
 
     @Override
