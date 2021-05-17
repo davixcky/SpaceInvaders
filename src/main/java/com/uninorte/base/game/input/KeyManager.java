@@ -20,6 +20,9 @@ public class KeyManager implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getKeyCode() >= 256 || e.getKeyCode() < 0)
+            return;
+
         ArrayList<KeyListener> listeners = keyListeners.get(Integer.toString(e.getKeyCode()));
         if (listeners != null) {
             for (KeyListener l : listeners) {
