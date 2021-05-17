@@ -3,6 +3,7 @@ package com.uninorte.base.game.states;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Text;
+import com.uninorte.base.game.modes.multiplayer.Multiplayer;
 import com.uninorte.base.game.ui.UIButton;
 
 import java.awt.*;
@@ -11,8 +12,12 @@ import java.util.ArrayList;
 
 public class MultiplayerState extends State {
 
+    private Multiplayer multiplayer;
+
     public MultiplayerState(Handler handler) {
         super(handler);
+
+        multiplayer = new Multiplayer();
 
         initComponents();
     }
@@ -26,8 +31,7 @@ public class MultiplayerState extends State {
         BufferedImage btnHoverImager = buttonsAssets.get(3);
 
         UIButton signIn = new UIButton(this, x, y, btnImage, () -> {
-            ((GameState) handler.getGame().gameSate).reset();
-            State.setCurrentState(handler.getGame().gameSate);
+            multiplayer.start();
         });
         signIn.setText("SIGN IN");
         signIn.setHover(btnHoverImager, "SIGN IN");
