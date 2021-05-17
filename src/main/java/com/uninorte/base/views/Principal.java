@@ -108,6 +108,12 @@ public class Principal {
             }
         });
         singleplayerBtn.addActionListener(e -> {
+            window.game.changeGameMode(Game.GameMode.SINGLEPLAYER);
+            window.game.start();
+            window.stopFrame();
+        });
+        multiplayerBtn.addActionListener(e -> {
+            window.game.changeGameMode(Game.GameMode.MULTIPLAYER);
             window.game.start();
             window.stopFrame();
         });

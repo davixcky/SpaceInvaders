@@ -36,13 +36,13 @@ public class Window {
         this.scenesPane = new JLayeredPane();
         this.soundController = new Sound(true);
 
+        game = new Game(this, title, startDimensions);
+
         init();
         setSongs();
 
         principal = new Principal(this, soundController);
         settings = new Settings(this, soundController);
-
-        game = new Game(this, title, startDimensions);
 
         playSound(Sound.BACKGROUND);
         principal.setToCurrentView();
@@ -79,8 +79,25 @@ public class Window {
         soundController.add(Sound.ALIEN, "/sounds/gameovermario.wav");
     }
 
+    public void playSong(String alias) {
+        try {
+            soundController.play(alias);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeVolume(String alias, float volume) {
+        try {
+            soundController.setVolume(alias, volume);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setBackgroundImage(String path) {
         backgroundImage.setIcon(ContentLoader.loadImageGif(path));
+        game.changeBackground(path);
     }
 
     public void changeScreenTo(Component c) {

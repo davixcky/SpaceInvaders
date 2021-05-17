@@ -15,8 +15,14 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
+    public enum GameMode {
+        SINGLEPLAYER,
+        MULTIPLAYER
+    }
+
     private String title;
     private Dimension windowSize;
+    private GameMode gameMode;
 
     private boolean running = false;
     private Thread gameThread;
@@ -67,9 +73,7 @@ public class Game implements Runnable {
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
         winScreenState = new WinScreenState(handler);
-        State.setCurrentState(gameOverState);
-
-        background = new ImageIcon(ContentLoader.loadImage(Filenames.BACKGROUND_IMAGES[3])).getImage();
+        State.setCurrentState(gameSate);
     }
 
     private void update() {
@@ -131,6 +135,10 @@ public class Game implements Runnable {
 
     }
 
+    public void changeGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
+    }
+
     public synchronized void start() {
         // Exit if the game is already running
         if (running)
@@ -184,5 +192,9 @@ public class Game implements Runnable {
         windowParent.restartFrame();
         display.close();
         stop();
+    }
+
+    public void changeBackground(String path) {
+        background = new ImageIcon(ContentLoader.loadImage(path)).getImage();
     }
 }
