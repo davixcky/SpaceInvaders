@@ -54,8 +54,6 @@ public class Assets {
 
     private static HashMap<String, Font> fonts;
 
-    public static ArrayList<BufferedImage> btn_start;
-
     public static void init() {
         playerAssets = loadSprites(60, 60, 3, "/textures/ships.png");
         aliensAssets = loadSprites(40, 40, 24, "/textures/aliens.png");
@@ -84,12 +82,6 @@ public class Assets {
         fonts = new HashMap<>();
         fonts.put(getFontString(Fonts.SLKSCR_100), ContentLoader.loadFont("/fonts/slkscr.ttf", 100));
         fonts.put(getFontString(Fonts.SLKSCR_10), ContentLoader.loadFont("/fonts/slkscr.ttf", 10));
-
-
-        SpriteSheet sheet = new SpriteSheet(ContentLoader.loadImage("/textures/sheet.png"));
-        btn_start = new ArrayList<>();
-        btn_start.add(sheet.crop(32 * 6, 32 * 4, 32 * 2, 32));
-        btn_start.add(sheet.crop(32 * 6, 32 * 5, 32 * 2, 32));
     }
 
     public static ArrayList<BufferedImage> getPlayerAssets() {
@@ -127,15 +119,14 @@ public class Assets {
         return uiComponents.get(getUiString(uiElement));
     }
 
-    public static BufferedImage rotate(BufferedImage bimg, double angle) {
+    public static BufferedImage rotate(BufferedImage image, double angle) {
+        int w = image.getWidth();
+        int h = image.getHeight();
 
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
+        BufferedImage rotated = new BufferedImage(w, h, image.getType());
         Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
+        graphic.rotate(Math.toRadians(angle), w >> 1, h >> 1);
+        graphic.drawImage(image, null, 0, 0);
         graphic.dispose();
         return rotated;
     }
