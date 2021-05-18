@@ -18,11 +18,9 @@ public class MultiplayerState extends State {
         super(handler);
 
         multiplayer = new Multiplayer();
-
-        initComponents();
     }
 
-    private void initComponents() {
+    protected void initComponents() {
         int x = (int) (handler.boardDimensions().width * 0.5f - 128 / 2);
         int y = handler.boardDimensions().height / 2 + 101;
 
@@ -64,5 +62,12 @@ public class MultiplayerState extends State {
                 Assets.getFont(Assets.FontsName.SPORT_TYPO, 80));
 
         uiManager.render(g);
+    }
+
+    @Override
+    protected void stop() {
+        super.stop();
+
+        multiplayer.engine.load(null);
     }
 }

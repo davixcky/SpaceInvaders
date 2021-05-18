@@ -9,11 +9,9 @@ public class SettingsState extends State {
 
     public SettingsState(Handler handler) {
         super(handler);
-
-        initComponents();
     }
 
-    private void initComponents() {
+    protected void initComponents() {
         int x = (int) (handler.boardDimensions().width * 0.5f - 128 / 2);
         int y = (int) (handler.boardDimensions().height / 2 + 101);
 

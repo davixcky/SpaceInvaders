@@ -13,11 +13,9 @@ public class WinScreenState extends State {
 
     public WinScreenState(Handler handler) {
         super(handler);
-
-        initComponents();
     }
 
-    private void initComponents() {
+    protected void initComponents() {
         int x = (int) (handler.boardDimensions().width * 0.5f - 128 / 2);
         int y = handler.boardDimensions().height / 2 + 101;
 

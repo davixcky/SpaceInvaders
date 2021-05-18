@@ -20,8 +20,12 @@ public abstract class State {
     }
 
     public static void setCurrentState(State state) {
+        if (currentState != null)
+            state.stop();
+
         currentState = state;
         state.setUiManager();
+        state.start();
     }
 
     protected void setUiManager() {
@@ -32,6 +36,16 @@ public abstract class State {
         return currentState;
     }
 
+    protected void start() {
+        initComponents();
+    }
+
+    protected void stop() {
+        if (currentState != null)
+            System.out.println("Stopping " + currentState);
+    }
+
+    protected abstract void initComponents();
     public abstract void update();
     public abstract void render(Graphics g);
 }

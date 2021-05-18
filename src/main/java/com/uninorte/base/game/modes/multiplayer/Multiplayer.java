@@ -30,6 +30,7 @@ public class Multiplayer  {
     private JButton swingButton;
     private JPanel panel;
     private JSBridge[] jsBridges;
+    public WebEngine engine;
 
     public Multiplayer() {
 
@@ -89,7 +90,7 @@ public class Multiplayer  {
 
     private WebView buildWebView(final String url, int index) {
         WebView webView = new WebView();
-        WebEngine engine = webView.getEngine();
+        engine = webView.getEngine();
 
         // Add JSBridge as 'window.enigma' in JavaScript
         JSObject jsobj = (JSObject) engine.executeScript("window");
@@ -131,8 +132,6 @@ public class Multiplayer  {
                 // Populate sites map, TreeMap is sorted
                 Map<String, String> sites = new TreeMap<String, String>() {{
                     put("A Question!", "https://norte-invaders.github.io/MenuSonido/");
-                    put("The Scala programming language", "http://www.scala-lang.org");
-                    put("DuckDuckGo", "https://duckduckgo.com/");
                 }};
 
 

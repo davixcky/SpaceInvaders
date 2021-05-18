@@ -16,6 +16,11 @@ public class GameState extends State {
     }
 
     @Override
+    protected void initComponents() {
+
+    }
+
+    @Override
     public void update() {
         handler.getGame().changeTitle("Game");
         board.update();
