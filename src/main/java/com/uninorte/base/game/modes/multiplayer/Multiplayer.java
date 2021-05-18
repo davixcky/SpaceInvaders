@@ -20,8 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.CookieHandler;
-import java.net.CookieManager;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -37,11 +35,14 @@ public class Multiplayer  {
 
         panel = new JPanel();
         jsBridges = new JSBridge[3];
-        initComponents();
     }
 
     public void start() {
         final JFrame frame = new JFrame();
+
+        // TODO: Close the browser when the state change
+
+        initComponents();
 
         frame.getContentPane().add(panel);
 
