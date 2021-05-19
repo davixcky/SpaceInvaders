@@ -1,13 +1,11 @@
 package com.uninorte.base.game;
 
-import com.uninorte.base.Filenames;
 import com.uninorte.base.game.input.MouseManager;
 import com.uninorte.base.game.states.*;
 import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.ContentLoader;
 import com.uninorte.base.game.input.KeyManager;
-import com.uninorte.base.display.Window;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,14 +13,8 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
-    public enum GameMode {
-        SINGLEPLAYER,
-        MULTIPLAYER
-    }
-
     private String title;
     private Dimension windowSize;
-    private GameMode gameMode;
 
     private boolean running = false;
     private Thread gameThread;
@@ -47,10 +39,7 @@ public class Game implements Runnable {
 
     private Image background;
 
-    public Window windowParent;
-
-    public Game(Window window, String title, Dimension windowSize) {
-        this.windowParent = window;
+    public Game(String title, Dimension windowSize) {
         this.title = title;
         this.windowSize = windowSize;
 
@@ -141,10 +130,6 @@ public class Game implements Runnable {
 
     }
 
-    public void changeGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
-    }
-
     public synchronized void start() {
         // Exit if the game is already running
         if (running)
@@ -195,7 +180,6 @@ public class Game implements Runnable {
     }
 
     public void stopGame() {
-        windowParent.restartFrame();
         display.close();
         stop();
     }
