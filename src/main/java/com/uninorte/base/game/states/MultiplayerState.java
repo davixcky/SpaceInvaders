@@ -63,7 +63,5 @@ public class MultiplayerState extends State {
     @Override
     protected void stop() {
         super.stop();
-
-        multiplayer.engine.load(null);
     }
 }

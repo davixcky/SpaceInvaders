@@ -128,7 +128,6 @@ public class Multiplayer  {
                 stage.setResizable(true);
 
                 BorderPane root = new BorderPane();
-
                 // Populate sites map, TreeMap is sorted
                 Map<String, String> sites = new TreeMap<String, String>() {{
                     put("A Question!", "https://norte-invaders.github.io/MenuSonido/");
