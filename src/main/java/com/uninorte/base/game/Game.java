@@ -37,6 +37,7 @@ public class Game implements Runnable {
 
     private Handler handler;
 
+    public State mainState;
     public State gameSate;
     public State gameOverState;
     public State settingsState;
@@ -71,13 +72,14 @@ public class Game implements Runnable {
         Assets.init();
 
         handler = new Handler(this);
+        mainState = new MainState(handler);
         gameSate = new GameState(handler);
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
         winScreenState = new WinScreenState(handler);
         singleplayerState = new SingleplayerState(handler);
         multiplayerState = new MultiplayerState(handler);
-        State.setCurrentState(gameMode == GameMode.SINGLEPLAYER ? singleplayerState : multiplayerState);
+        State.setCurrentState(mainState);
     }
 
     private void update() {

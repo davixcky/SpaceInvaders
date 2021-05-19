@@ -19,6 +19,10 @@ public class UIButton extends UIObject {
 	private boolean isCustomSize = false;
 	private Dimension size;
 
+	private static ArrayList<BufferedImage> buttonsAssets = Assets.getUiComponents(Assets.UI_ELEMENTS.BUTTONS);
+	public  static BufferedImage btnImage = buttonsAssets.get(0);
+	public static BufferedImage btnHoverImager = buttonsAssets.get(3);
+
 	public UIButton(State parent, float x, float y, int width, int height, ArrayList<BufferedImage> images, ClickListener clicker) {
 		super(parent, x, y, width, height);
 		this.images = images;
@@ -99,5 +103,9 @@ public class UIButton extends UIObject {
 
 		this.width = size.width;
 		this.height = size.height;
+	}
+
+	public static float getHeightRelative(UIButton uiButton) {
+		return uiButton.getY() + uiButton.getHeight() + 10;
 	}
 }

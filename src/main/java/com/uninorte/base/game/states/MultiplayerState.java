@@ -4,6 +4,7 @@ import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Text;
 import com.uninorte.base.game.modes.multiplayer.Multiplayer;
+import com.uninorte.base.game.ui.StaticElements;
 import com.uninorte.base.game.ui.UIButton;
 
 import java.awt.*;
@@ -35,13 +36,8 @@ public class MultiplayerState extends State {
         signIn.setHover(btnHoverImager, "SIGN IN");
         signIn.setSize(new Dimension(105, 40));
 
-        UIButton menuBtn = new UIButton(this, x, signIn.getY() + signIn.getHeight() + 10, btnImage, () -> handler.getGame().stopGame());
-        menuBtn.setText("MENU");
-        menuBtn.setHover(btnHoverImager, "MENU");
-
-        UIButton exitBtn = new UIButton(this, x, menuBtn.getY() + menuBtn.getHeight() + 10, btnImage, () -> handler.getGame().close());
-        exitBtn.setText("EXIT");
-        exitBtn.setHover(btnHoverImager, "EXIT");
+        UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(signIn));
+        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
 
         uiManager.addObjects(signIn, menuBtn, exitBtn);
     }
