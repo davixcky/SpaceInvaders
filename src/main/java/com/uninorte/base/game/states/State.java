@@ -30,6 +30,11 @@ public abstract class State {
 
     protected void setUiManager() {
         handler.getGame().getMouseManager().setUIManager(uiManager);
+        handler.getGame().getKeyManager().setUIManager(uiManager);
+    }
+
+    public UIManager getUiManager() {
+        return uiManager;
     }
 
     public static State getCurrentState() {

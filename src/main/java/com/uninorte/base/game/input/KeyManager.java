@@ -1,5 +1,7 @@
 package com.uninorte.base.game.input;
 
+import com.uninorte.base.game.ui.UIManager;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -9,13 +11,18 @@ public class KeyManager implements KeyListener {
 
     private HashMap<String, ArrayList<KeyListener>> keyListeners;
     private boolean keys[];
+    private UIManager uiManager;
 
     public KeyManager() {
         keyListeners = new HashMap<>();
         keys = new boolean[256];
     }
 
-    public void tick() {
+    public void setUIManager(UIManager uiManager) {
+        this.uiManager = uiManager;
+    }
+
+    public void update() {
     }
 
     @Override
@@ -33,6 +40,9 @@ public class KeyManager implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() >= 256 || e.getKeyCode() < 0)
+            return;
+
         ArrayList<KeyListener> listeners = keyListeners.get(Integer.toString(e.getKeyCode()));
         if (listeners != null) {
             for (KeyListener l : listeners) {
@@ -41,10 +51,15 @@ public class KeyManager implements KeyListener {
         }
 
         keys[e.getKeyCode()] = true;
+        if (uiManager != null)
+            uiManager.onKeyPressed(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() >= 256 || e.getKeyCode() < 0)
+            return;
+
         ArrayList<KeyListener> listeners = keyListeners.get(Integer.toString(e.getKeyCode()));
         if (listeners != null) {
             for (KeyListener l : listeners) {
@@ -72,7 +87,9 @@ public class KeyManager implements KeyListener {
 
     public interface KeyListener {
         void pressed();
+
         void typed();
+
         void released();
     }
 }

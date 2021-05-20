@@ -4,6 +4,7 @@ import com.uninorte.base.game.states.State;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public abstract class UIObject {
@@ -16,7 +17,7 @@ public abstract class UIObject {
 
 	protected float distanceX, distanceY;
 	protected boolean movement = false;
-	
+
 	public UIObject(State parent, float x, float y, int width, int height){
 		this.x = x;
 		this.y = y;
@@ -36,6 +37,8 @@ public abstract class UIObject {
 
 	public abstract void onObjectDragged(MouseEvent e);
 
+	public abstract void onObjectKeyPressed(KeyEvent e);
+
 	public void onMousePressed(MouseEvent e) {
 		hovering = bounds.contains(e.getX(), e.getY());
 
@@ -43,6 +46,8 @@ public abstract class UIObject {
 			distanceX = e.getX() - bounds.x;
 			distanceY = e.getY() - bounds.y;
 			movement = true;
+
+			parent.getUiManager().setFocusedElement(this);
 		}
 	}
 
@@ -63,6 +68,11 @@ public abstract class UIObject {
 			movement = false;
 			onClick();
 		}
+	}
+
+	public void onKeyPressed(KeyEvent e) {
+		if (parent.getUiManager().getFocusedElement() == this)
+			onObjectKeyPressed(e);
 	}
 	
 	public float getX() {

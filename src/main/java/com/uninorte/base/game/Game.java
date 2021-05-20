@@ -73,7 +73,7 @@ public class Game implements Runnable {
 
     private void update() {
         // Set mouse and key listeners
-        keyManager.tick();
+        keyManager.update();
 
         if (State.getCurrentState() != null)
             State.getCurrentState().update();

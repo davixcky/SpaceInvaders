@@ -5,6 +5,7 @@ import com.uninorte.base.game.gfx.Text;
 import com.uninorte.base.game.states.State;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -95,5 +96,10 @@ public class UISlider extends UIObject {
         percent = (customX - originalPointerCoordinates.x) * 100 / 173;
         pointerCoordinates.x = (int) customX;
         mouseListener.onMouseChanged(percent);
+    }
+
+    @Override
+    public void onObjectKeyPressed(KeyEvent e) {
+
     }
 }

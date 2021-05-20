@@ -1,18 +1,20 @@
 package com.uninorte.base.game.ui;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.uninorte.base.game.Handler;
 
-
 public class UIManager {
 
 	private Handler handler;
 	private ArrayList<UIObject> objects;
-	
+
+	private UIObject focusedElement = null;
+
 	public UIManager(Handler handler){
 		this.handler = handler;
 		objects = new ArrayList<UIObject>();
@@ -47,6 +49,11 @@ public class UIManager {
 		for (UIObject o: objects)
 			o.onMouseDragged(e);
 	}
+
+	public void onKeyPressed(KeyEvent e) {
+		for (UIObject o: objects)
+			o.onKeyPressed(e);
+	}
 	
 	public void addObjects(UIObject ...objects){
 		this.objects.addAll(Arrays.asList(objects));
@@ -71,5 +78,12 @@ public class UIManager {
 	public void setObjects(ArrayList<UIObject> objects) {
 		this.objects = objects;
 	}
-	
+
+	public UIObject getFocusedElement() {
+		return focusedElement;
+	}
+
+	public void setFocusedElement(UIObject focusedElement) {
+		this.focusedElement = focusedElement;
+	}
 }
