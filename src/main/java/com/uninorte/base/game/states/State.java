@@ -21,7 +21,7 @@ public abstract class State {
 
     public static void setCurrentState(State state) {
         if (currentState != null)
-            state.stop();
+            currentState.stop();
 
         currentState = state;
         state.setUiManager();

@@ -51,7 +51,7 @@ public class UIManager {
 	public void addObjects(UIObject ...objects){
 		this.objects.addAll(Arrays.asList(objects));
 	}
-	
+
 	public void removeObject(UIObject o){
 		objects.remove(o);
 	}
