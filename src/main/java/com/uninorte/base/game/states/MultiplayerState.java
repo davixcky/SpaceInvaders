@@ -1,11 +1,12 @@
 package com.uninorte.base.game.states;
 
+import com.uninorte.base.api.models.User;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Text;
-import com.uninorte.base.game.modes.multiplayer.Multiplayer;
 import com.uninorte.base.game.ui.StaticElements;
 import com.uninorte.base.game.ui.UIButton;
+import com.uninorte.base.settings.Settings;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,12 +14,15 @@ import java.util.ArrayList;
 
 public class MultiplayerState extends State {
 
-    private Multiplayer multiplayer;
+    private UIButton authBtn;
+
+    private User currentUser;
+
+    private int opacity = 0;
+    private boolean increase = true;
 
     public MultiplayerState(Handler handler) {
         super(handler);
-
-        multiplayer = new Multiplayer();
     }
 
     protected void initComponents() {
@@ -29,23 +33,42 @@ public class MultiplayerState extends State {
         BufferedImage btnImage = buttonsAssets.get(0);
         BufferedImage btnHoverImager = buttonsAssets.get(3);
 
-        UIButton signIn = new UIButton(this, x, y, btnImage, () -> {
-            multiplayer.start();
-        });
-        signIn.setText("SIGN IN");
-        signIn.setHover(btnHoverImager, "SIGN IN");
-        signIn.setSize(new Dimension(105, 40));
+        currentUser = null;
+        if (!handler.getSettings().fileExists(Settings.USER_DATA_FILENAME)) {
+            authBtn = new UIButton(this, x, y, btnImage, () -> {
+                State.setCurrentState(handler.getGame().signUpState);
+            });
+            authBtn.setText("SIGN UP");
+            authBtn.setHover(btnHoverImager, "SIGN UP");
+        } else {
+            authBtn = new UIButton(this, x, y, btnImage, () -> {
+                State.setCurrentState(handler.getGame().signInState);
+            });
+            authBtn.setText("SIGN IN");
+            authBtn.setHover(btnHoverImager, "SIGN IN");
 
-        UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(signIn));
+            currentUser = handler.getUserRequest().getCurrentUser();
+        }
+
+        authBtn.setSize(new Dimension(105, 40));
+
+
+        UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(authBtn));
         UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
 
-        uiManager.addObjects(signIn, menuBtn, exitBtn);
+        uiManager.addObjects(authBtn, menuBtn, exitBtn);
     }
 
     @Override
     public void update() {
         handler.getGame().changeTitle("Multiplayer");
         uiManager.update();
+
+        opacity += increase ? 5 : -5;
+        if (opacity >= 255)
+            increase = false;
+        else if (opacity <= 0)
+            increase = true;
     }
 
     @Override
@@ -56,6 +79,34 @@ public class MultiplayerState extends State {
                 true,
                 Color.white,
                 Assets.getFont(Assets.FontsName.SPORT_TYPO, 80));
+
+        if (currentUser != null) {
+            Color previousColor = g.getColor();
+            g.setColor(new Color(255, 255, 200, 70));
+            g.fillRect((int) (handler.boardDimensions().width * 0.74f), 6, 135, 100);
+
+            currentUser.render(g, handler.boardDimensions().width * 0.8f, 20, true);
+
+            Text.drawString(g, currentUser.getNickname(),
+                    (int) (handler.boardDimensions().width * 0.8f),
+                    20,
+                    true,
+                    new Color(255, 255, 255, opacity),
+                    Assets.getFont(Assets.FontsName.SLKSCR, 20));
+
+            g.setColor(previousColor);
+        }
+
+        String errorMessage  = handler.getLastErrorMessage();
+        if (errorMessage != null) {
+            Text.drawString(g, errorMessage,
+                    handler.boardDimensions().width / 2,
+                    (int) (handler.boardDimensions().height * 0.30f),
+                    true,
+                    Color.red,
+                    Assets.getFont(Assets.FontsName.SLKSCR, 20));
+        }
+
 
         uiManager.render(g);
     }

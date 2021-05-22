@@ -111,7 +111,5 @@ public class UIButton extends UIObject {
 		this.height = size.height;
 	}
 
-	public static float getHeightRelative(UIButton uiButton) {
-		return uiButton.getY() + uiButton.getHeight() + 10;
-	}
+
 }

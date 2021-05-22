@@ -1,11 +1,15 @@
 package com.uninorte.base.game;
 
+import com.uninorte.base.api.RequestHandler;
+import com.uninorte.base.api.UserRequest;
+import com.uninorte.base.api.models.User;
 import com.uninorte.base.game.input.MouseManager;
 import com.uninorte.base.game.states.*;
 import com.uninorte.base.game.display.Display;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.ContentLoader;
 import com.uninorte.base.game.input.KeyManager;
+import com.uninorte.base.settings.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,8 +40,15 @@ public class Game implements Runnable {
     public State winScreenState;
     public State singleplayerState;
     public State multiplayerState;
+    public State signInState;
+    public State signUpState;
 
     private Image background;
+
+    private Settings settings;
+
+    private RequestHandler requestHandler;
+    private UserRequest userRequest;
 
     public Game(String title, Dimension windowSize) {
         this.title = title;
@@ -45,6 +56,8 @@ public class Game implements Runnable {
 
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+
+        settings = new Settings("spaceinvaders");
     }
 
     private void init() {
@@ -61,6 +74,7 @@ public class Game implements Runnable {
         Assets.init();
 
         handler = new Handler(this);
+        handler.setSettings(settings);
         mainState = new MainState(handler);
         gameSate = new GameState(handler);
         gameOverState = new GameOverState(handler);
@@ -68,7 +82,31 @@ public class Game implements Runnable {
         winScreenState = new WinScreenState(handler);
         singleplayerState = new SingleplayerState(handler);
         multiplayerState = new MultiplayerState(handler);
+        signUpState = new SignUpState(handler);
+        signInState = new SignInState(handler);
+
+        setRequestHandlers();
+        loadUserIfExists();
+
         State.setCurrentState(mainState);
+    }
+
+    private void setRequestHandlers() {
+        requestHandler = new RequestHandler("http://localhost:8080");
+        userRequest = new UserRequest(requestHandler);
+
+        handler.setRequestHandler(requestHandler);
+        handler.setUserRequest(userRequest);
+    }
+
+    private void loadUserIfExists() {
+        String userData = settings.getData(Settings.USER_DATA_FILENAME);
+
+        if (userData == null)
+            return;
+
+        User user = User.createFromJson(userData);
+        userRequest.setCurrentUser(user);
     }
 
     private void update() {

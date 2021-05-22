@@ -115,4 +115,7 @@ public abstract class UIObject {
 		this.hovering = hovering;
 	}
 
+	public static float getHeightRelative(UIObject uiObject) {
+		return uiObject.getY() + uiObject.getHeight() + 10;
+	}
 }
