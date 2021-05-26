@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MultiplayerState extends State {
 
-    private UIButton authBtn;
+    private UIButton firstBtn;
 
     private User currentUser;
 
@@ -35,28 +35,30 @@ public class MultiplayerState extends State {
 
         currentUser = null;
         if (!handler.getSettings().fileExists(Settings.USER_DATA_FILENAME)) {
-            authBtn = new UIButton(this, x, y, btnImage, () -> {
+            firstBtn = new UIButton(this, x, y, btnImage, () -> {
                 State.setCurrentState(handler.getGame().signUpState);
             });
-            authBtn.setText("SIGN UP");
-            authBtn.setHover(btnHoverImager, "SIGN UP");
+            firstBtn.setText("SIGN UP");
+            firstBtn.setHover(btnHoverImager, "SIGN UP");
+            firstBtn.setSize(new Dimension(105, 40));
+
         } else {
-            authBtn = new UIButton(this, x, y, btnImage, () -> {
-                State.setCurrentState(handler.getGame().signInState);
+            firstBtn = new UIButton(this, x, y, btnImage, () -> {
+                State.setCurrentState(handler.getGame().roomsState);
             });
-            authBtn.setText("SIGN IN");
-            authBtn.setHover(btnHoverImager, "SIGN IN");
+            firstBtn.setText("ROOMS");
+            firstBtn.setHover(btnHoverImager, "ROOMS");
 
             currentUser = handler.getUserRequest().getCurrentUser();
         }
 
-        authBtn.setSize(new Dimension(105, 40));
+        firstBtn.setSize(new Dimension(105, 40));
 
 
-        UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(authBtn));
+        UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(firstBtn));
         UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
 
-        uiManager.addObjects(authBtn, menuBtn, exitBtn);
+        uiManager.addObjects(firstBtn, menuBtn, exitBtn);
     }
 
     @Override

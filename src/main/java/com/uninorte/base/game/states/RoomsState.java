@@ -4,9 +4,9 @@ import com.uninorte.base.game.Handler;
 
 import java.awt.*;
 
-public class SignInState extends State {
+public class RoomsState extends State {
 
-    public SignInState(Handler handler) {
+    public RoomsState(Handler handler) {
         super(handler);
     }
 

@@ -40,7 +40,7 @@ public class Game implements Runnable {
     public State winScreenState;
     public State singleplayerState;
     public State multiplayerState;
-    public State signInState;
+    public State roomsState;
     public State signUpState;
 
     private Image background;
@@ -83,7 +83,7 @@ public class Game implements Runnable {
         singleplayerState = new SingleplayerState(handler);
         multiplayerState = new MultiplayerState(handler);
         signUpState = new SignUpState(handler);
-        signInState = new SignInState(handler);
+        roomsState = new RoomsState(handler);
 
         setRequestHandlers();
         loadUserIfExists();

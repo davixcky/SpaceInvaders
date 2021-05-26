@@ -28,7 +28,10 @@ public class Projectile extends Creature{
         active = true;
         yMove = -speed;
 
-        bounds.width = entityDimensions.width - 30;
+        bounds.x = 25;
+        bounds.y = 20;
+        bounds.width = 17;
+        bounds.height = 20;
         setProjectileAsset();
     }
 
