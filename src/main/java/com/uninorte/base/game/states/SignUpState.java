@@ -29,7 +29,7 @@ public class SignUpState extends State {
         nicknameInput = new UIInput(this, x, y + 40);
         nicknameInput.setListener(() -> {
             UserRequest userRequest = handler.getUserRequest();
-            userRequest.createUser(nicknameInput.getText(), nicknameInput.getText() + "@testmail.com");
+            userRequest.createUser(nicknameInput.getText());
 
             additionalError = null;
             error = userRequest.getError();

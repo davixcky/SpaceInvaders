@@ -1,6 +1,7 @@
 package com.uninorte.base.game;
 
 import com.uninorte.base.api.RequestHandler;
+import com.uninorte.base.api.RoomRequest;
 import com.uninorte.base.api.UserRequest;
 import com.uninorte.base.api.models.User;
 import com.uninorte.base.game.input.MouseManager;
@@ -49,6 +50,7 @@ public class Game implements Runnable {
 
     private RequestHandler requestHandler;
     private UserRequest userRequest;
+    private RoomRequest roomRequest;
 
     public Game(String title, Dimension windowSize) {
         this.title = title;
@@ -94,9 +96,11 @@ public class Game implements Runnable {
     private void setRequestHandlers() {
         requestHandler = new RequestHandler("http://localhost:8080");
         userRequest = new UserRequest(requestHandler);
+        roomRequest = new RoomRequest(requestHandler);
 
         handler.setRequestHandler(requestHandler);
         handler.setUserRequest(userRequest);
+        handler.setRoomRequest(roomRequest);
     }
 
     private void loadUserIfExists() {

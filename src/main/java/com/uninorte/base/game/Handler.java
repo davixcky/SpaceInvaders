@@ -1,6 +1,7 @@
 package com.uninorte.base.game;
 
 import com.uninorte.base.api.RequestHandler;
+import com.uninorte.base.api.RoomRequest;
 import com.uninorte.base.api.UserRequest;
 import com.uninorte.base.api.models.Error;
 import com.uninorte.base.game.board.Board;
@@ -18,6 +19,7 @@ public class Handler {
     private Settings settings;
     private RequestHandler requestHandler;
     private UserRequest userRequest;
+    private RoomRequest roomRequest;
     private Error error;
 
     public Handler(Game game) {
@@ -86,5 +88,13 @@ public class Handler {
 
     public void clearError() {
         error = null;
+    }
+
+    public void setRoomRequest(RoomRequest roomRequest) {
+        this.roomRequest = roomRequest;
+    }
+
+    public RoomRequest getRoomRequest() {
+        return roomRequest;
     }
 }

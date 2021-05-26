@@ -1,7 +1,6 @@
 package com.uninorte.base.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.talanlabs.avatargenerator.Avatar;
 import com.talanlabs.avatargenerator.smiley.SmileyAvatar;
@@ -9,25 +8,19 @@ import com.talanlabs.avatargenerator.smiley.SmileyAvatar;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-@JsonIgnoreProperties(value = { "oauthID", "provider" })
 public class User extends Base {
     @JsonProperty("id") protected String id;
     @JsonProperty("nickname") protected String nickname;
-    @JsonProperty("email") protected String email;
-    @JsonProperty("avatarProfile") protected String avatarUrl;
 
     @JsonIgnore() protected BufferedImage avatarBuffered;
 
-    public User(String id, String nickname, String email, String avatarUrl) {
+    public User(String id, String nickname) {
         this.id = id;
         this.nickname = nickname;
-        this.email = email;
-        this.avatarUrl = avatarUrl;
     }
 
-    public User(String nickname, String email) {
+    public User(String nickname) {
         this.nickname = nickname;
-        this.email = email;
     }
 
     public User() {
@@ -51,17 +44,12 @@ public class User extends Base {
         return this.nickname;
     }
 
-    public String getAvatarUrl() throws Exception {
-        return this.avatarUrl;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
                 ", nickname='" + nickname + '\'' +
-                ", email='" + email + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
+                ", avatarBuffered=" + avatarBuffered +
                 '}';
     }
 

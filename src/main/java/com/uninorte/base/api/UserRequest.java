@@ -18,11 +18,10 @@ public class UserRequest extends User {
         this.requestHandler = requestHandler;
     }
 
-    public void createUser(String nickname, String email) {
+    public void createUser(String nickname) {
         this.nickname = nickname;
-        this.email = email;
 
-        User tmpUser = new User(nickname, email);
+        User tmpUser = new User(nickname);
 
         RequestHandler.RequestResponse response = null;
         try {
