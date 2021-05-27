@@ -112,4 +112,8 @@ public class UIButton extends UIObject {
 		this.height = size.height;
 	}
 
+	public void setImage(BufferedImage image) {
+		this.images.add(0, image);
+	}
+
 }
