@@ -3,6 +3,7 @@ package com.uninorte.base.game.entities.creatures;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Explosion;
+import com.uninorte.base.game.states.SingleplayerState;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -59,6 +60,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
+        ((SingleplayerState) handler.getGame().singleplayerState).resetLevel();
         handler.getGame().gameOver();
     }
 
@@ -104,6 +106,10 @@ public class Player extends Creature {
 
     public boolean isRenderingExplosion() {
         return explosionController.isRendering();
+    }
+
+    public ProjectilesManager getProjectilesManager() {
+        return projectilesManager;
     }
 
     private void showLives(Graphics g) {

@@ -2,6 +2,7 @@ package com.uninorte.base.game.ui;
 
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.states.GameState;
+import com.uninorte.base.game.states.SingleplayerState;
 import com.uninorte.base.game.states.State;
 
 import java.awt.*;
@@ -43,6 +44,7 @@ public class StaticElements {
     public static UIButton newGameBtn(State parent, Handler handler, float x, float y) {
         UIButton newGameBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> {
             ((GameState) handler.getGame().gameSate).reset();
+            ((SingleplayerState) handler.getGame().singleplayerState).resetLevel();
             State.setCurrentState(handler.getGame().gameSate);
         });
         newGameBtn.setText("NEW GAME");

@@ -35,4 +35,10 @@ public class GameState extends State {
         board = new Board(handler);
         handler.setBoard(board);
     }
+
+    public void nextLevel() {
+        board = new Board(handler);
+        board.setupLevel();
+        handler.setBoard(board);
+    }
 }

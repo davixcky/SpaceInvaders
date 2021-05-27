@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class ProjectilesManager {
     private long lastTimeShoot;
-    private final long timeBetweenShots;
+    private long timeBetweenShots;
     private long shootTimer;
 
     private ArrayList<Projectile> projectiles;
@@ -56,6 +56,10 @@ public class ProjectilesManager {
 
     public boolean activeProjectiles() {
         return projectiles.size() > 0;
+    }
+
+    public void changeTimeBetweenShots(long timeBetweenShots) {
+        this.timeBetweenShots = timeBetweenShots;
     }
 
     public interface ProjectileHandler {

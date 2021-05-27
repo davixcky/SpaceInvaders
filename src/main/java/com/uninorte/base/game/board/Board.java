@@ -4,7 +4,10 @@ import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.entities.EntityManager;
 import com.uninorte.base.game.entities.creatures.AliensManager;
 import com.uninorte.base.game.entities.creatures.Player;
+import com.uninorte.base.game.gfx.Assets;
+import com.uninorte.base.game.gfx.Text;
 import com.uninorte.base.game.highscore.HighScoreManager;
+import com.uninorte.base.game.states.SingleplayerState;
 import com.uninorte.base.game.states.State;
 
 import java.awt.*;
@@ -42,11 +45,27 @@ public class Board {
         entityManager.update();
     }
 
-    public void playerWin() {
-        State.setCurrentState(handler.getGame().winScreenState);
+    public void playerWinLevel() {
+        ((SingleplayerState) handler.getGame().singleplayerState).increaseLevel();
+        State.setCurrentState(handler.getGame().singleplayerState);
+    }
+
+    public void setupLevel() {
+        int level = ((SingleplayerState) handler.getGame().singleplayerState).getCurrentLevel();
+
+        System.out.println(400 - 50L * level);
+        mainPlayer.getProjectilesManager().changeTimeBetweenShots(400 - 20L * level);
+        aliensManager.getProjectilesManager().changeTimeBetweenShots(400 - 50L * level);
     }
 
     public void render(Graphics g) {
+        Text.drawString(g, "LEVEL " + ((SingleplayerState) handler.getGame().singleplayerState).getCurrentLevel(),
+                handler.boardDimensions().width / 2,
+                20,
+                true,
+                Color.white,
+                Assets.getFont(Assets.FontsName.SLKSCR, 20));
+
         entityManager.render(g);
     }
 

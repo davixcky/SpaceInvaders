@@ -1,7 +1,6 @@
 package com.uninorte.base.game.entities.creatures;
 
 import com.uninorte.base.game.Handler;
-import com.uninorte.base.game.states.State;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class AliensManager {
         if (projectilesManager.activeProjectiles() )
             projectilesManager.update();
         else if (aliens.size() == 0 && !projectilesManager.activeProjectiles())
-            handler.getBoard().playerWin();
+            handler.getBoard().playerWinLevel();
     }
 
     public void render(Graphics g) {
@@ -80,6 +79,10 @@ public class AliensManager {
 
     public ArrayList<Alien> getAliens() {
         return aliens;
+    }
+
+    public ProjectilesManager getProjectilesManager() {
+        return projectilesManager;
     }
 
     public void createProjectile() {
