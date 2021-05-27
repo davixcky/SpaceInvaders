@@ -22,6 +22,8 @@ public class GameClient {
     private List<Room> allRooms;
     private Error lastError;
 
+    private SocketClient socketClient;
+
     private RequestHandler requestHandler;
 
     public GameClient(String basePath) {
@@ -32,15 +34,21 @@ public class GameClient {
         allRooms = null;
         lastError = null;
 
-        new SocketClient("http://localhost:8080");
+    }
+
+    public void connectToSocket() {
+        socketClient = new SocketClient("http://localhost:8080", currentUser.getId());
+        socketClient.connect();
     }
 
     public void createUser(String nickname) {
         User tmpUser = new User(nickname);
 
         RequestHandler.RequestResponse response = doPost(USER_CREATE, tmpUser.toJson());
-        if (response.statusCode < 400)
+        if (response.statusCode < 400) {
             currentUser = User.createFromJson(response.bodyResponse);
+            connectToSocket();
+        }
     }
 
     public void createRoom() {
@@ -50,8 +58,9 @@ public class GameClient {
         }
 
         RequestHandler.RequestResponse response = doPost(ROOMS_CREATE, currentUser.toJson());
-        if (response.statusCode < 400)
+        if (response.statusCode < 400) {
             currentRoom = Room.createFromJson(response.bodyResponse);
+        }
     }
 
     public List<Room> getRooms() {
@@ -59,7 +68,6 @@ public class GameClient {
             lastError = ERR_USER_NOT_LOGGED_IN;
             return null;
         }
-
 
         RequestHandler.RequestResponse response = doGet(ROOMS_GET);
         if (response.statusCode < 400)
@@ -106,6 +114,7 @@ public class GameClient {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+        connectToSocket();
     }
 
     public User getCurrentUser() {

@@ -45,6 +45,30 @@ public class Room extends Base {
         return roomList;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public String getJoinCode() {
+        return joinCode;
+    }
+
+    public int getMaxParticipants() {
+        return maxParticipants;
+    }
+
+    public int getTotalParticipants() {
+        return totalParticipants;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
