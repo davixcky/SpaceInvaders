@@ -1,5 +1,6 @@
 package com.uninorte.base.game.states;
 
+import com.uninorte.base.api.models.Error;
 import com.uninorte.base.api.models.Room;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
@@ -13,9 +14,12 @@ import java.util.List;
 
 public class RoomsState extends State {
 
+    private Error error;
+
     int width = handler.boardDimensions().width;
     int height = handler.boardDimensions().height;
 
+    private final Point cordTextError = new Point((int) (width * 0.5f), (int) (height * 0.2f));
     private final Point cordText1 = new Point((int) (width * 0.5f), (int) (height * 0.5f));
     private final Point cordJoinInput = new Point((int) (width * 0.5f - UIButton.btnImage.getWidth() * 0.5f), cordText1.y + 30);
     private final Point cordText2 = new Point((int) (width * 0.5f), cordJoinInput.y + UIButton.btnImage.getHeight() + 80);
@@ -36,9 +40,13 @@ public class RoomsState extends State {
         UIInput joinCodeInput = new UIInput(this, cordJoinInput.x, cordJoinInput.y);
         joinCodeInput.setListener(() -> {
             handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
-            handler.getGameClient().getUsersFromARoom(joinCodeInput.getText().toUpperCase()).forEach(user -> {
-                System.out.println(user.toString());
-            });
+
+            error = handler.getGameClient().getLastError();
+            if (error != null) {
+                return;
+            }
+
+            setCurrentState(handler.getGame().multiplayerState);
         });
 
         UIButton newRoomBtn = new UIButton(this, cordCreateBtn.x, cordCreateBtn.y, assets.get(0), () -> {
@@ -68,6 +76,15 @@ public class RoomsState extends State {
     public void render(Graphics g) {
         g.setColor(new Color(3, 39, 78, 198));
         g.fillRect(0, 0, width, height);
+
+        if (error != null) {
+            Text.drawString(g, error.getErrorMessage(),
+                    cordTextError.x,
+                    cordTextError.y,
+                    true,
+                    Color.red,
+                    Assets.getFont(Assets.FontsName.SLKSCR, 20));
+        }
 
         Text.drawString(
                 g,

@@ -24,7 +24,7 @@ public class GameClient {
 
     private SocketClient socketClient;
 
-    private RequestHandler requestHandler;
+    private final RequestHandler requestHandler;
 
     public GameClient(String basePath) {
         requestHandler = new RequestHandler(basePath);
@@ -42,6 +42,7 @@ public class GameClient {
     }
 
     public void createUser(String nickname) {
+        lastError = null;
         User tmpUser = new User(nickname);
 
         RequestHandler.RequestResponse response = doPost(USER_CREATE, tmpUser.toJson());
@@ -52,6 +53,7 @@ public class GameClient {
     }
 
     public void createRoom() {
+        lastError = null;
         validateUserIsLogged();
         if (lastError != null)
             return;
@@ -63,6 +65,7 @@ public class GameClient {
     }
 
     public void joinToRoom(String joinCode) {
+        lastError = null;
         validateUserIsLogged();
         if (lastError != null)
             return;
@@ -77,15 +80,15 @@ public class GameClient {
     public List<User> getUsersFromARoom(String joinCode) {
         String url = String.format(ROOMS_GET_USERS, joinCode);
         RequestHandler.RequestResponse response = doGet(url);
-        
+
         List<User> users = null;
         if (response.statusCode < 400) {
             users = User.createUsersFromJson(response.bodyResponse);
         }
-        
+
         return users;
     }
-    
+
     public List<Room> getRooms() {
         validateUserIsLogged();
         if (lastError != null)

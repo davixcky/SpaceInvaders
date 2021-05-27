@@ -76,15 +76,6 @@ public class SignUpState extends State {
                     Assets.getFont(Assets.FontsName.SLKSCR, 20));
         }
 
-//        if (additionalError != null) {
-//            Text.drawString(g, additionalError,
-//                    handler.boardDimensions().width / 2,
-//                    (int) (handler.boardDimensions().height * 0.30f),
-//                    true,
-//                    Color.red,
-//                    Assets.getFont(Assets.FontsName.SLKSCR, 20));
-//        }
-
         uiManager.render(g);
     }
 }
