@@ -31,6 +31,8 @@ public class GameClient {
         currentUser = null;
         allRooms = null;
         lastError = null;
+
+        new SocketClient("http://localhost:8080");
     }
 
     public void createUser(String nickname) {
