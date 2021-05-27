@@ -39,7 +39,8 @@ public class Assets {
     public enum FontsName {
         SLKSCR,
         SPACE_MISSION,
-        SPORT_TYPO
+        SPORT_TYPO,
+        JOYSTIX
     }
 
     public enum UI_ELEMENTS {
@@ -181,9 +182,10 @@ public class Assets {
         String fontStr = "";
 
         switch (name) {
-            case SLKSCR -> fontStr =  "/fonts/slkscr.ttf";
+            case SLKSCR -> fontStr = "/fonts/slkscr.ttf";
             case SPACE_MISSION -> fontStr = "/fonts/space-mission.otf";
             case SPORT_TYPO -> fontStr = "/fonts/sport-typo.ttf";
+            case JOYSTIX -> fontStr = "/fonts/joystix_monospace.ttf";
         }
 
         return fontStr;

@@ -3,10 +3,8 @@ package com.uninorte.base.game.states;
 import com.uninorte.base.api.models.Room;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
-import com.uninorte.base.game.ui.ActionListener;
-import com.uninorte.base.game.ui.UIButton;
-import com.uninorte.base.game.ui.UIInput;
-import com.uninorte.base.game.ui.UIObject;
+import com.uninorte.base.game.gfx.Text;
+import com.uninorte.base.game.ui.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,20 +13,35 @@ import java.util.List;
 
 public class RoomsState extends State {
 
-    private ArrayList<BufferedImage> assets;
+    int width = handler.boardDimensions().width;
+    int height = handler.boardDimensions().height;
+
+    private final Point cordText1 = new Point((int) (width * 0.5f), (int) (height * 0.5f));
+    private final Point cordJoinInput = new Point((int) (width * 0.5f - UIButton.btnImage.getWidth() * 0.5f), cordText1.y + 30);
+    private final Point cordText2 = new Point((int) (width * 0.5f), cordJoinInput.y + UIButton.btnImage.getHeight() + 80);
+    private final Point cordCreateBtn = new Point((int) (width * 0.5f), cordText2.y + 30);
+
+    private final ArrayList<BufferedImage> assets;
 
     public RoomsState(Handler handler) {
         super(handler);
 
-       assets = Assets.getUiComponents(Assets.UI_ELEMENTS.BUTTONS_NON_SQUARE);
+        assets = Assets.getUiComponents(Assets.UI_ELEMENTS.BUTTONS_NON_SQUARE);
+        cordCreateBtn.x -= assets.get(0).getWidth() * 0.5f;
     }
 
     @Override
     protected void initComponents() {
-        int width = handler.boardDimensions().width;
-        int height = handler.boardDimensions().height;
 
-        UIButton newRoomBtn = new UIButton(this, width * 0.5f, height * 0.5f, assets.get(0), () -> {
+        UIInput joinCodeInput = new UIInput(this, cordJoinInput.x, cordJoinInput.y);
+        joinCodeInput.setListener(() -> {
+            handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
+            handler.getGameClient().getUsersFromARoom(joinCodeInput.getText().toUpperCase()).forEach(user -> {
+                System.out.println(user.toString());
+            });
+        });
+
+        UIButton newRoomBtn = new UIButton(this, cordCreateBtn.x, cordCreateBtn.y, assets.get(0), () -> {
             handler.getGameClient().createRoom();
             List<Room> rooms = handler.getGameClient().getRooms();
 
@@ -41,18 +54,9 @@ public class RoomsState extends State {
         newRoomBtn.setText("CREATE NEW ROOM");
         newRoomBtn.setHover(assets.get(1), "");
 
-        UIInput joinCodeInput = new UIInput(this, width * 0.5f, UIObject.getHeightRelative(newRoomBtn) + 20);
-        joinCodeInput.setListener(new ActionListener() {
-            @Override
-            public void actionPerformed() {
-                handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
-                handler.getGameClient().getUsersFromARoom(joinCodeInput.getText().toUpperCase()).forEach(user -> {
-                    System.out.println(user.toString());
-                });
-            }
-        });
+        UIButton multiplayerBtn = StaticElements.multiplayerBtn(this, handler, 20, height - 38);
 
-        uiManager.addObjects(newRoomBtn, joinCodeInput);
+        uiManager.addObjects(joinCodeInput, newRoomBtn, multiplayerBtn);
     }
 
     @Override
@@ -62,6 +66,31 @@ public class RoomsState extends State {
 
     @Override
     public void render(Graphics g) {
+        g.setColor(new Color(3, 39, 78, 198));
+        g.fillRect(0, 0, width, height);
+
+        Text.drawString(
+                g,
+                "JOIN TO A PRIVATE ROOM",
+                cordText1.x,
+                cordText1.y,
+                true,
+                Color.white,
+                Assets.getFont(Assets.FontsName.JOYSTIX, 24)
+        );
+
+        g.drawLine(60, cordText2.y - 40, width - 60, cordText2.y - 40);
+
+        Text.drawString(
+                g,
+                "CREATE A PRIVATE ROOM",
+                cordText2.x,
+                cordText2.y,
+                true,
+                Color.white,
+                Assets.getFont(Assets.FontsName.JOYSTIX, 24)
+        );
+
         uiManager.render(g);
     }
 }
