@@ -5,8 +5,11 @@ import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Text;
 import com.uninorte.base.game.ui.StaticElements;
 import com.uninorte.base.game.ui.UIButton;
+import com.uninorte.base.game.ui.UIObject;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Random;
 
 public class MainState extends State {
@@ -38,9 +41,20 @@ public class MainState extends State {
         multiplayerBtn.setSize(new Dimension(105, 40));
 
         UIButton settingsBtn = StaticElements.settingsBtn(this, handler, x, UIButton.getHeightRelative(multiplayerBtn));
-        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(settingsBtn));
 
-        uiManager.addObjects(singlePlayerBtn, multiplayerBtn, settingsBtn, exitBtn);
+        UIButton sourceCodeBtn = new UIButton(this, x, UIObject.getHeightRelative(settingsBtn), UIButton.btnImage, () -> {
+            try {
+                Desktop.getDesktop().browse(URI.create("https://github.com/Norte-invaders/MenuSonido"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        sourceCodeBtn.setText("CODEBASE");
+        sourceCodeBtn.setHover(UIButton.btnHoverImager, "OPEN GITHUB");
+
+        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(sourceCodeBtn));
+
+        uiManager.addObjects(singlePlayerBtn, multiplayerBtn, settingsBtn, sourceCodeBtn, exitBtn);
     }
 
     @Override
@@ -52,8 +66,7 @@ public class MainState extends State {
             green = random.nextInt(256);
             blue = random.nextInt(256);
             opacity = 240;
-        }
-        else if (opacity <= 0) {
+        } else if (opacity <= 0) {
             increase = true;
             red = random.nextInt(256);
             green = random.nextInt(256);
