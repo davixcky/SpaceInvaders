@@ -33,12 +33,20 @@ public class GameClient {
         currentUser = null;
         allRooms = null;
         lastError = null;
-
     }
 
     public void connectToSocket() {
         socketClient = new SocketClient("http://localhost:8080", currentUser.getId());
         socketClient.connect();
+    }
+
+    public void joinToRoomWithSocket() {
+        lastError = null;
+        validateUserIsLogged();
+        if (lastError != null)
+            return;
+
+        socketClient.joinRoom(currentUser, currentRoom);
     }
 
     public void createUser(String nickname) {

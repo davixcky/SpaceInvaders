@@ -16,7 +16,7 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
-    public static final String FILENAME_SETTINGS = "SpaceInvaders";
+    public static final String FILENAME_SETTINGS =  System.getProperty("settings", "SpaceInvaders-Uninorte");
 
     private String title;
     private Dimension windowSize;

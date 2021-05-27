@@ -1,7 +1,6 @@
 package com.uninorte.base.game.states;
 
 import com.uninorte.base.api.models.Error;
-import com.uninorte.base.api.models.Room;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Text;
@@ -10,7 +9,6 @@ import com.uninorte.base.game.ui.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RoomsState extends State {
 
@@ -40,23 +38,12 @@ public class RoomsState extends State {
         UIInput joinCodeInput = new UIInput(this, cordJoinInput.x, cordJoinInput.y);
         joinCodeInput.setListener(() -> {
             handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
-
-            error = handler.getGameClient().getLastError();
-            if (error != null) {
-                return;
-            }
-
-            setCurrentState(handler.getGame().multiplayerState);
+            joinRoom();
         });
 
         UIButton newRoomBtn = new UIButton(this, cordCreateBtn.x, cordCreateBtn.y, assets.get(0), () -> {
             handler.getGameClient().createRoom();
-            List<Room> rooms = handler.getGameClient().getRooms();
-
-            if (rooms != null) {
-                System.out.println("\nPRINTING");
-                rooms.forEach(room -> System.out.println(room.toString()));
-            }
+            joinRoom();
         });
 
         newRoomBtn.setText("CREATE NEW ROOM");
@@ -65,6 +52,21 @@ public class RoomsState extends State {
         UIButton multiplayerBtn = StaticElements.multiplayerBtn(this, handler, 20, height - 38);
 
         uiManager.addObjects(joinCodeInput, newRoomBtn, multiplayerBtn);
+    }
+
+    private void joinRoom() {
+        error = handler.getGameClient().getLastError();
+        if (error != null) {
+            return;
+        }
+
+        handler.getGameClient().joinToRoomWithSocket();
+        error = handler.getGameClient().getLastError();
+        if (error != null) {
+            return;
+        }
+
+        setCurrentState(handler.getGame().multiplayerState);
     }
 
     @Override

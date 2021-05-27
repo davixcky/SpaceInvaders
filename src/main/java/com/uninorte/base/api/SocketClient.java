@@ -35,14 +35,25 @@ class SocketClient {
     }
 
     private void initListeners() {
-        socket.on("hi", new Emitter.Listener() {
+        socket.on("user-joined", new Emitter.Listener() {
             @Override
             public void call(Object... objects) {
-                System.out.println("event hi fired");
-
+                System.out.println("User joined");
                 for (Object object : objects) {
                     System.out.println(object);
                 }
+                System.out.println();
+            }
+        });
+
+        socket.on("new-user", new Emitter.Listener() {
+            @Override
+            public void call(Object... objects) {
+                System.out.println("User addded");
+                for (Object object : objects) {
+                    System.out.println(object);
+                }
+                System.out.println();
             }
         });
     }
