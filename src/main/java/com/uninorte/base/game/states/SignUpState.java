@@ -1,6 +1,6 @@
 package com.uninorte.base.game.states;
 
-import com.uninorte.base.api.UserRequest;
+import com.uninorte.base.api.GameClient;
 import com.uninorte.base.api.models.Error;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
@@ -14,7 +14,6 @@ import java.awt.*;
 public class SignUpState extends State {
 
     private Error error;
-    private String additionalError;
     private UIInput nicknameInput;
 
     public SignUpState(Handler handler) {
@@ -28,19 +27,17 @@ public class SignUpState extends State {
 
         nicknameInput = new UIInput(this, x, y + 40);
         nicknameInput.setListener(() -> {
-            UserRequest userRequest = handler.getUserRequest();
-            userRequest.createUser(nicknameInput.getText());
+            GameClient gameClient = handler.getGameClient();
+            gameClient.createUser(nicknameInput.getText());
 
-            additionalError = null;
-            error = userRequest.getError();
+            error = gameClient.getLastError();
             if (error != null) {
                 return;
             }
 
             try {
-                handler.getSettings().saveData(Settings.USER_DATA_FILENAME, userRequest.toJson());
+                handler.getSettings().saveData(Settings.USER_DATA_FILENAME, gameClient.getCurrentUser().toJson());
             } catch (Exception e) {
-                additionalError = e.getMessage();
                 handler.setError(new Error(e.getMessage()));
             }
 

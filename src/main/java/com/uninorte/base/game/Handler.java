@@ -1,8 +1,6 @@
 package com.uninorte.base.game;
 
-import com.uninorte.base.api.RequestHandler;
-import com.uninorte.base.api.RoomRequest;
-import com.uninorte.base.api.UserRequest;
+import com.uninorte.base.api.GameClient;
 import com.uninorte.base.api.models.Error;
 import com.uninorte.base.game.board.Board;
 import com.uninorte.base.game.highscore.HighScoreManager;
@@ -17,9 +15,8 @@ public class Handler {
     private Game game;
     private Board board;
     private Settings settings;
-    private RequestHandler requestHandler;
-    private UserRequest userRequest;
-    private RoomRequest roomRequest;
+
+    private GameClient gameClient;
     private Error error;
 
     public Handler(Game game) {
@@ -27,7 +24,7 @@ public class Handler {
     }
 
     public Game getGame() {
-        return  game;
+        return game;
     }
 
     public Board getBoard() {
@@ -38,12 +35,12 @@ public class Handler {
         this.board = board;
     }
 
-    public void setSettings(Settings settings) {
-       this.settings = settings;
-    }
-
     public Settings getSettings() {
         return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     public Dimension boardDimensions() {
@@ -66,18 +63,6 @@ public class Handler {
         return board.getHighScoreManager();
     }
 
-    public void setRequestHandler(RequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
-    }
-
-    public void setUserRequest(UserRequest userRequest) {
-        this.userRequest = userRequest;
-    }
-
-    public UserRequest getUserRequest() {
-        return userRequest;
-    }
-
     public void setError(Error error) {
         this.error = error;
     }
@@ -90,11 +75,11 @@ public class Handler {
         error = null;
     }
 
-    public void setRoomRequest(RoomRequest roomRequest) {
-        this.roomRequest = roomRequest;
+    public GameClient getGameClient() {
+        return gameClient;
     }
 
-    public RoomRequest getRoomRequest() {
-        return roomRequest;
+    public void setGameClient(GameClient gameClient) {
+        this.gameClient = gameClient;
     }
 }

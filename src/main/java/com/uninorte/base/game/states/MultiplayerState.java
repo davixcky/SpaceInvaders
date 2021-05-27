@@ -49,7 +49,7 @@ public class MultiplayerState extends State {
             firstBtn.setText("ROOMS");
             firstBtn.setHover(btnHoverImager, "ROOMS");
 
-            currentUser = handler.getUserRequest().getCurrentUser();
+            currentUser = handler.getGameClient().getCurrentUser();
         }
 
         firstBtn.setSize(new Dimension(105, 40));

@@ -35,16 +35,15 @@ public class RequestHandler {
         return new RequestResponse(response);
     }
 
-    public String getRequest(String endpoint) throws IOException {
+    public RequestResponse getRequest(String endpoint) throws IOException {
         String targetUrl = this.baseUrl + endpoint;
         Request request = new Request.Builder()
                 .url(targetUrl)
                 .get()
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
+        Response response = client.newCall(request).execute();
+        return new RequestResponse(response);
     }
 
     static class RequestResponse {

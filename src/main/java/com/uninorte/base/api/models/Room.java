@@ -1,8 +1,12 @@
 package com.uninorte.base.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.awt.*;
+import java.util.List;
 
 public class Room extends Base {
 
@@ -27,6 +31,18 @@ public class Room extends Base {
 
     public static Room createFromJson(String json) {
         return (Room) new Room().fromJson(json);
+    }
+
+    public static java.util.List<Room> createRoomsFromJson(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        java.util.List<Room> roomList = null;
+        try {
+            roomList = mapper.readValue(json, new TypeReference<List<Room>>(){});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return roomList;
     }
 
     @Override

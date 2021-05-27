@@ -1,5 +1,6 @@
 package com.uninorte.base.game.states;
 
+import com.uninorte.base.api.models.Room;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.ui.UIButton;
@@ -7,6 +8,7 @@ import com.uninorte.base.game.ui.UIButton;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoomsState extends State {
 
@@ -24,9 +26,13 @@ public class RoomsState extends State {
         int height = handler.boardDimensions().height;
 
         UIButton newRoomBtn = new UIButton(this, width * 0.5f, height * 0.5f, assets.get(0), () -> {
-            handler.getRoomRequest().createRoom(handler.getUserRequest().getCurrentUser());
+            handler.getGameClient().createRoom();
+            List<Room> rooms = handler.getGameClient().getRooms();
 
-            System.out.println(handler.getRoomRequest().getCurrentRoom().toString());
+            if (rooms != null) {
+                System.out.println("\nPRINTING");
+                rooms.forEach(room -> System.out.println(room.toString()));
+            }
         });
 
         newRoomBtn.setText("CREATE NEW ROOM");
