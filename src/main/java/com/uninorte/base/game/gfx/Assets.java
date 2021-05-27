@@ -74,7 +74,7 @@ public class Assets {
 
         uiComponents = new HashMap<>();
         uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS), loadSprites(105, 21, 4, "/ui/labels.png"));
-        uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS_NON_SQUARE), loadSprites(134, 119, 2, "/ui/buttons-non-square.png"));
+        uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS_NON_SQUARE), loadSprites(134, 119, 2, "/ui/buttons-hexagons.png"));
 
         SpriteSheet slidersSheet = new SpriteSheet(ContentLoader.loadImage("/ui/sheet-slider.png"));
         ArrayList<BufferedImage> sliders = new ArrayList<>();
