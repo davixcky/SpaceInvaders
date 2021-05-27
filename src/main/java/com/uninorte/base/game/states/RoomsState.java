@@ -46,6 +46,9 @@ public class RoomsState extends State {
             @Override
             public void actionPerformed() {
                 handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
+                handler.getGameClient().getUsersFromARoom(joinCodeInput.getText().toUpperCase()).forEach(user -> {
+                    System.out.println(user.toString());
+                });
             }
         });
 

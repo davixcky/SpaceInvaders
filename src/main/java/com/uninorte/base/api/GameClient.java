@@ -74,6 +74,18 @@ public class GameClient {
         }
     }
 
+    public List<User> getUsersFromARoom(String joinCode) {
+        String url = String.format(ROOMS_GET_USERS, joinCode);
+        RequestHandler.RequestResponse response = doGet(url);
+        
+        List<User> users = null;
+        if (response.statusCode < 400) {
+            users = User.createUsersFromJson(response.bodyResponse);
+        }
+        
+        return users;
+    }
+    
     public List<Room> getRooms() {
         validateUserIsLogged();
         if (lastError != null)

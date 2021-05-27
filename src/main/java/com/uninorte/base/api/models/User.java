@@ -2,11 +2,15 @@ package com.uninorte.base.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talanlabs.avatargenerator.Avatar;
 import com.talanlabs.avatargenerator.smiley.SmileyAvatar;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class User extends Base {
     @JsonProperty("id") protected String id;
@@ -29,11 +33,28 @@ public class User extends Base {
 
     public static User createFromJson(String json) {
         User tmp = (User) new User().fromJson(json);
-
-        Avatar avatar = SmileyAvatar.newGhostAvatarBuilder().build();
-        tmp.avatarBuffered = avatar.create(Long.parseLong(tmp.getId()));
-
+        tmp.avatarBuffered = tmp.generateAvatar(Long.parseLong(tmp.getId()));
         return tmp;
+    }
+
+    public static List<User> createUsersFromJson(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        List<User> users = null;
+        try {
+            users = mapper.readValue(json, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        if (users != null)
+                users.forEach(user -> user.avatarBuffered = user.generateAvatar(Long.parseLong(user.id)));
+
+        return users;
+    }
+
+    private BufferedImage generateAvatar(long id) {
+        Avatar avatar = SmileyAvatar.newGhostAvatarBuilder().build();
+        return avatar.create(id);
     }
 
     public String getId() {
