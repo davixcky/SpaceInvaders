@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageFilter;
 import java.util.ArrayList;
 
 public class UIButton extends UIObject {
@@ -110,6 +111,5 @@ public class UIButton extends UIObject {
 		this.width = size.width;
 		this.height = size.height;
 	}
-
 
 }

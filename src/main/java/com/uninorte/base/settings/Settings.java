@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Settings {
 
-    public static final String USER_DATA_FILENAME = "user.json";
+    public static final String USER_DATA_FILENAME = "userinformation.spaceinvaders";
 
     private String path;
 

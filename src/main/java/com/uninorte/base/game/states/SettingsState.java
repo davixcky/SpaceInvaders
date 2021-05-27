@@ -1,6 +1,8 @@
 package com.uninorte.base.game.states;
 
 import com.uninorte.base.game.Handler;
+import com.uninorte.base.game.ui.StaticElements;
+import com.uninorte.base.game.ui.UIButton;
 import com.uninorte.base.game.ui.UISlider;
 
 import java.awt.*;
@@ -18,7 +20,9 @@ public class SettingsState extends State {
         UISlider uiSlider = new UISlider(this,  x + 30, y / 2, 30, 40, (System.out::println));
         uiSlider.setValue(20);
 
-        uiManager.addObjects(uiSlider);
+        UIButton exitBtn = StaticElements.menuBtn(this, handler, 0, 0);
+
+        uiManager.addObjects(uiSlider, exitBtn);
     }
 
     @Override

@@ -18,6 +18,8 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
+    public static final String FILENAME_SETTINGS = "SpaceInvaders";
+
     private String title;
     private Dimension windowSize;
 
@@ -59,7 +61,7 @@ public class Game implements Runnable {
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
 
-        settings = new Settings("spaceinvaders");
+        settings = new Settings(FILENAME_SETTINGS);
     }
 
     private void init() {
