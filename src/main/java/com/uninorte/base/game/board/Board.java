@@ -46,12 +46,12 @@ public class Board {
     }
 
     public void playerWinLevel() {
-        ((SingleplayerState) handler.getGame().singleplayerState).increaseLevel();
-        State.setCurrentState(handler.getGame().singleplayerState);
+        ((SingleplayerState) handler.getGame().singlePlayerState).increaseLevel();
+        State.setCurrentState(handler.getGame().singlePlayerState);
     }
 
     public void setupLevel() {
-        int level = ((SingleplayerState) handler.getGame().singleplayerState).getCurrentLevel();
+        int level = ((SingleplayerState) handler.getGame().singlePlayerState).getCurrentLevel();
 
         System.out.println(400 - 50L * level);
         mainPlayer.getProjectilesManager().changeTimeBetweenShots(400 - 20L * level);
@@ -59,7 +59,7 @@ public class Board {
     }
 
     public void render(Graphics g) {
-        Text.drawString(g, "LEVEL " + ((SingleplayerState) handler.getGame().singleplayerState).getCurrentLevel(),
+        Text.drawString(g, "LEVEL " + ((SingleplayerState) handler.getGame().singlePlayerState).getCurrentLevel(),
                 handler.boardDimensions().width / 2,
                 20,
                 true,

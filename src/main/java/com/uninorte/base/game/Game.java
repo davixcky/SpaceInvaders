@@ -41,7 +41,7 @@ public class Game implements Runnable {
     public State gameOverState;
     public State settingsState;
     public State winScreenState;
-    public State singleplayerState;
+    public State singlePlayerState;
     public State multiplayerState;
     public State roomsState;
     public State signUpState;
@@ -84,7 +84,7 @@ public class Game implements Runnable {
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
         winScreenState = new WinScreenState(handler);
-        singleplayerState = new SingleplayerState(handler);
+        singlePlayerState = new SingleplayerState(handler);
         multiplayerState = new MultiplayerState(handler);
         signUpState = new SignUpState(handler);
         roomsState = new RoomsState(handler);

@@ -34,7 +34,7 @@ public class StaticElements {
     }
 
     public static UIButton singleplayerBtnn(State parent, Handler handler, float x, float y) {
-        UIButton multiplayerBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> State.setCurrentState(handler.getGame().singleplayerState));
+        UIButton multiplayerBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> State.setCurrentState(handler.getGame().singlePlayerState));
         multiplayerBtn.setText("SINGLEPLAYER");
         multiplayerBtn.setHover(UIButton.btnHoverImager, "OFFLINE");
 
@@ -44,7 +44,7 @@ public class StaticElements {
     public static UIButton newGameBtn(State parent, Handler handler, float x, float y) {
         UIButton newGameBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> {
             ((GameState) handler.getGame().gameSate).reset();
-            ((SingleplayerState) handler.getGame().singleplayerState).resetLevel();
+            ((SingleplayerState) handler.getGame().singlePlayerState).resetLevel();
             State.setCurrentState(handler.getGame().gameSate);
         });
         newGameBtn.setText("NEW GAME");

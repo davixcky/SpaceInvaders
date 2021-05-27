@@ -60,7 +60,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
-        ((SingleplayerState) handler.getGame().singleplayerState).resetLevel();
+        ((SingleplayerState) handler.getGame().singlePlayerState).resetLevel();
         handler.getGame().gameOver();
     }
 
