@@ -52,10 +52,9 @@ public class GameClient {
     }
 
     public void createRoom() {
-        if (currentUser == null) {
-            lastError = ERR_USER_NOT_LOGGED_IN;
+        validateUserIsLogged();
+        if (lastError != null)
             return;
-        }
 
         RequestHandler.RequestResponse response = doPost(ROOMS_CREATE, currentUser.toJson());
         if (response.statusCode < 400) {
@@ -63,11 +62,22 @@ public class GameClient {
         }
     }
 
-    public List<Room> getRooms() {
-        if (currentUser == null) {
-            lastError = ERR_USER_NOT_LOGGED_IN;
-            return null;
+    public void joinToRoom(String joinCode) {
+        validateUserIsLogged();
+        if (lastError != null)
+            return;
+
+        String url = String.format(ROOMS_JOIN, joinCode);
+        RequestHandler.RequestResponse response = doPost(url, currentUser.toJson());
+        if (response.statusCode < 400) {
+            currentRoom = Room.createFromJson(response.bodyResponse);
         }
+    }
+
+    public List<Room> getRooms() {
+        validateUserIsLogged();
+        if (lastError != null)
+            return null;
 
         RequestHandler.RequestResponse response = doGet(ROOMS_GET);
         if (response.statusCode < 400)
@@ -115,6 +125,11 @@ public class GameClient {
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
         connectToSocket();
+    }
+
+    private void validateUserIsLogged() {
+        if (currentUser == null)
+            lastError = ERR_USER_NOT_LOGGED_IN;
     }
 
     public User getCurrentUser() {

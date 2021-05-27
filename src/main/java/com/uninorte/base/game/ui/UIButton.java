@@ -8,13 +8,12 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageFilter;
 import java.util.ArrayList;
 
 public class UIButton extends UIObject {
 
 	private ArrayList<BufferedImage> images;
-	private ClickListener clicker;
+	private ActionListener clicker;
 
 	private String text = null;
 	private String hoverText = null;
@@ -25,7 +24,7 @@ public class UIButton extends UIObject {
 	public  static BufferedImage btnImage = buttonsAssets.get(0);
 	public static BufferedImage btnHoverImager = buttonsAssets.get(3);
 
-	public UIButton(State parent, float x, float y, int width, int height, ArrayList<BufferedImage> images, ClickListener clicker) {
+	public UIButton(State parent, float x, float y, int width, int height, ArrayList<BufferedImage> images, ActionListener clicker) {
 		super(parent, x, y, width, height);
 		this.images = images;
 		this.clicker = clicker;
@@ -33,7 +32,7 @@ public class UIButton extends UIObject {
 		size = new Dimension(width, height);
 	}
 
-	public UIButton(State parent, float x, float y, BufferedImage image, ClickListener clicker) {
+	public UIButton(State parent, float x, float y, BufferedImage image, ActionListener clicker) {
 		super(parent, x, y, image.getWidth(), image.getHeight());
 
 		images = new ArrayList<>();
@@ -69,7 +68,7 @@ public class UIButton extends UIObject {
 
 	@Override
 	public void onClick() {
-		clicker.onClick();
+		clicker.actionPerformed();
 	}
 
 	@Override

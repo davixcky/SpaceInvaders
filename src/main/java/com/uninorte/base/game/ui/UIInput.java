@@ -12,7 +12,7 @@ public class UIInput extends UIObject {
 
     private boolean enterPressed;
     private StringBuilder text;
-    private ClickListener listener;
+    private ActionListener listener;
     private int minChar, maxChar;
 
     public UIInput(State parent, float x, float y) {
@@ -85,7 +85,7 @@ public class UIInput extends UIObject {
             return;
 
         if (listener != null)
-            listener.onClick();
+            listener.actionPerformed();
         enterPressed = true;
     }
 
@@ -93,7 +93,7 @@ public class UIInput extends UIObject {
         return text.toString();
     }
 
-    public void setListener(ClickListener listener) {
+    public void setListener(ActionListener listener) {
         this.listener = listener;
     }
 }

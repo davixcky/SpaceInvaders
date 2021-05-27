@@ -3,7 +3,10 @@ package com.uninorte.base.game.states;
 import com.uninorte.base.api.models.Room;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
+import com.uninorte.base.game.ui.ActionListener;
 import com.uninorte.base.game.ui.UIButton;
+import com.uninorte.base.game.ui.UIInput;
+import com.uninorte.base.game.ui.UIObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -38,7 +41,15 @@ public class RoomsState extends State {
         newRoomBtn.setText("CREATE NEW ROOM");
         newRoomBtn.setHover(assets.get(1), "");
 
-        uiManager.addObjects(newRoomBtn);
+        UIInput joinCodeInput = new UIInput(this, width * 0.5f, UIObject.getHeightRelative(newRoomBtn) + 20);
+        joinCodeInput.setListener(new ActionListener() {
+            @Override
+            public void actionPerformed() {
+                handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
+            }
+        });
+
+        uiManager.addObjects(newRoomBtn, joinCodeInput);
     }
 
     @Override
