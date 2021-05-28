@@ -40,28 +40,39 @@ public class Assets {
         SLKSCR,
         SPACE_MISSION,
         SPORT_TYPO,
+        DEBUG,
         JOYSTIX
     }
 
     public enum UI_ELEMENTS {
         BUTTONS,
         SLIDER,
-        BUTTONS_NON_SQUARE
+        BUTTONS_NON_SQUARE,
+        BUTTONSMUTE,
+        ARROW_BUTTON_L,
+        ARROW_BUTTON_R,
     }
 
     private static ArrayList<BufferedImage> playerAssets;
     private static ArrayList<BufferedImage> aliensAssets;
     private static ArrayList<BufferedImage> bulletAssets;
+    private static ArrayList<BufferedImage> backgroundAssets;
+
     private static HashMap<String, ArrayList<BufferedImage>> explosions;
-
     private static HashMap<String, ArrayList<BufferedImage>> uiComponents;
-
     private static HashMap<String, Font> fonts;
+    private static HashMap<String, ArrayList<BufferedImage>> background;
+    private static HashMap<String, BufferedImage> arrow;
 
     public static void init() {
-        playerAssets = loadSprites(60, 60, 3, "/textures/ships.png");
+        playerAssets = loadSprites(60, 59, 6, "/textures/ships_sprite.png");
         aliensAssets = loadSprites(40, 40, 24, "/textures/aliens.png");
         bulletAssets = loadSprites(120, 120, 2, "/textures/bullets.png");
+        backgroundAssets = loadSprites(60,50,12, "/textures/bgicons.png");
+
+        arrow = new HashMap<>();
+        arrow.put(getUiString(UI_ELEMENTS.ARROW_BUTTON_L),ContentLoader.loadImage("/ui/arrow_1.png"));
+        arrow.put(getUiString(UI_ELEMENTS.ARROW_BUTTON_R), ContentLoader.loadImage("/ui/arrow.png"));
 
         explosions = new HashMap<>();
         explosions.put(getColorString(ExplosionColor.GREEN), loadSprites(100, 100, 56, "/textures/explosions/green.png"));
@@ -76,20 +87,29 @@ public class Assets {
         uiComponents = new HashMap<>();
         uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS), loadSprites(105, 21, 4, "/ui/labels.png"));
         uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS_NON_SQUARE), loadSprites(134, 119, 2, "/ui/buttons-hexagons.png"));
+        uiComponents.put(getUiString(UI_ELEMENTS.BUTTONSMUTE), loadSprites(50,50,2,"/ui/mutebtns.png"));
 
         SpriteSheet slidersSheet = new SpriteSheet(ContentLoader.loadImage("/ui/sheet-slider.png"));
         ArrayList<BufferedImage> sliders = new ArrayList<>();
-        sliders.add(slidersSheet.crop(0, 0, 245, 18));
-        sliders.add(slidersSheet.crop(245, 0, 22, 17));
+        sliders.add(slidersSheet.crop(0, 0, 440, 33));
+        sliders.add(slidersSheet.crop(440, 0, 39, 32));
         uiComponents.put(getUiString(UI_ELEMENTS.SLIDER), sliders);
 
         fonts = new HashMap<>();
         fonts.put(getFontString(Fonts.SLKSCR_100), ContentLoader.loadFont("/fonts/slkscr.ttf", 100));
         fonts.put(getFontString(Fonts.SLKSCR_10), ContentLoader.loadFont("/fonts/slkscr.ttf", 10));
+
+
     }
 
     public static ArrayList<BufferedImage> getPlayerAssets() {
         return playerAssets;
+    }
+
+    public static ArrayList<BufferedImage> getBgAssets() { return backgroundAssets; }
+
+    public static BufferedImage getArrow(UI_ELEMENTS uiElement){
+        return arrow.get(getUiString(uiElement));
     }
 
     public static ArrayList<BufferedImage> getAliensAssets(AlienName name, AlienColor color) {
@@ -185,6 +205,7 @@ public class Assets {
             case SLKSCR -> fontStr = "/fonts/slkscr.ttf";
             case SPACE_MISSION -> fontStr = "/fonts/space-mission.otf";
             case SPORT_TYPO -> fontStr = "/fonts/sport-typo.ttf";
+            case DEBUG -> fontStr = "/fonts/debug.otf";
             case JOYSTIX -> fontStr = "/fonts/joystix_monospace.ttf";
         }
 
@@ -198,6 +219,8 @@ public class Assets {
             case BUTTONS -> uiElementStr =  "buttons";
             case SLIDER -> uiElementStr = "slider";
             case BUTTONS_NON_SQUARE -> uiElementStr = "buttonsNonSquare";
+            case ARROW_BUTTON_L -> uiElementStr = "arrow_l";
+            case ARROW_BUTTON_R -> uiElementStr = "arrow_r";
         }
 
         return uiElementStr;

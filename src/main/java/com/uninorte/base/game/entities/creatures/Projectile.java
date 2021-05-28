@@ -44,6 +44,7 @@ public class Projectile extends Creature{
         if (e != null) {
             // Check if the projectile was triggered by a Player
             if (parent instanceof Player) {
+                handler.getGame().playEffects(3);
                 e.hurt(DEFAULT_HEALTH);
                 handler.getHighScoreManager().addPointsToPlayer((Player) parent, e.getPoints());
                 active = false;
@@ -54,6 +55,7 @@ public class Projectile extends Creature{
         if (parent instanceof Alien) {
             Player p = handler.getBoard().getMainPlayer();
             if (getCollisionBounds(0f, 0f).intersects(p.getCollisionBounds(0f, 0f)) && !p.isRenderingExplosion()) {
+                handler.getGame().playEffects(2);
                 p.hurt(1);
                 active = false;
             }

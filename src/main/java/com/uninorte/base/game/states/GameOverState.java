@@ -23,10 +23,9 @@ public class GameOverState extends State {
 
         UIButton newGameBtn = StaticElements.newGameBtn(this, handler, x, y);
         UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(newGameBtn));
-        UIButton settingsBtn = StaticElements.settingsBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
-        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(settingsBtn));
+        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
 
-        uiManager.addObjects(newGameBtn, menuBtn, settingsBtn, exitBtn);
+        uiManager.addObjects(newGameBtn, menuBtn, exitBtn);
     }
 
     @Override

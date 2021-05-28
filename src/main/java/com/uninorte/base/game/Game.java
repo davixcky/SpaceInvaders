@@ -1,5 +1,6 @@
 package com.uninorte.base.game;
 
+import com.uninorte.base.Filenames;
 import com.uninorte.base.api.GameClient;
 import com.uninorte.base.api.models.User;
 import com.uninorte.base.game.display.Display;
@@ -9,10 +10,13 @@ import com.uninorte.base.game.input.KeyManager;
 import com.uninorte.base.game.input.MouseManager;
 import com.uninorte.base.game.states.*;
 import com.uninorte.base.settings.Settings;
+import com.uninorte.base.sound.Sound;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Game implements Runnable {
 
@@ -20,12 +24,17 @@ public class Game implements Runnable {
 
     private String title;
     private Dimension windowSize;
-
+    private int choice = 0;
+    public int lastVolume = 50;
     private boolean running = false;
     private Thread gameThread;
 
     private BufferStrategy bs;
     private Graphics g;
+    protected ArrayList<BufferedImage> playerAssetsOptions;
+    public BufferedImage playerAssets;
+    protected ArrayList<BufferedImage> bgAssetsOptions;
+    public BufferedImage getBgAssets;
 
     private Display display;
 
@@ -47,6 +56,8 @@ public class Game implements Runnable {
     public State waitingRoomState;
 
     private Image background;
+
+    public  Sound sound;
 
     private Settings settings;
 
@@ -72,6 +83,11 @@ public class Game implements Runnable {
         display.getGameCanvas().addMouseMotionListener(mouseManager);
         display.getGameCanvas().addMouseWheelListener(mouseManager);
         display.getFrame().addMouseWheelListener(mouseManager);
+
+        sound = new Sound(true);
+
+        addSound();
+        playBackground();
 
         Assets.init();
 
@@ -109,6 +125,107 @@ public class Game implements Runnable {
 
         User user = User.createFromJson(userData);
         gameClient.setCurrentUser(user);
+    }
+
+    public void playerAssetSelection(int index){
+        playerAssetsOptions = Assets.getPlayerAssets();
+        playerAssets = playerAssetsOptions.get(index);
+    }
+
+    public  BufferedImage getPlayerAssets(){return playerAssets;}
+
+    public void setBgSelection(int index){
+        bgAssetsOptions = Assets.getBgAssets();
+        getBgAssets = bgAssetsOptions.get(index);
+    }
+
+    public BufferedImage getBgAssets() { return getBgAssets; }
+
+    private void addSound() {
+        sound.add(Sound.BACKGROUND, Filenames.MUSIC[0]);
+        sound.add(Sound.GAMEOVER, Filenames.MUSIC[1]);
+        sound.add(Sound.SHOOTS, Filenames.MUSIC[2]);
+        sound.add(Sound.ALIEN, Filenames.MUSIC[3]);
+        sound.add(Sound.PLAYER, Filenames.MUSIC[4]);
+    }
+
+    private void playBackground() {
+        try {
+            sound.play(Sound.BACKGROUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playEffects(int num) {
+        try {
+            switch (num) {
+                case 0:
+                    sound.playEff(Sound.GAMEOVER);
+                    break;
+                case 1:
+                    sound.playEff(Sound.SHOOTS);
+                    break;
+                case 2:
+                    sound.playEff(Sound.PLAYER);
+                    break;
+                case 3:
+                    sound.playEff(Sound.ALIEN);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setBackground(){
+        choice++;
+        changeBackground(Filenames.BACKGROUND_IMAGES[choice]);
+        if(choice == 10)
+            choice = 0;
+    }
+
+    public void setVolume(int num, float volume){
+        try{
+            switch (num){
+                case 0:
+                    sound.setVolume(Sound.BACKGROUND, volume);
+                    lastVolume = (int) sound.getVolume(Sound.BACKGROUND);
+                    break;
+                case 1:
+                    sound.setVolume(Sound.GAMEOVER, volume);
+                    break;
+                case 2:
+                    sound.setVolume(Sound.SHOOTS, volume);
+                    break;
+                case 3:
+                    sound.setVolume(Sound.ALIEN, volume);
+                    break;
+            }
+        }catch(Exception e){ }
+    }
+
+    public void gameoverSoundChange(float volume){
+        try {
+            sound.setVolume(Sound.BACKGROUND,volume);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setMuted(int num){
+        try {
+            switch(num) {
+                case 0:
+                    sound.setMuted(Sound.BACKGROUND);
+                    break;
+                case 1:
+                    sound.setMuted(Sound.SHOOTS);
+                    sound.setMuted(Sound.GAMEOVER);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void update() {
@@ -211,6 +328,16 @@ public class Game implements Runnable {
 
     public void gameOver() {
         State.setCurrentState(gameOverState);
+        try {
+            lastVolume = (int) sound.getVolume(Sound.BACKGROUND);
+            gameoverSoundChange(0);
+            if(sound.isMuted(Sound.GAMEOVER))
+                return;
+
+            playEffects(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void close() {

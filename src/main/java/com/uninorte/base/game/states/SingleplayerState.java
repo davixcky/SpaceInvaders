@@ -50,7 +50,7 @@ public class SingleplayerState extends State {
 
     @Override
     public void update() {
-        handler.getGame().changeTitle("Multiplayer");
+        handler.getGame().changeTitle("SinglePlayer");
         uiManager.update();
     }
 
@@ -69,7 +69,7 @@ public class SingleplayerState extends State {
                 handler.boardDimensions().height / 2,
                 true,
                 Color.white,
-                Assets.getFont(Assets.FontsName.SPORT_TYPO, 80));
+                Assets.getFont(Assets.FontsName.DEBUG, 120));
 
         uiManager.render(g);
     }
