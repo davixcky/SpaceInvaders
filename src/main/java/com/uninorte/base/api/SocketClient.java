@@ -7,6 +7,8 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class SocketClient {
@@ -15,6 +17,8 @@ class SocketClient {
 
     private Socket socket;
 
+    private List<SocketActionsListener> listeners = new ArrayList<>();
+
     protected SocketClient(String socketUrl, String userId) {
         createSocket(socketUrl, userId);
         initListeners();
@@ -22,6 +26,10 @@ class SocketClient {
 
     public void connect() {
         socket.connect();
+    }
+
+    public void subscribe(SocketActionsListener toAdd) {
+        listeners.add(toAdd);
     }
 
     private void createSocket(String socketUrl, String userId) {
@@ -35,30 +43,34 @@ class SocketClient {
     }
 
     private void initListeners() {
-        socket.on("user-joined", new Emitter.Listener() {
-            @Override
-            public void call(Object... objects) {
-                System.out.println("User joined");
-                for (Object object : objects) {
-                    System.out.println(object);
-                }
-                System.out.println();
-            }
-        });
+        socket.on("user-joined", this::onUserJoinedCallback);
+        socket.on("new-user", this::onNewUserCallback);
+        socket.on("start-match", this::onStartMatchCallback);
+    }
 
-        socket.on("new-user", new Emitter.Listener() {
-            @Override
-            public void call(Object... objects) {
-                System.out.println("User addded");
-                for (Object object : objects) {
-                    System.out.println(object);
-                }
-                System.out.println();
-            }
-        });
+    private void onUserJoinedCallback(Object ...objects) {
+        Room room = Room.createFromJson(objects[0].toString());
+        List<User> users = User.createUsersFromJson(objects[1].toString());
+
+        for (SocketActionsListener listener: listeners)
+            listener.onUserJoined(room, users);
+    }
+
+    private void onNewUserCallback(Object ...objects) {
+        List<User> users = User.createUsersFromJson(objects[0].toString());
+        User newUser = User.createFromJson(objects[1].toString());
+
+        for (SocketActionsListener listener: listeners)
+            listener.onNewUser(users, newUser);
+    }
+
+    private void onStartMatchCallback(Object ...objects) {
+        for (SocketActionsListener listener: listeners)
+            listener.onStartMatch();
     }
 
     public void joinRoom(User user, Room room) {
         socket.emit(JOIN_ROOM, user.toJson(), room.toJson());
     }
+
 }

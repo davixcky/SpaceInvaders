@@ -4,6 +4,7 @@ import com.uninorte.base.api.models.User;
 import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.gfx.Assets;
 import com.uninorte.base.game.gfx.Text;
+import com.uninorte.base.game.states.multiplayer.MultiplayerController;
 import com.uninorte.base.game.ui.StaticElements;
 import com.uninorte.base.game.ui.UIButton;
 import com.uninorte.base.settings.Settings;
@@ -23,6 +24,9 @@ public class MultiplayerState extends State {
 
     public MultiplayerState(Handler handler) {
         super(handler);
+
+        handler.setMultiplayerController(new MultiplayerController(handler));
+        handler.getGameClient().registerController(handler.getMultiplayerController());
     }
 
     protected void initComponents() {

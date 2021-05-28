@@ -40,6 +40,10 @@ public class GameClient {
         socketClient.connect();
     }
 
+    public void registerController(SocketActionsListener listener) {
+        socketClient.subscribe(listener);
+    }
+
     public void joinToRoomWithSocket() {
         lastError = null;
         validateUserIsLogged();

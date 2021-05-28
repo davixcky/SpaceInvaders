@@ -34,7 +34,6 @@ public class RoomsState extends State {
 
     @Override
     protected void initComponents() {
-
         UIInput joinCodeInput = new UIInput(this, cordJoinInput.x, cordJoinInput.y);
         joinCodeInput.setListener(() -> {
             handler.getGameClient().joinToRoom(joinCodeInput.getText().toUpperCase());
@@ -66,7 +65,7 @@ public class RoomsState extends State {
             return;
         }
 
-        setCurrentState(handler.getGame().multiplayerState);
+        setCurrentState(handler.getGame().waitingRoomState);
     }
 
     @Override

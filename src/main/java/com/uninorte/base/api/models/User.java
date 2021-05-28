@@ -57,6 +57,10 @@ public class User extends Base {
         return avatar.create(id);
     }
 
+    public BufferedImage getAvatarBuffered() {
+        return avatarBuffered;
+    }
+
     public String getId() {
         return this.id;
     }

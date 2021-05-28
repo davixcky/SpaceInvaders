@@ -6,6 +6,7 @@ import com.uninorte.base.game.board.Board;
 import com.uninorte.base.game.highscore.HighScoreManager;
 import com.uninorte.base.game.input.KeyManager;
 import com.uninorte.base.game.input.MouseManager;
+import com.uninorte.base.game.states.multiplayer.MultiplayerController;
 import com.uninorte.base.settings.Settings;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ public class Handler {
     private Settings settings;
 
     private GameClient gameClient;
+    private MultiplayerController multiplayerController;
     private Error error;
 
     public Handler(Game game) {
@@ -81,5 +83,13 @@ public class Handler {
 
     public void setGameClient(GameClient gameClient) {
         this.gameClient = gameClient;
+    }
+
+    public MultiplayerController getMultiplayerController() {
+        return multiplayerController;
+    }
+
+    public void setMultiplayerController(MultiplayerController multiplayerController) {
+        this.multiplayerController = multiplayerController;
     }
 }
