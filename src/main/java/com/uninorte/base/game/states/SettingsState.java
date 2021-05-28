@@ -57,9 +57,11 @@ public class SettingsState extends State {
         UIButton uiShipSelectionBtn = new UIButton(this, x + 20, y + 70, Assets.getArrow(ARROW_BUTTON_R), () -> index++);
         UIButton uiShipSelectionIzqBtn = new UIButton(this, x - 130, y + 70, Assets.getArrow(ARROW_BUTTON_L) , ()-> index--);
         UIButton uiBgSelectionBtn = new UIButton(this, x + 315, y + 70, Assets.getArrow(ARROW_BUTTON_R), () -> { indexBg++;
-            handler.getGame().setBackground();
+            handler.getGame().setBackground(1);
         });
-        UIButton uiBgSelectionIzqBtn = new UIButton(this, x + 155 , y + 70, Assets.getArrow(ARROW_BUTTON_L) , ()-> {indexBg--; handler.getGame().setBackground();});
+        UIButton uiBgSelectionIzqBtn = new UIButton(this, x + 155 , y + 70, Assets.getArrow(ARROW_BUTTON_L) , ()-> {
+            handler.getGame().setBackground(-1);
+        });
 
         uiManager.addObjects(uiSliderbg,uiSlideref,uimenu,uiMuteBtnSound, uiMuteBtnEff,uiShipSelectionBtn,uiShipSelectionIzqBtn,uiBgSelectionIzqBtn, uiBgSelectionBtn);
     }
@@ -118,8 +120,7 @@ public class SettingsState extends State {
         if (indexBg > 11)
             indexBg = 0;
 
-        handler.getGame().setBgSelection(indexBg);
-        g.drawImage(handler.getGame().getBgAssets, x + 220, y + 55, null);
+        g.drawImage(ContentLoader.loadImage(handler.getGame().getNextBackgroundImage()), x + 220, y + 55, 60, 50, null);
 
 
     }

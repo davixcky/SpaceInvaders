@@ -109,6 +109,8 @@ public class Game implements Runnable {
         roomsState = new RoomsState(handler);
         waitingRoomState = new WaitingRoomState(handler);
 
+        playerAssetSelection(0);
+
         State.setCurrentState(mainState);
     }
 
@@ -177,11 +179,35 @@ public class Game implements Runnable {
         }
     }
 
+    public void setBackground(int status) {
+        choice += status;
+
+        if(choice >= Filenames.BACKGROUND_IMAGES.length)
+            choice = 0;
+
+        if (choice < 0)
+            choice = Filenames.BACKGROUND_IMAGES.length - 1;
+
+        changeBackground(Filenames.BACKGROUND_IMAGES[choice]);
+    }
+
     public void setBackground(){
         choice++;
-        changeBackground(Filenames.BACKGROUND_IMAGES[choice]);
-        if(choice == 10)
+        if(choice == 12)
             choice = 0;
+
+        changeBackground(Filenames.BACKGROUND_IMAGES[choice]);
+    }
+
+    public String getNextBackgroundImage() {
+        String name;
+
+        if (choice + 1 == 12)
+            name = Filenames.BACKGROUND_IMAGES[0];
+        else
+            name = Filenames.BACKGROUND_IMAGES[choice + 1];
+
+        return name;
     }
 
     public void setVolume(int num, float volume){
