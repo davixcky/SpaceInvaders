@@ -20,9 +20,10 @@ public class WinScreenState extends State {
 
         UIButton newGameBtn = StaticElements.newGameBtn(this, handler, x, y);
         UIButton menuBtn = StaticElements.menuBtn(this, handler, x, UIButton.getHeightRelative(newGameBtn));
-        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
+        UIButton settingsBtn = StaticElements.settingsBtn(this, handler, x, UIButton.getHeightRelative(menuBtn));
+        UIButton exitBtn = StaticElements.exitBtn(this, handler, x, UIButton.getHeightRelative(settingsBtn));
 
-        uiManager.addObjects(newGameBtn, menuBtn, exitBtn);
+        uiManager.addObjects(newGameBtn, menuBtn, settingsBtn, exitBtn);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class WinScreenState extends State {
                 handler.boardDimensions().height / 2,
                 true,
                 Color.white,
-                Assets.getFont(Assets.FontsName.DEBUG, 150));
+                Assets.getFont(Assets.FontsName.SPORT_TYPO, 100));
 
         uiManager.render(g);
     }

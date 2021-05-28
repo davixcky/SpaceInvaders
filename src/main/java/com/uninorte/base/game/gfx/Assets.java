@@ -7,21 +7,6 @@ import java.util.HashMap;
 
 public class Assets {
 
-    public enum BackGrounds {
-        bg0,
-        bg1,
-        bg2,
-        bg3,
-        bg4,
-        bg5,
-        bg6,
-        bg7,
-        bg8,
-        bg9,
-        bg10,
-        bg11
-    }
-
     public enum AlienColor {
         RED,
         YELLOW,
@@ -55,39 +40,28 @@ public class Assets {
         SLKSCR,
         SPACE_MISSION,
         SPORT_TYPO,
-        DEBUG,
         JOYSTIX
     }
 
     public enum UI_ELEMENTS {
         BUTTONS,
         SLIDER,
-        BUTTONS_NON_SQUARE,
-        BUTTONSMUTE,
-        ARROW_BUTTON_L,
-        ARROW_BUTTON_R,
+        BUTTONS_NON_SQUARE
     }
 
     private static ArrayList<BufferedImage> playerAssets;
     private static ArrayList<BufferedImage> aliensAssets;
     private static ArrayList<BufferedImage> bulletAssets;
-    private static ArrayList<BufferedImage> backgroundAssets;
-
     private static HashMap<String, ArrayList<BufferedImage>> explosions;
+
     private static HashMap<String, ArrayList<BufferedImage>> uiComponents;
+
     private static HashMap<String, Font> fonts;
-    private static HashMap<String, ArrayList<BufferedImage>> background;
-    private static HashMap<String, BufferedImage> arrow;
 
     public static void init() {
-        playerAssets = loadSprites(60, 59, 6, "/textures/ships_sprite.png");
+        playerAssets = loadSprites(60, 60, 3, "/textures/ships.png");
         aliensAssets = loadSprites(40, 40, 24, "/textures/aliens.png");
         bulletAssets = loadSprites(120, 120, 2, "/textures/bullets.png");
-        backgroundAssets = loadSprites(60,50,12, "/textures/bgicons.png");
-
-        arrow = new HashMap<>();
-        arrow.put(getUiString(UI_ELEMENTS.ARROW_BUTTON_L),ContentLoader.loadImage("/ui/arrow_1.png"));
-        arrow.put(getUiString(UI_ELEMENTS.ARROW_BUTTON_R), ContentLoader.loadImage("/ui/arrow.png"));
 
         explosions = new HashMap<>();
         explosions.put(getColorString(ExplosionColor.GREEN), loadSprites(100, 100, 56, "/textures/explosions/green.png"));
@@ -102,41 +76,20 @@ public class Assets {
         uiComponents = new HashMap<>();
         uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS), loadSprites(105, 21, 4, "/ui/labels.png"));
         uiComponents.put(getUiString(UI_ELEMENTS.BUTTONS_NON_SQUARE), loadSprites(134, 119, 2, "/ui/buttons-hexagons.png"));
-        uiComponents.put(getUiString(UI_ELEMENTS.BUTTONSMUTE), loadSprites(50,50,2,"/ui/mutebtns.png"));
 
         SpriteSheet slidersSheet = new SpriteSheet(ContentLoader.loadImage("/ui/sheet-slider.png"));
         ArrayList<BufferedImage> sliders = new ArrayList<>();
-        sliders.add(slidersSheet.crop(0, 0, 440, 33));
-        sliders.add(slidersSheet.crop(440, 0, 39, 32));
+        sliders.add(slidersSheet.crop(0, 0, 245, 18));
+        sliders.add(slidersSheet.crop(245, 0, 22, 17));
         uiComponents.put(getUiString(UI_ELEMENTS.SLIDER), sliders);
 
         fonts = new HashMap<>();
         fonts.put(getFontString(Fonts.SLKSCR_100), ContentLoader.loadFont("/fonts/slkscr.ttf", 100));
         fonts.put(getFontString(Fonts.SLKSCR_10), ContentLoader.loadFont("/fonts/slkscr.ttf", 10));
-
-       /* background = new HashMap<>();
-        background.put(getBgsString(BackGrounds.bg1),loadSprites(60, 60, 1, "/backgrounds/background_1.gif"));
-        background.put(getBgsString(BackGrounds.bg2),loadSprites(60, 60, 1, "/backgrounds/background_2.png"));
-        background.put(getBgsString(BackGrounds.bg3),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[3]));
-        background.put(getBgsString(BackGrounds.bg4),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[4]));
-        background.put(getBgsString(BackGrounds.bg5),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[5]));
-        background.put(getBgsString(BackGrounds.bg6),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[6]));
-        background.put(getBgsString(BackGrounds.bg7),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[7]));
-        background.put(getBgsString(BackGrounds.bg8),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[8]));
-        background.put(getBgsString(BackGrounds.bg9),loadSprites(60, 60, 1, Filenames.BACKGROUND_IMAGES[9]));
-        background.put(getBgsString(BackGrounds.bg10),loadSprites(60, 60, 1, "/backgrounds/background_11.jpg"));
-        background.put(getBgsString(BackGrounds.bg11),loadSprites(60, 60, 1, "/backgrounds/background_12.jpg"));*/
-
     }
 
     public static ArrayList<BufferedImage> getPlayerAssets() {
         return playerAssets;
-    }
-
-    public static ArrayList<BufferedImage> getBgAssets() { return backgroundAssets; }
-
-    public static BufferedImage getArrow(UI_ELEMENTS uiElement){
-        return arrow.get(getUiString(uiElement));
     }
 
     public static ArrayList<BufferedImage> getAliensAssets(AlienName name, AlienColor color) {
@@ -197,27 +150,6 @@ public class Assets {
 
         return assets;
     }
-    private static String getBgsString(BackGrounds background) {
-        String bgstring = "";
-
-        switch (background) {
-            case bg0 -> bgstring =  "gif";
-            case bg1 -> bgstring = "dark";
-            case bg2 -> bgstring = "yellow";
-            case bg3 -> bgstring = "something";
-            case bg4 -> bgstring = "orange";
-            case bg5 -> bgstring = "marine";
-            case bg6 -> bgstring = "green";
-            case bg7 -> bgstring = "purple";
-            case bg8 -> bgstring = "pink";
-            case bg9 -> bgstring = "blue";
-            case bg10 -> bgstring = "bluishpurple";
-            case bg11 -> bgstring = "skyblue";
-
-        }
-
-        return bgstring;
-    }
 
     private static String getColorString(ExplosionColor color) {
         String colorStr = "";
@@ -253,7 +185,6 @@ public class Assets {
             case SLKSCR -> fontStr = "/fonts/slkscr.ttf";
             case SPACE_MISSION -> fontStr = "/fonts/space-mission.otf";
             case SPORT_TYPO -> fontStr = "/fonts/sport-typo.ttf";
-            case DEBUG -> fontStr = "/fonts/debug.otf";
             case JOYSTIX -> fontStr = "/fonts/joystix_monospace.ttf";
         }
 
@@ -267,8 +198,6 @@ public class Assets {
             case BUTTONS -> uiElementStr =  "buttons";
             case SLIDER -> uiElementStr = "slider";
             case BUTTONS_NON_SQUARE -> uiElementStr = "buttonsNonSquare";
-            case ARROW_BUTTON_L -> uiElementStr = "arrow_l";
-            case ARROW_BUTTON_R -> uiElementStr = "arrow_r";
         }
 
         return uiElementStr;

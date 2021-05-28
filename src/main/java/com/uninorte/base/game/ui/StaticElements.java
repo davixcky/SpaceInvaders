@@ -4,7 +4,6 @@ import com.uninorte.base.game.Handler;
 import com.uninorte.base.game.states.GameState;
 import com.uninorte.base.game.states.SingleplayerState;
 import com.uninorte.base.game.states.State;
-import com.uninorte.base.sound.Sound;
 
 import java.awt.*;
 
@@ -45,11 +44,6 @@ public class StaticElements {
     public static UIButton newGameBtn(State parent, Handler handler, float x, float y) {
         UIButton newGameBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> {
             ((GameState) handler.getGame().gameSate).reset();
-            try {
-                handler.getGame().setVolume(0,handler.getGame().lastVolume);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             ((SingleplayerState) handler.getGame().singlePlayerState).resetLevel();
             State.setCurrentState(handler.getGame().gameSate);
         });
@@ -61,10 +55,7 @@ public class StaticElements {
     }
 
     public static UIButton menuBtn(State parent, Handler handler, float x, float y) {
-        UIButton menuBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> {
-            State.setCurrentState(handler.getGame().mainState);
-            handler.getGame().setVolume(0,handler.getGame().lastVolume);
-        });
+        UIButton menuBtn = new UIButton(parent, x, y, UIButton.btnImage, () -> State.setCurrentState(handler.getGame().mainState));
         menuBtn.setText("MENU");
         menuBtn.setHover(UIButton.btnHoverImager, "GO TO MAIN");
 

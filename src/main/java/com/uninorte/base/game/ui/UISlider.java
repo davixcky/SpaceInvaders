@@ -15,7 +15,7 @@ public class UISlider extends UIObject {
     private ArrayList<BufferedImage> assets;
     private MouseListener mouseListener;
 
-    public float percent;
+    private float percent;
 
     private Point pointerCoordinates;
     private final Point originalCoordinates;
@@ -27,10 +27,10 @@ public class UISlider extends UIObject {
     public UISlider(State parent, float x, float y, int width, int height, MouseListener mouseListener) {
         super(parent, x, y, width,  height);
 
-        bounds.x  = (int) (x + 89.76);
+        bounds.x  = (int) (x + 50);
         bounds.y = (int) y;
-        bounds.width = 39;
-        bounds.height = 32;
+        bounds.width = 22;
+        bounds.height = 17;
 
         originalCoordinates = new Point((int) x, (int) y);
         pointerCoordinates = new Point(bounds.x, bounds.y);
@@ -41,18 +41,19 @@ public class UISlider extends UIObject {
         assets = Assets.getUiComponents(Assets.UI_ELEMENTS.SLIDER);
         sliderAsset = assets.get(0);
         pointerAsset = assets.get(1);
-        customFont  = Assets.getFont(Assets.FontsName.SPACE_MISSION, 15);
+        customFont  = Assets.getFont(Assets.FontsName.SPACE_MISSION, 13);
 
         this.mouseListener = mouseListener;
     }
 
     public void setValue(float value) {
-        if (value >= -35 && value < 0) {
-            value = 50;
-        } else if ( value > 100){
+        if (value > 100) {
             value = 100;
+        } else if (value < 0) {
+            value = 0;
         }
-        pointerCoordinates.x = (int) (value * 312 / 100) + originalPointerCoordinates.x;
+
+        pointerCoordinates.x = (int) (value * 175 / 100) + originalPointerCoordinates.x;
         bounds.x = pointerCoordinates.x;
         percent = value;
     }
@@ -67,7 +68,7 @@ public class UISlider extends UIObject {
         g.drawImage(pointerAsset, pointerCoordinates.x, pointerCoordinates.y, null);
 
         String numberAsString = Integer.toString((int) percent);
-        Text.drawString(g, numberAsString, originalCoordinates.x + 40, originalCoordinates.y + 20, true, Color.white, customFont);
+        Text.drawString(g, numberAsString, originalCoordinates.x + 23, originalCoordinates.y + 11, true, Color.white, customFont);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class UISlider extends UIObject {
         }
 
         bounds.x = (int) customX;
-        percent = (customX - originalPointerCoordinates.x) * 100 / 312;
+        percent = (customX - originalPointerCoordinates.x) * 100 / 173;
         pointerCoordinates.x = (int) customX;
         mouseListener.onMouseChanged(percent);
     }

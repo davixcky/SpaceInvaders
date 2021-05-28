@@ -9,10 +9,9 @@ import java.util.HashMap;
 
 public class Sound {
     public static final String BACKGROUND = "background";
-    public static final String SHOOTS = "shots";
+    public static final String SHOTS = "shots";
     public static final String ALIEN = "alien";
     public static final String GAMEOVER = "gameover";
-    public static final String PLAYER = "player";
 
     private final HashMap<String, Audio> sounds;
 
@@ -34,14 +33,9 @@ public class Sound {
 
     public void play(String alias) throws Exception {
         Audio a = getAudio(alias);
+
         a.clipSound.setFramePosition(0);
         a.clipSound.loop(Clip.LOOP_CONTINUOUSLY);
-        a.clipSound.start();
-    }
-
-    public void playEff(String alias) throws Exception{
-        Audio a = getAudio(alias);
-        a.clipSound.setFramePosition(0);
         a.clipSound.start();
     }
 
@@ -90,23 +84,21 @@ public class Sound {
 
             clipSound = AudioSystem.getClip();
             clipSound.open(AudioSystem.getAudioInputStream(ContentLoader.loadAudio(path)));
+
             setVolume(currentVolume);
         }
 
         void setVolume(float volume) {
-            if (volume < 0f || volume > 100f)
+            if (volume < 0f || volume > 1f)
                 throw new IllegalArgumentException("Volume not valid: " + volume);
 
             FloatControl gainControl = (FloatControl) this.clipSound.getControl(FloatControl.Type.MASTER_GAIN);
-            if(volume == 0.5){
-                volume = 50;
-            }
-            gainControl.setValue((volume * 40f / 100f) - 35f);
+            gainControl.setValue(20f * (float) Math.log10(volume));
         }
 
         float getVolume() {
             FloatControl gainControl = (FloatControl) clipSound.getControl(FloatControl.Type.MASTER_GAIN);
-            return (( (gainControl.getValue() + 35f ) * 100f ) / 40f );
+            return (float) Math.pow(10f, gainControl.getValue() / 20f);
         }
 
         void mute() {

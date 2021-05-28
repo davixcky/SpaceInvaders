@@ -9,7 +9,7 @@ public class Launcher {
         System.setProperty("sun.java2d.opengl", "True");
 
         Game game = new Game("Game", new Dimension(1080, 720));
-        game.changeBackground(Filenames.BACKGROUND_IMAGES[0]);
+        game.changeBackground(Filenames.BACKGROUND_IMAGES[3]);
         game.start();
     }
 

@@ -6,11 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MenuSonido" />
+        <module name="test_game" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="MenuSonido" target="14" />
-    </bytecodeTargetLevel>
   </component>
 </project>
