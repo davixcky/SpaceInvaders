@@ -40,6 +40,4 @@ public abstract class Base {
     public static Base createFromJson(String json) {
         return null;
     }
-
-    public abstract void render(Graphics g, float x, float y, boolean center);
 }

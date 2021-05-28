@@ -36,6 +36,7 @@ public class Game implements Runnable {
 
     public State mainState;
     public State gameSate;
+    public State gameStateMultiplayer;
     public State gameOverState;
     public State settingsState;
     public State winScreenState;
@@ -82,6 +83,7 @@ public class Game implements Runnable {
 
         mainState = new MainState(handler);
         gameSate = new GameState(handler);
+        gameStateMultiplayer = new GameStateMultiplayer(handler);
         gameOverState = new GameOverState(handler);
         settingsState = new SettingsState(handler);
         winScreenState = new WinScreenState(handler);
@@ -95,7 +97,7 @@ public class Game implements Runnable {
     }
 
     private void setRequestHandlers() {
-        gameClient = new GameClient("http://localhost:8080");
+        gameClient = new GameClient("https://immense-everglades-29171.herokuapp.com");
         handler.setGameClient(gameClient);
     }
 

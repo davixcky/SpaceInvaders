@@ -62,6 +62,19 @@ public class WaitingRoomState extends State {
                 Color.white,
                 Assets.getFont(Assets.FontsName.JOYSTIX, 24)
         );
+
+        if (handler.getMultiplayerController().countDown != null) {
+            Text.drawString(
+                    g,
+                    handler.getMultiplayerController().countDown,
+                    cordJoinCodeText.x,
+                    cordJoinCodeText.y + 60,
+                    true,
+                    Color.white,
+                    Assets.getFont(Assets.FontsName.JOYSTIX, 24)
+            );
+        }
+
     }
 
     private void renderPlayer(Graphics g, float x, float y, User user) {

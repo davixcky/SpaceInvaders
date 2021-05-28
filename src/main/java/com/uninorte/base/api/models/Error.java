@@ -23,11 +23,6 @@ public class Error extends Base {
         return (Error) new Error().fromJson(json);
     }
 
-    @Override
-    public void render(Graphics g, float x, float y, boolean center) {
-
-    }
-
     public String getErrorMessage() {
         return errors[0];
     }

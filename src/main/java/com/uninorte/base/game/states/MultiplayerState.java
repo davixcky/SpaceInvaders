@@ -25,8 +25,10 @@ public class MultiplayerState extends State {
     public MultiplayerState(Handler handler) {
         super(handler);
 
-        handler.setMultiplayerController(new MultiplayerController(handler));
-        handler.getGameClient().registerController(handler.getMultiplayerController());
+        if (handler.getGameClient().getCurrentUser() != null) {
+            handler.setMultiplayerController(new MultiplayerController(handler));
+            handler.getGameClient().registerController(handler.getMultiplayerController());
+        }
     }
 
     protected void initComponents() {

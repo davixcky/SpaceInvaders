@@ -58,6 +58,9 @@ public class User extends Base {
     }
 
     public BufferedImage getAvatarBuffered() {
+        if (avatarBuffered == null)
+            avatarBuffered = generateAvatar(Long.parseLong(this.getId()));
+
         return avatarBuffered;
     }
 
@@ -78,7 +81,6 @@ public class User extends Base {
                 '}';
     }
 
-    @Override
     public void render(Graphics g, float x, float y, boolean center) {
         if (avatarBuffered == null)
             return;

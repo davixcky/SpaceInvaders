@@ -80,9 +80,4 @@ public class Room extends Base {
                 ", totalParticipants=" + totalParticipants +
                 '}';
     }
-
-    @Override
-    public void render(Graphics g, float x, float y, boolean center) {
-
-    }
 }
